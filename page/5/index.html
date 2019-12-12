@@ -385,7 +385,10 @@
       
         
           
-          前言iOS中定时器的
+          前言iOS中定时器的使用还是很常见的。那么iOS中有几种定时器，平时又怎么使用呢？
+NSTimer在详解RunLoop之源码分析一文中，简单描述了NStimer和RunLoop的关系
+
+默认情况下，N
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -534,7 +537,10 @@
         
           
           本文首发于个人博客
+前言iOS中有很多锁，那么平时使用过程中到底怎么使用呢？本文分享13种加锁方案。本文较长总共一万字。文中代码在github上。
 
+OSSpinLock自旋锁
+os_unfair_l
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -682,7 +688,21 @@
       
         
           
-          前言导读本文较长，分
+          前言导读本文较长，分为以下几个部分
+
+isa
+class结构
+Type Encoding
+cache_t
+方法调用
+消息机制的三个阶段
+消息发送
+动态解析
+消息转发
+源码分析
+
+什么是runtime
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -831,7 +851,11 @@
         
           
           本文首发于个人博客
+前言在文章之前，先抛出如下问题。
 
+block的原理是怎样的？本质是什么？
+__block的作用是什么？有什么使用注意点？
+block的属性修饰词为什么是copy？使用block有
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -980,7 +1004,11 @@
         
           
           首发于我的个人博客
++load方法创建类和分类
+先创建类YZPerson类，然后创建它的两个分类
 
+YZPerson.m类
+12345678910#import &quot;YZPerson.h&qu
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1129,7 +1157,9 @@
         
           
           首发于我的个人博客
-
+从给分类添加属性说起在详解iOS中分类Cateogry 一文中，我们提出一个问题，
+Category能否添加成员变量？如果可以，如何给Category添加成员变量？
+不能直接给Ca
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1278,7 +1308,8 @@
         
           
           本文首发于个人博客
-
+前言通过之前Shell脚本的学习,整理iOS自动打包脚本
+1234567891011121314151617181920212223242526272829303132333435
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1427,6 +1458,13 @@
         
           
           本文首发于 个人博客
+汇编语言的种类
+8086汇编(16bit) 
+x86汇编(32bit) 
+x64汇编(64bit) 
+ARM汇编(嵌入式、移动设备) p……
+
+x86、x64汇编根据编译器的不同
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1575,7 +1613,13 @@
         
           
           首发于我的个人博客
+分类的基本使用
+首先我们定义一个类 YZPerson 继承自 NSObject
 
+12@interface YZPerson : NSObject@end
+
+
+然后定义一个分类 Y
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1724,7 +1768,11 @@
         
           
           本文首发于个人博客
-
+回顾详解RunLoop之源码分析中提出的问题
+什么是Runloop
+ios程序中 main函数为什么不会退出
+runloop和线程的关系？
+程序中添加每3秒响应一次的NSTimer
           ...
           <!--noindex-->
           <div class="post-button text-center">
