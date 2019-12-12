@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文首发于 个人博客 iOS逆向准备：完美越狱iPhone逆向APP思路：1，代码分析 2，对Mach-O文件的静态分析MachOView、class-dump、Hopper Disassembler、ida等 3，动态调试 对运行中的APP进行代码调试 p debugserver、LLDB 4，代码编写 5，注入代码到APP中 6，必要时还可能需要重新签名、打包ipa 一、Mac远程登录iPho">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS逆向流程">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;iOS%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B&#x2F;index.html">
+<meta property="og:site_name" content="myBlogs">
+<meta property="og:description" content="本文首发于 个人博客 iOS逆向准备：完美越狱iPhone逆向APP思路：1，代码分析 2，对Mach-O文件的静态分析MachOView、class-dump、Hopper Disassembler、ida等 3，动态调试 对运行中的APP进行代码调试 p debugserver、LLDB 4，代码编写 5，注入代码到APP中 6，必要时还可能需要重新签名、打包ipa 一、Mac远程登录iPho">
+<meta property="article:published_time" content="2019-04-28T00:32:24.000Z">
+<meta property="article:modified_time" content="2019-12-12T05:59:36.249Z">
+<meta property="article:author" content="ityongzhen">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ityongzhen.github.io/iOS逆向流程/"/>
+
+
+
+
+
+  <title>iOS逆向流程 | myBlogs</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">myBlogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/iOS%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS逆向流程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T08:32:24+08:00">
+                2019-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首发于 <a href="https://ityongzhen.github.io/categories">个人博客</a></p>
+<h3 id="iOS逆向"><a href="#iOS逆向" class="headerlink" title="iOS逆向"></a>iOS逆向</h3><h5 id="准备：完美越狱iPhone"><a href="#准备：完美越狱iPhone" class="headerlink" title="准备：完美越狱iPhone"></a>准备：完美越狱iPhone</h5><p>逆向APP思路：1，代码分析</p>
+<p>2，对Mach-O文件的静态分析MachOView、class-dump、Hopper Disassembler、ida等</p>
+<p>3，动态调试 对运行中的APP进行代码调试 p debugserver、LLDB</p>
+<p>4，代码编写</p>
+<p>5，注入代码到APP中</p>
+<p>6，必要时还可能需要重新签名、打包ipa</p>
+<h4 id="一、Mac远程登录iPhone"><a href="#一、Mac远程登录iPhone" class="headerlink" title="一、Mac远程登录iPhone"></a>一、Mac远程登录iPhone</h4><ul>
+<li><p>SSH (Secure Shell) 是“安全外壳协议”</p>
+<p>OpenSSH 是SSH协议的免费开源实现 (在iPhone上通过Cydia安装OpenSSH工具(软件源<a href="http://apt.saurik.com" target="_blank" rel="noopener">http://apt.saurik.com</a>))</p>
+<p>可以通过OpenSSH的方式让Mac远程登录到iPhone</p>
+</li>
+<li><p>SSH是通过TCP协议通信，所以要确保Mac和iPhone在同一局域网下，比如连接着同一个WiFi下</p>
+<p>在终端输入</p>
+</li>
+</ul>
+<p>ssh 账户名@服务器主机地址</p>
+<p>例如：</p>
+<p>ssh <a href="mailto:root@192.168.8.157">root@192.168.8.157</a>  然后输入密码(默认是alpine ) </p>
+<p>这种方式wifi登录，受到网速限制</p>
+<ul>
+<li>usb连接 （不需要网络，速度快，安全） 1.1 sh usb.sh （注： python2 usbmuxd-1.0.8/python-client/tcprelay.py -t 22:10010 8888:8888）</li>
+</ul>
+<p>1.2  sh login.sh (注：ssh -p 10010 root@localhost)</p>
+<p>上面的命令生效是因为已经把 usb.sh 和 login.sh 两个文件做了端口映射并放到了根目录 (映射需要usbmuxd工具包)</p>
+<p>另外： 1.echo $PATH 查看设置的根目录，如果自己想写脚本在其他地方都能执行，也可以放在PATH路径下</p>
+<p>2.手机和电脑能连接是因为，手机的授权文件 /var/root/.ssh/authorized_keys 中 添加了电脑的公钥 ~/.ssh/id_rsa.pub</p>
+<p>Mac上有个服务程序usbmuxd（它会开机自动启动），可以将Mac的数据通过USB传输到iPhone</p>
+<p>/System/Library/PrivateFrameworks/MobileDevice.framework/Resources/usbmuxd</p>
+<p>下载usbmuxd工具包（下载v1.0.8版本，主要用到里面的一个python脚本：<a href="http://tcprelay.py" target="_blank" rel="noopener">tcprelay.py</a>）</p>
+<p><a href="https://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz" target="_blank" rel="noopener">https://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz</a></p>
+<h4 id="二、获取手机上软件的ipa包"><a href="#二、获取手机上软件的ipa包" class="headerlink" title="二、获取手机上软件的ipa包"></a>二、获取手机上软件的ipa包</h4><ul>
+<li><p>Cycript 安装到手机上</p>
+<p>Cycript是Objective-C++、ES6（JavaScript）、Java等语法的混合物，可以用来探索、修改、调试正在运行的Mac\iOS APP</p>
+<p>官网： <a href="http://www.cycript.org/" target="_blank" rel="noopener">http://www.cycript.org/</a></p>
+<p>文档： <a href="http://www.cycript.org/manual/" target="_blank" rel="noopener">http://www.cycript.org/manual/</a></p>
+<p>通过Cydia安装Cycript，即可在iPhone上调试运行中的APP</p>
+<p>使用： cycript -p 进程ID 比如：cycript -p NewsBoard</p>
+<p>cycript -p 进程名称</p>
+<p>取消输入:Ctrl + C</p>
+<p>退出:Ctrl + D</p>
+<p>清屏:Command + R</p>
+<p>Github 上有基于cycript封装了一些函数 参考</p>
+<p><a href="https://github.com/CoderMJLee/mjcript" target="_blank" rel="noopener">https://github.com/CoderMJLee/mjcript</a></p>
+<p>@import mjcript —&gt;MJAppId、MJFrontVC()、MJDocPath、MJAppPath 等</p>
+</li>
+<li><p>Clutch -i 获取加壳软件的appid</p>
+</li>
+<li><p>PS命令 （手机上安装adv-cmds）</p>
+<p>ps –A 列出所有的进程</p>
+</li>
+</ul>
+<p>ps命令是process status</p>
+<p>可以过滤关键词，比如 : ps -A | grep WeChat</p>
+<ul>
+<li><p>也可以用github 上工具获取 <a href="https://github.com/CoderMJLee/MJAppTools" target="_blank" rel="noopener">https://github.com/CoderMJLee/MJAppTools</a></p>
+<p>MJAppTools 可以获取到架构，名称，是否加壳，安装包路径，数据库路径等</p>
+</li>
+</ul>
+<h4 id="三、脱壳"><a href="#三、脱壳" class="headerlink" title="三、脱壳"></a>三、脱壳</h4><ul>
+<li>iOS中有很多好用的脱壳工具</li>
+</ul>
+<p>Clutch:<a href="https://github.com/KJCracks/Clutch" target="_blank" rel="noopener">https://github.com/KJCracks/Clutch</a></p>
+<p>dumpdecrypted:<a href="https://github.com/stefanesser/dumpdecrypted/" target="_blank" rel="noopener">https://github.com/stefanesser/dumpdecrypted/</a></p>
+<p>AppCrackr、Crackulous</p>
+<ul>
+<li><p>Clutch -i 获取到appid之后，Clutch -d (APP序号) 导出app包 eg: Clutch -d 1 会打印出脱壳路径</p>
+</li>
+<li><p>DYLD_INSERT_LIBRARIES 脱壳</p>
+<p>例如：MJAppTools 获取 到 【网易新闻】 &lt;com.netease.news&gt;  /private/var/mobile/Containers/Bundle/Application/64F0B25C-062E-4A89-8834-3F534C24E70D/NewsBoard.app</p>
+<p>执行：</p>
+<blockquote>
+<blockquote>
+<p>DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /private/var/mobile/Containers/Bundle/Application/64F0B25C-062E-4A89-8834-3F534C24E70D/NewsBoard.app/NewsBoard</p>
+</blockquote>
+</blockquote>
+<p>获取到的脱壳文件再当前目录下 (Device/var/root)</p>
+</li>
+<li><p>查看是否脱壳</p>
+<p>otool -l 名称 | grep crypt 例如： otool -l NewsBoard | grep crypt 查看网易新闻是否脱壳</p>
+</li>
+</ul>
+<p>也可以用hopper看是否脱壳</p>
+<p>cryptid 0 为脱壳 cryptid 1 是加壳</p>
+<h4 id="四、反编译出头文件"><a href="#四、反编译出头文件" class="headerlink" title="四、反编译出头文件"></a>四、反编译出头文件</h4><ul>
+<li><p>class-dump</p>
+<p>顾名思义，它的作用就是把Mach-O文件的class信息给dump出来(把类信息给导出来)，生成对应的.h头文件</p>
+</li>
+</ul>
+<p>官方地址:<a href="http://stevenygard.com/projects/class-dump/" target="_blank" rel="noopener">http://stevenygard.com/projects/class-dump/</a></p>
+<p>下载完工具包后将class-dump文件复制到Mac的/usr/local/bin目录，这样在终端就能识别class-dump命令了</p>
+<p>常用格式：</p>
+<p>class-dump -H Mach-O文件路径 -o 头文件存放目录 -H表示要生成头文件 -o用于制定头文件的存放目录</p>
+<p>例如：当前目录下 class-dump -H NewsBoard -o Header (新建一个Header的文件夹) 这时候可以用hopper 等分析代码了</p>
+<h4 id="五、theos"><a href="#五、theos" class="headerlink" title="五、theos"></a>五、theos</h4><ul>
+<li><p>􏰂􏰃􏰄安装签名工具ldid</p>
+<p>1.先确保安装brew<br>$(curl -fsSL<br><a href="https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;" target="_blank" rel="noopener">https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</a></p>
+</li>
+</ul>
+<p>2.利用brew安装ldid</p>
+<p>$ brew install ldid</p>
+<ul>
+<li><p>修改环境变量</p>
+<ol>
+<li>编辑用户配置文件</li>
+</ol>
+<p>$ vim ~/.bash_profile</p>
+<p>2.在􏰝..bash_profie􏰛 文件后面加入下面两行</p>
+<blockquote>
+<p>export THEOS=~/theos<br>export PATH=$THEOS/bin:$PATH</p>
+</blockquote>
+<p>3,让.bash_profie配置的环境变量立即生效(或者重新打开终端)</p>
+<blockquote>
+<p>$ source ~/.bash_profile</p>
+</blockquote>
+</li>
+<li><p>􏰣􏰵下载theos</p>
+<p>建议在$PATH 目录下载代码(就是刚才配置的)</p>
+<blockquote>
+<p>$ git clone –recursive <a href="https://github.com/theos/theos.git" target="_blank" rel="noopener">https://github.com/theos/theos.git</a> $THEOS</p>
+</blockquote>
+</li>
+<li><p>新建tweak 项目</p>
+<p>1，cd到放文件的目录下（比如桌面</p>
+<blockquote>
+<p>$ cd ~/Desktop<br>$ nic.pl</p>
+</blockquote>
+<p>2，选择􏱋􏱌[13.] iphone/tweak</p>
+<p>3，填写项目信息</p>
+<p>名称 项目ID随便写， MobileSubstrate Bundle filter 写应用的id 其他回车</p>
+</li>
+</ul>
+<h4 id="六、编写代码"><a href="#六、编写代码" class="headerlink" title="六、编写代码"></a>六、编写代码</h4><p>具体情况具体分析</p>
+<h4 id="七、打包编译安装"><a href="#七、打包编译安装" class="headerlink" title="七、打包编译安装"></a>七、打包编译安装</h4><p>当前tweak文件目录下make clean &amp;&amp; make &amp;&amp; make package &amp;&amp; make install （已经写好了文件，可以直接 sh ~/tweak.sh</p>
+<p>自己做的插件在 Device/Library/MobileSubstrate/DynamicLibraries</p>
+<h4 id="八、theos资料"><a href="#八、theos资料" class="headerlink" title="八、theos资料"></a>八、theos资料</h4><ul>
+<li><p>目录结构： <a href="https://github.com/theos/theos/wiki/Structure" target="_blank" rel="noopener">https://github.com/theos/theos/wiki/Structure</a></p>
+</li>
+<li><p>环境变量：<a href="http://iphonedevwiki.net/index.php/Theos" target="_blank" rel="noopener">http://iphonedevwiki.net/index.php/Theos</a></p>
+</li>
+<li><p>Logoes语法: <a href="http://iphonedevwiki.net/index.php/Logos" target="_blank" rel="noopener">http://iphonedevwiki.net/index.php/Logos</a></p>
+<ul>
+<li><p>%hook %end : hook一个类的开始和结束</p>
+</li>
+<li><p>%log : 打印方法调用详情</p>
+<p>可以 􏱧􏰢􏱨􏱩Xcode -&gt; Window -&gt; Devices and Simulators􏱪􏱫􏳕􏳖 中查看</p>
+</li>
+<li><p>HBDebugLog 类似NSLog</p>
+</li>
+<li><p>%new : 添加一个新的方法</p>
+</li>
+<li><p>%c(className)： 生成一个class对象，比如Class%c(NSObject) ，类似于NSStringFromClass()􏰁、objc_getClass()</p>
+</li>
+<li><p>%orig :  函数调用原来的逻辑</p>
+</li>
+<li><p>%ctor ： 在加载动态库时候调用</p>
+</li>
+<li><p>%dtor : 程序退出时调用</p>
+</li>
+<li><p>logify.pl： 可以将一个头文件快速转成已经包含打印信息的xm文件</p>
+<blockquote>
+<p>logify.pl xx.h &gt; xx.xm</pre></p>
+</blockquote>
+<pre><code>1，在 UserCenterViewController.h 目录下执行
+
+logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
+
+2， UserCenterViewController.xm 拷贝到Makefile(Tweak.xm) 所在目录
+
+3, 新建一个src目录，把.xm文件放进去，修改路径 YZRongxin_FILES = $(wildcard src/*.xm)
+
+4，不认识的类 替换为void 删除__weak 删除协议
+
+5, 不想太详细 %log 换成NSLog(@&quot;%@&quot;,NSStringFromSelector(_cmd));
+
+6，HBLogDebug(@&quot; = 0x%x&quot;, (unsigned int)r) 改为 HBLogDebug(@&quot; = 0x%@&quot;, r)</code></pre></li>
+</ul>
+</li>
+</ul>
+<h4 id="九、MAC、IPhone-软件破解"><a href="#九、MAC、IPhone-软件破解" class="headerlink" title="九、MAC、IPhone 软件破解"></a>九、MAC、IPhone 软件破解</h4><p>例：PC软件破解 ./YZCTest</p>
+<p>例：网易新闻去广告 NTESNBNewsListController hasAd</p>
+<p>例：优酷去掉90s开头广告 XAdEnginePreAdModule setupVideoAd  needAd</p>
+<p>如果是未越狱的IPhone 则还需要打包签名等操作。</p>
+<h4 id="十、动态调试"><a href="#十、动态调试" class="headerlink" title="十、动态调试"></a>十、动态调试</h4><h4 id="十一、签名打包"><a href="#十一、签名打包" class="headerlink" title="十一、签名打包"></a>十一、签名打包</h4><ul>
+<li><h4 id="准备一个embedded-mobileprovision文件（必须是付费证书产生的，appid-device一定要匹配）并放入到-app包中。"><a href="#准备一个embedded-mobileprovision文件（必须是付费证书产生的，appid-device一定要匹配）并放入到-app包中。" class="headerlink" title="准备一个embedded.mobileprovision文件（必须是付费证书产生的，appid,device一定要匹配）并放入到.app包中。"></a>准备一个embedded.mobileprovision文件（必须是付费证书产生的，appid,device一定要匹配）并放入到.app包中。</h4><ul>
+<li><p>可以通过Xcode自动生成，然后再编译后的APP包中找到</p>
+</li>
+<li><p>可以去开发者网站生成证书下载</p>
+</li>
+</ul>
+</li>
+<li><p>从embedded.mobileprovision文件中提取出entitlements.plist权限文件</p>
+<ul>
+<li><p>security  cms  -D -i embedded.mobileprovision &gt; temp.plist</p>
+</li>
+<li><p>/usr/libexec/PlistBuddy -x -c’Print :Entitlements’ temp.plist &gt; entilements.plist</p>
+</li>
+</ul>
+</li>
+<li><p>查看可用的证书</p>
+<ul>
+<li>security find-identity -v -p codesigning</li>
+</ul>
+</li>
+<li><p>对.app内的动态库、AppExtension等进行签名</p>
+<ul>
+<li>codesign -f -s 证书ID XXX.dylib</li>
+</ul>
+</li>
+<li><p>对.app包进行签名</p>
+<ul>
+<li>codesign -f -s 证书id –entitlements entitlements.plist xxx.app</li>
+</ul>
+</li>
+<li><p>重签名工具</p>
+<ul>
+<li><p>iOS App Signer</p>
+<p>“&gt;<a href="https://github.com/DanTheMan827/ios-app-signer" target="_blank" rel="noopener">https://github.com/DanTheMan827/ios-app-signer</a></p>
+<ul>
+<li><p>对.app重签名，打包成ipa</p>
+</li>
+<li><p>需要再.app包中提供对应的embedded.mobileprovision文件</p>
+</li>
+</ul>
+</li>
+<li><p>iReSign</p>
+<ul>
+<li><p><a href="https://github.com/maciekish/iReSign" target="_blank" rel="noopener">https://github.com/maciekish/iReSign</a></p>
+</li>
+<li><p>可以对ipa进行重签名，打包成ipa</p>
+</li>
+<li><p>需要提供embedded.mobileprovision、entitlements.plist文件的路径</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="十二、其他笔记："><a href="#十二、其他笔记：" class="headerlink" title="十二、其他笔记："></a>十二、其他笔记：</h4><p>Tweak 技巧</p>
+<p>1，加载 图片资源 创建 layout 文件夹 相当于Device/Library</p>
+<p>图片会放在 在Device/Library/PreferenceLoader/Preference</p>
+<p>2，自己做的插件在 Device/Library/MobileSubstrate/DynamicLibraries</p>
+<p>3，#define YZFile(path) @”/Library/PreferenceLoader/Preferences/yzxmly/“ #path</p>
+<p>4，多个文件，多个目录，引用头文件要使用路径比如 @import “abc/def/person.h”</p>
+<p>5，路径 全路径，或者 <em>代替 比如：src/test.xm src/</em>.m （中间一个空格）</p>
+<p>6，如果自己增加类，方法属性等，要声明的话</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@interface yzdefine</span><br><span class="line">​</span><br><span class="line">-(void)vipReOpenPlayer;</span><br><span class="line">​</span><br><span class="line">@end&lt;&#x2F;pre&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B9%9D)%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="next" title="设计模式之(九)观察者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之(九)观察者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Swift%E4%B9%8B%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%85%83%E7%BB%84/" rel="prev" title="Swift之基本运算、数据类型、元组">
+                Swift之基本运算、数据类型、元组 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="ityongzhen" />
+            
+              <p class="site-author-name" itemprop="name">ityongzhen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITyongzhen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="eagle_01yz@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5ca8bb9c6fb9a05e620b8abf" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS逆向"><span class="nav-number">1.</span> <span class="nav-text">iOS逆向</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#准备：完美越狱iPhone"><span class="nav-number">1.0.1.</span> <span class="nav-text">准备：完美越狱iPhone</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Mac远程登录iPhone"><span class="nav-number">1.1.</span> <span class="nav-text">一、Mac远程登录iPhone</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、获取手机上软件的ipa包"><span class="nav-number">1.2.</span> <span class="nav-text">二、获取手机上软件的ipa包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、脱壳"><span class="nav-number">1.3.</span> <span class="nav-text">三、脱壳</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、反编译出头文件"><span class="nav-number">1.4.</span> <span class="nav-text">四、反编译出头文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、theos"><span class="nav-number">1.5.</span> <span class="nav-text">五、theos</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、编写代码"><span class="nav-number">1.6.</span> <span class="nav-text">六、编写代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、打包编译安装"><span class="nav-number">1.7.</span> <span class="nav-text">七、打包编译安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八、theos资料"><span class="nav-number">1.8.</span> <span class="nav-text">八、theos资料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#九、MAC、IPhone-软件破解"><span class="nav-number">1.9.</span> <span class="nav-text">九、MAC、IPhone 软件破解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十、动态调试"><span class="nav-number">1.10.</span> <span class="nav-text">十、动态调试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十一、签名打包"><span class="nav-number">1.11.</span> <span class="nav-text">十一、签名打包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备一个embedded-mobileprovision文件（必须是付费证书产生的，appid-device一定要匹配）并放入到-app包中。"><span class="nav-number">1.12.</span> <span class="nav-text">准备一个embedded.mobileprovision文件（必须是付费证书产生的，appid,device一定要匹配）并放入到.app包中。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#十二、其他笔记："><span class="nav-number">1.13.</span> <span class="nav-text">十二、其他笔记：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ityongzhen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

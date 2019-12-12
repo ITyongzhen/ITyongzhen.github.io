@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="首发于我的个人博客 分类的基本使用 首先我们定义一个类 YZPerson 继承自 NSObject  12@interface YZPerson : NSObject@end   然后定义一个分类 YZPerson+test1.h  1234567891011121314#import &quot;YZPerson.h&quot;@interface YZPerson (test1)-(void)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解iOS中分类Cateogry">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry&#x2F;index.html">
+<meta property="og:site_name" content="myBlogs">
+<meta property="og:description" content="首发于我的个人博客 分类的基本使用 首先我们定义一个类 YZPerson 继承自 NSObject  12@interface YZPerson : NSObject@end   然后定义一个分类 YZPerson+test1.h  1234567891011121314#import &quot;YZPerson.h&quot;@interface YZPerson (test1)-(void)">
+<meta property="article:published_time" content="2017-06-05T22:32:24.000Z">
+<meta property="article:modified_time" content="2019-12-12T03:49:36.964Z">
+<meta property="article:author" content="ityongzhen">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ityongzhen.github.io/详解iOS中分类Cateogry/"/>
+
+
+
+
+
+  <title>详解iOS中分类Cateogry | myBlogs</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">myBlogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">详解iOS中分类Cateogry</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T06:32:24+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry.html">我的个人博客</a></p>
+<h2 id="分类的基本使用"><a href="#分类的基本使用" class="headerlink" title="分类的基本使用"></a>分类的基本使用</h2><ul>
+<li>首先我们定义一个类 YZPerson 继承自 NSObject</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@interface YZPerson : NSObject</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后定义一个分类 YZPerson+test1.h</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;YZPerson.h&quot;</span><br><span class="line"></span><br><span class="line">@interface YZPerson (test1)</span><br><span class="line">-(void)run;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;YZPerson+test1.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation YZPerson (test1)</span><br><span class="line">-(void)run&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在控制器 ViewController 中使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    YZPerson *person &#x3D; [[YZPerson alloc] init];</span><br><span class="line">    [person run];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行结果为</li>
+</ul>
+<blockquote>
+<p>CateogryDemo[23773:321096] -[YZPerson(test1) run]</p>
+</blockquote>
+<p><strong>注意点：如果原来的类和分类中有同样的方法，那么执行的结果的是分类中的，例如</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation&#x2F;Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface YZPerson : NSObject</span><br><span class="line">-(void)run;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;YZPerson.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation YZPerson</span><br><span class="line">-(void)run&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;,__func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行结果不会发生变化，依然是</li>
+</ul>
+<blockquote>
+<p>CateogryDemo[23773:321096] -[YZPerson(test1) run]</p>
+</blockquote>
+<p>原因在后面分析</p>
+<h2 id="分类的结构"><a href="#分类的结构" class="headerlink" title="分类的结构"></a>分类的结构</h2><h3 id="打开终端，进入项目下，执行如下命令，生成C语言的文件"><a href="#打开终端，进入项目下，执行如下命令，生成C语言的文件" class="headerlink" title="打开终端，进入项目下，执行如下命令，生成C语言的文件"></a>打开终端，进入项目下，执行如下命令，生成C语言的文件</h3><blockquote>
+<p>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc YZPerson+test1.m</p>
+</blockquote>
+<h3 id="生成-YZPerson-test1-cpp文件"><a href="#生成-YZPerson-test1-cpp文件" class="headerlink" title="生成 YZPerson+test1.cpp文件"></a>生成 YZPerson+test1.cpp文件</h3><p>摘取主要代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">struct _category_t &#123;</span><br><span class="line">	const char *name;</span><br><span class="line">	struct _class_t *cls;</span><br><span class="line">	const struct _method_list_t *instance_methods;</span><br><span class="line">	const struct _method_list_t *class_methods;</span><br><span class="line">	const struct _protocol_list_t *protocols;</span><br><span class="line">	const struct _prop_list_t *properties;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static struct &#x2F;*_method_list_t*&#x2F; &#123;</span><br><span class="line">	unsigned int entsize;  &#x2F;&#x2F; sizeof(struct _objc_method)</span><br><span class="line">	unsigned int method_count;</span><br><span class="line">	struct _objc_method method_list[1];</span><br><span class="line">&#125; _OBJC_$_CATEGORY_INSTANCE_METHODS_YZPerson_$_test1 __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) &#x3D; &#123;</span><br><span class="line">	sizeof(_objc_method),</span><br><span class="line">	1,</span><br><span class="line">	&#123;&#123;(struct objc_selector *)&quot;run&quot;, &quot;v16@0:8&quot;, (void *)_I_YZPerson_test1_run&#125;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; __declspec(dllimport) struct _class_t OBJC_CLASS_$_YZPerson;</span><br><span class="line"></span><br><span class="line">static struct _category_t _OBJC_$_CATEGORY_YZPerson_$_test1 __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) &#x3D; </span><br><span class="line">&#123;</span><br><span class="line">	&quot;YZPerson&quot;,</span><br><span class="line">	0, &#x2F;&#x2F; &amp;OBJC_CLASS_$_YZPerson,</span><br><span class="line">	(const struct _method_list_t *)&amp;_OBJC_$_CATEGORY_INSTANCE_METHODS_YZPerson_$_test1,</span><br><span class="line">	0,</span><br><span class="line">	0,</span><br><span class="line">	0,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">static void OBJC_CATEGORY_SETUP_$_YZPerson_$_test1(void ) &#123;</span><br><span class="line">	_OBJC_$_CATEGORY_YZPerson_$_test1.cls &#x3D; &amp;OBJC_CLASS_$_YZPerson;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明编译完之后每一个分类都会生成一个 </p>
+<blockquote>
+<p>_category_t</p>
+</blockquote>
+<p>的结构体，里面有名称，对象方法列表，类方法列表，协议方法列表，属性列表,如果对应的为空，比如协议为空，属性为空，那么结构体中保存的就是0。</p>
+<h3 id="objc-runtime-new-h"><a href="#objc-runtime-new-h" class="headerlink" title="objc-runtime-new.h"></a>objc-runtime-new.h</h3><p>打开源码最新的源码 <a href="https://opensource.apple.com/tarballs/objc4/" target="_blank" rel="noopener">runtime源码</a>看，objc-runtime-new.h中分类结构体是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">struct category_t &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    classref_t cls;</span><br><span class="line">    struct method_list_t *instanceMethods;</span><br><span class="line">    struct method_list_t *classMethods;</span><br><span class="line">    struct protocol_list_t *protocols;</span><br><span class="line">    struct property_list_t *instanceProperties;</span><br><span class="line">    &#x2F;&#x2F; Fields below this point are not always present on disk.</span><br><span class="line">    struct property_list_t *_classProperties;</span><br><span class="line"></span><br><span class="line">    method_list_t *methodsForMeta(bool isMeta) &#123;</span><br><span class="line">        if (isMeta) return classMethods;</span><br><span class="line">        else return instanceMethods;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    property_list_t *propertiesForMeta(bool isMeta, struct header_info *hi);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="源码解读顺序"><a href="#源码解读顺序" class="headerlink" title="源码解读顺序"></a>源码解读顺序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">objc-os.mm</span><br><span class="line">_objc_init</span><br><span class="line">map_images</span><br><span class="line">map_images_nolock</span><br><span class="line"></span><br><span class="line">objc-runtime-new.mm</span><br><span class="line">_read_images</span><br><span class="line">remethodizeClass</span><br><span class="line">attachCategories</span><br><span class="line">attachLists</span><br><span class="line">realloc、memmove、 memcpy</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>先找到 objc-os.mm 类，里面的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F; runtime初始化方法</span><br><span class="line">void _objc_init(void) &#x2F;&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">    static bool initialized &#x3D; false;</span><br><span class="line">    if (initialized) return;</span><br><span class="line">    initialized &#x3D; true;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; fixme defer initialization until an objc-using image is found?</span><br><span class="line">    environ_init();</span><br><span class="line">    tls_init();</span><br><span class="line">    static_init();</span><br><span class="line">    lock_init();</span><br><span class="line">    exception_init();</span><br><span class="line"></span><br><span class="line">    _dyld_objc_notify_register(&amp;map_images, load_images, unmap_image);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>继续跟下去</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map_images(unsigned count, const char * const paths[],</span><br><span class="line">           const struct mach_header * const mhdrs[])</span><br><span class="line">&#123;</span><br><span class="line">    mutex_locker_t lock(runtimeLock);</span><br><span class="line">    return map_images_nolock(count, paths, mhdrs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map_images_nolock</span><br></pre></td></tr></table></figure>
+
+<p>找到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (hCount &gt; 0) &#123;</span><br><span class="line">        _read_images(hList, hCount, totalClasses, unoptimizedTotalClasses);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>到了文件 objc-runtime-new.mm 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F; 关键代码</span><br><span class="line">	 remethodizeClass(cls);</span><br><span class="line">	 &#x2F;&#x2F; 关键代码</span><br><span class="line">     remethodizeClass(cls-&gt;ISA());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">static void remethodizeClass(Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    category_list *cats;</span><br><span class="line">    bool isMeta;</span><br><span class="line"></span><br><span class="line">    runtimeLock.assertLocked();</span><br><span class="line"></span><br><span class="line">    isMeta &#x3D; cls-&gt;isMetaClass();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Re-methodizing: check for more categories</span><br><span class="line">    if ((cats &#x3D; unattachedCategoriesForClass(cls, false&#x2F;*not realizing*&#x2F;))) &#123;</span><br><span class="line">        if (PrintConnecting) &#123;</span><br><span class="line">            _objc_inform(&quot;CLASS: attaching categories to class &#39;%s&#39; %s&quot;, </span><br><span class="line">                         cls-&gt;nameForLogging(), isMeta ? &quot;(meta)&quot; : &quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        attachCategories(cls, cats, true &#x2F;*flush caches*&#x2F;);        </span><br><span class="line">        free(cats);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要代码合注释已经在代码中展示了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">static void </span><br><span class="line">attachCategories(Class cls, category_list *cats, bool flush_caches)</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; cats 分类列表</span><br><span class="line">    if (!cats) return;</span><br><span class="line">    if (PrintReplacedMethods) printReplacements(cls, cats);</span><br><span class="line">    </span><br><span class="line">    bool isMeta &#x3D; cls-&gt;isMetaClass();</span><br><span class="line">    &#x2F;&#x2F; 方法数组 二维数组</span><br><span class="line">    &#x2F;&#x2F; fixme rearrange to remove these intermediate allocations</span><br><span class="line">    method_list_t **mlists &#x3D; (method_list_t **)</span><br><span class="line">    malloc(cats-&gt;count * sizeof(*mlists));</span><br><span class="line">    &#x2F;&#x2F; 属性数组 二维数组</span><br><span class="line">    property_list_t **proplists &#x3D; (property_list_t **)</span><br><span class="line">    malloc(cats-&gt;count * sizeof(*proplists));</span><br><span class="line">    &#x2F;&#x2F; 协议数组 二维数组</span><br><span class="line">    protocol_list_t **protolists &#x3D; (protocol_list_t **)</span><br><span class="line">    malloc(cats-&gt;count * sizeof(*protolists));</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; Count backwards through cats to get newest categories first</span><br><span class="line">    int mcount &#x3D; 0;</span><br><span class="line">    int propcount &#x3D; 0;</span><br><span class="line">    int protocount &#x3D; 0;</span><br><span class="line">    int i &#x3D; cats-&gt;count;</span><br><span class="line">    bool fromBundle &#x3D; NO;</span><br><span class="line">    &#x2F;&#x2F; 这个while循环 合并分类中的 对象方法 属性 协议</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">        &#x2F;&#x2F; 取出某个分类</span><br><span class="line">        auto&amp; entry &#x3D; cats-&gt;list[i];</span><br><span class="line">        &#x2F;&#x2F; 取出分类中的对象方法</span><br><span class="line">        method_list_t *mlist &#x3D; entry.cat-&gt;methodsForMeta(isMeta);</span><br><span class="line">        if (mlist) &#123;</span><br><span class="line">            mlists[mcount++] &#x3D; mlist;</span><br><span class="line">            fromBundle |&#x3D; entry.hi-&gt;isBundle();</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 取出分类中的属性</span><br><span class="line">        property_list_t *proplist &#x3D;</span><br><span class="line">        entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);</span><br><span class="line">        if (proplist) &#123;</span><br><span class="line">            proplists[propcount++] &#x3D; proplist;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 取出分类中的协议</span><br><span class="line">        protocol_list_t *protolist &#x3D; entry.cat-&gt;protocols;</span><br><span class="line">        if (protolist) &#123;</span><br><span class="line">            protolists[protocount++] &#x3D; protolist;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 得到类对象里面的数据</span><br><span class="line">    auto rw &#x3D; cls-&gt;data();</span><br><span class="line">    </span><br><span class="line">    prepareMethodLists(cls, mlists, mcount, NO, fromBundle);</span><br><span class="line">    &#x2F;&#x2F; 所有分类的对象方法，附加到类对象的方法列表中</span><br><span class="line">    rw-&gt;methods.attachLists(mlists, mcount);</span><br><span class="line">    free(mlists);</span><br><span class="line">    if (flush_caches  &amp;&amp;  mcount &gt; 0) flushCaches(cls);</span><br><span class="line">    &#x2F;&#x2F; 所有分类的属性，附加到类对象的属性列表中，</span><br><span class="line">    rw-&gt;properties.attachLists(proplists, propcount);</span><br><span class="line">    free(proplists);</span><br><span class="line">    &#x2F;&#x2F; 所有分类的协议，附加到类对象的协议列表中</span><br><span class="line">    rw-&gt;protocols.attachLists(protolists, protocount);</span><br><span class="line">    free(protolists);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="memmove-memcpy"><a href="#memmove-memcpy" class="headerlink" title="memmove memcpy"></a>memmove memcpy</h3><p>上面的代码继续跟下去来到了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void attachLists(List* const * addedLists, uint32_t addedCount) &#123;</span><br><span class="line">        if (addedCount &#x3D;&#x3D; 0) return;</span><br><span class="line">        </span><br><span class="line">        if (hasArray()) &#123;</span><br><span class="line">            &#x2F;&#x2F; many lists -&gt; many lists</span><br><span class="line">            uint32_t oldCount &#x3D; array()-&gt;count;</span><br><span class="line">            uint32_t newCount &#x3D; oldCount + addedCount;</span><br><span class="line">            setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));</span><br><span class="line">            array()-&gt;count &#x3D; newCount;</span><br><span class="line">            &#x2F;&#x2F; 内存挪动</span><br><span class="line">            memmove(array()-&gt;lists + addedCount, </span><br><span class="line">            				array()-&gt;lists,</span><br><span class="line">                    oldCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">            &#x2F;&#x2F; 内存拷贝</span><br><span class="line">            memcpy(array()-&gt;lists, addedLists,</span><br><span class="line">                   addedCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">        &#125;</span><br><span class="line">        else if (!list  &amp;&amp;  addedCount &#x3D;&#x3D; 1) &#123;</span><br><span class="line">            &#x2F;&#x2F; 0 lists -&gt; 1 list</span><br><span class="line">            list &#x3D; addedLists[0];</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            &#x2F;&#x2F; 1 list -&gt; many lists</span><br><span class="line">            List* oldList &#x3D; list;</span><br><span class="line">            uint32_t oldCount &#x3D; oldList ? 1 : 0;</span><br><span class="line">            uint32_t newCount &#x3D; oldCount + addedCount;</span><br><span class="line">            setArray((array_t *)malloc(array_t::byteSize(newCount)));</span><br><span class="line">            array()-&gt;count &#x3D; newCount;</span><br><span class="line">            if (oldList) array()-&gt;lists[addedCount] &#x3D; oldList;</span><br><span class="line">            memcpy(array()-&gt;lists, addedLists,</span><br><span class="line">                   addedCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中关键代码是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 内存挪动</span><br><span class="line"> memmove(array()-&gt;lists + addedCount,</span><br><span class="line">                    array()-&gt;lists,</span><br><span class="line">                    oldCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">&#x2F;&#x2F; 内存拷贝</span><br><span class="line"> memcpy(array()-&gt;lists, addedLists,</span><br><span class="line">                   addedCount * sizeof(array()-&gt;lists[0]));</span><br></pre></td></tr></table></figure>
+
+<p>关于memcpy与memmove的区别，可以参考 <a href="https://www.jianshu.com/p/9c3784d8d8ad" target="_blank" rel="noopener">memcpy与memmove的区别</a></p>
+<p>简单总结就是：</p>
+<blockquote>
+<p>区别就在于关键字restrict, memcpy假定两块内存区域没有数据重叠，而memmove没有这个前提条件。如果复制的两个区域存在重叠时使用memcpy，其结果是不可预知的，有可能成功也有可能失败的，所以如果使用了memcpy,程序员自身必须确保两块内存没有重叠部分</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>合并分类的时候，其方法列表等，不会覆盖掉原来类中的方法，是共存的。但是分类中的方法在前面，原来的类中的方法在后面，调用的时候，就会调用分类中的方法，如果多个分类有同样的方法，后编译的分类会调用。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="Category的使用场合是什么？"><a href="#Category的使用场合是什么？" class="headerlink" title="Category的使用场合是什么？"></a>Category的使用场合是什么？</h3><ul>
+<li>不同模块的功能区分开来，可以使用分类实现</li>
+</ul>
+<h3 id="Category的实现原理"><a href="#Category的实现原理" class="headerlink" title="Category的实现原理"></a>Category的实现原理</h3><ul>
+<li>Category编译之后的底层结构是struct category_t，里面存储着分类的对象方法、类方法、属性、协议信息<br>在程序运行的时候，runtime会将Category的数据，合并到类信息中（类对象、元类对象中）</li>
+</ul>
+<h3 id="Category和Class-Extension的区别是什么？"><a href="#Category和Class-Extension的区别是什么？" class="headerlink" title="Category和Class Extension的区别是什么？"></a>Category和Class Extension的区别是什么？</h3><p>Class Extension在编译的时候，它的数据就已经包含在类信息中<br>Category是在运行时，才会将数据合并到类信息中</p>
+<h3 id="Category中有load方法吗？load方法是什么时候调用的？load-方法能继承吗？"><a href="#Category中有load方法吗？load方法是什么时候调用的？load-方法能继承吗？" class="headerlink" title="Category中有load方法吗？load方法是什么时候调用的？load 方法能继承吗？"></a>Category中有load方法吗？load方法是什么时候调用的？load 方法能继承吗？</h3><p>有load方法<br>load方法在runtime加载类、分类的时候调用<br>load方法可以继承，但是一般情况下不会主动去调用load方法，都是让系统自动调用</p>
+<h3 id="Category能否添加成员变量？如果可以，如何给Category添加成员变量？"><a href="#Category能否添加成员变量？如果可以，如何给Category添加成员变量？" class="headerlink" title="Category能否添加成员变量？如果可以，如何给Category添加成员变量？"></a>Category能否添加成员变量？如果可以，如何给Category添加成员变量？</h3><ul>
+<li>不能直接给Category添加成员变量，但是可以间接实现Category有成员变量的效果,关联对象</li>
+</ul>
+<p>本文相关代码github地址 <a href="https://github.com/ITyongzhen/MyBlogs-iOS-Demos" target="_blank" rel="noopener">github</a></p>
+<p>本文参考资料:</p>
+<p><a href="https://opensource.apple.com/tarballs/objc4/" target="_blank" rel="noopener">runtime源码</a></p>
+<p><a href="https://ke.qq.com/course/package/11609" target="_blank" rel="noopener">iOS底层原理</a></p>
+<p><a href="https://www.jianshu.com/p/9c3784d8d8ad" target="_blank" rel="noopener">memcpy与memmove的区别</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="next" title="详解RunLoop之面试题">
+                <i class="fa fa-chevron-left"></i> 详解RunLoop之面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E6%B1%87%E7%BC%96%E6%80%BB%E7%BB%93/" rel="prev" title="汇编总结">
+                汇编总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="ityongzhen" />
+            
+              <p class="site-author-name" itemprop="name">ityongzhen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITyongzhen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="eagle_01yz@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5ca8bb9c6fb9a05e620b8abf" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类的基本使用"><span class="nav-number">1.</span> <span class="nav-text">分类的基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类的结构"><span class="nav-number">2.</span> <span class="nav-text">分类的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打开终端，进入项目下，执行如下命令，生成C语言的文件"><span class="nav-number">2.1.</span> <span class="nav-text">打开终端，进入项目下，执行如下命令，生成C语言的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成-YZPerson-test1-cpp文件"><span class="nav-number">2.2.</span> <span class="nav-text">生成 YZPerson+test1.cpp文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#objc-runtime-new-h"><span class="nav-number">2.3.</span> <span class="nav-text">objc-runtime-new.h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-number">3.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源码解读顺序"><span class="nav-number">3.1.</span> <span class="nav-text">源码解读顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memmove-memcpy"><span class="nav-number">3.2.</span> <span class="nav-text">memmove memcpy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">5.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Category的使用场合是什么？"><span class="nav-number">5.1.</span> <span class="nav-text">Category的使用场合是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Category的实现原理"><span class="nav-number">5.2.</span> <span class="nav-text">Category的实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Category和Class-Extension的区别是什么？"><span class="nav-number">5.3.</span> <span class="nav-text">Category和Class Extension的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Category中有load方法吗？load方法是什么时候调用的？load-方法能继承吗？"><span class="nav-number">5.4.</span> <span class="nav-text">Category中有load方法吗？load方法是什么时候调用的？load 方法能继承吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Category能否添加成员变量？如果可以，如何给Category添加成员变量？"><span class="nav-number">5.5.</span> <span class="nav-text">Category能否添加成员变量？如果可以，如何给Category添加成员变量？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ityongzhen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

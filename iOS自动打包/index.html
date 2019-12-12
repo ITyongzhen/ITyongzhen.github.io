@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="脚本," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文首发于个人博客 前言通过之前Shell脚本的学习,整理iOS自动打包脚本 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS自动打包">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85&#x2F;index.html">
+<meta property="og:site_name" content="myBlogs">
+<meta property="og:description" content="本文首发于个人博客 前言通过之前Shell脚本的学习,整理iOS自动打包脚本 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485">
+<meta property="article:published_time" content="2017-07-02T01:32:24.000Z">
+<meta property="article:modified_time" content="2019-12-12T03:49:39.987Z">
+<meta property="article:author" content="ityongzhen">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ityongzhen.github.io/iOS自动打包/"/>
+
+
+
+
+
+  <title>iOS自动打包 | myBlogs</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">myBlogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS自动打包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-02T09:32:24+08:00">
+                2017-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首发于<a href="https://ityongzhen.github.io/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B.html">个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过之前<a href="https://ityongzhen.github.io/categories/Shell/">Shell脚本</a>的学习,整理iOS自动打包脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line"></span><br><span class="line"># 使用方法:</span><br><span class="line"># step1: 将该脚本放在工程的根目录下（跟.xcworkspace文件or .xcodeproj文件同目录）</span><br><span class="line"># step2: 根据情况修改下面的参数</span><br><span class="line"># step3: 打开终端，执行脚本。（输入sh ，然后将脚本文件拉到终端，会生成文件路径，然后enter就可）</span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;项目自定义部分(自定义好下列参数后再执行该脚本)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line"># 是否编译工作空间 (例:若是用Cocopods管理的.xcworkspace项目,赋值true;用Xcode默认创建的.xcodeproj,赋值false)</span><br><span class="line">is_workspace&#x3D;&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># .xcworkspace的名字，如果is_workspace为true，则必须填。否则可不填</span><br><span class="line">workspace_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># .xcodeproj的名字，如果is_workspace为false，则必须填。否则可不填</span><br><span class="line">project_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># 指定项目的scheme名称（也就是工程的target名称），必填</span><br><span class="line">scheme_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># 指定要打包编译的方式 : Release,Debug。一般用Release。必填</span><br><span class="line">build_configuration&#x3D;&quot;Release&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># method，打包的方式。方式分别为 development, ad-hoc, app-store, enterprise 。必填</span><br><span class="line">echo &quot;Place enter the number you want to export ? \033[33;1m [1:app-store 2:ad-hoc 3:development 4:enterprise 5:gitlog]\033[0m&quot;</span><br><span class="line"></span><br><span class="line">read number</span><br><span class="line">while([[ $number !&#x3D; 1 ]] &amp;&amp; [[ $number !&#x3D; 2 ]] &amp;&amp; [[ $number !&#x3D; 3 ]] &amp;&amp; [[ $number !&#x3D; 4 ]] &amp;&amp; [[ $number !&#x3D; 5 ]])</span><br><span class="line">do</span><br><span class="line">echo &quot;Place enter the number you want to export ? \033[33;1m [1:app-store 2:ad-hoc 3:development 4:enterprise 5:gitlog]\033[0m&quot;</span><br><span class="line">read number</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 1 ];then</span><br><span class="line">method&#x3D;&quot;app-store&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 2 ];then</span><br><span class="line">method&#x3D;&quot;ad-hoc&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 3 ];then</span><br><span class="line">method&#x3D;&quot;development&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 4 ];then</span><br><span class="line">method&#x3D;&quot;development&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#  下面两个参数只是在手动指定Pofile文件的时候用到，如果使用Xcode自动管理Profile,直接留空就好</span><br><span class="line"># (跟method对应的)mobileprovision文件名，需要先双击安装.mobileprovision文件.手动管理Profile时必填</span><br><span class="line">mobileprovision_name&#x3D;&quot;&quot;</span><br><span class="line"></span><br><span class="line"># 项目的bundleID，手动管理Profile时必填</span><br><span class="line">bundle_identifier&#x3D;&quot;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;--------------------脚本配置参数检查--------------------&quot;</span><br><span class="line">echo &quot;\033[33;1mis_workspace&#x3D;$&#123;is_workspace&#125; &quot;</span><br><span class="line">echo &quot;workspace_name&#x3D;$&#123;workspace_name&#125;&quot;</span><br><span class="line">echo &quot;project_name&#x3D;$&#123;project_name&#125;&quot;</span><br><span class="line">echo &quot;scheme_name&#x3D;$&#123;scheme_name&#125;&quot;</span><br><span class="line">echo &quot;build_configuration&#x3D;$&#123;build_configuration&#125;&quot;</span><br><span class="line">echo &quot;bundle_identifier&#x3D;$&#123;bundle_identifier&#125;&quot;</span><br><span class="line">echo &quot;method&#x3D;$&#123;method&#125;&quot;</span><br><span class="line">echo &quot;mobileprovision_name&#x3D;$&#123;mobileprovision_name&#125; \033[0m&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;脚本的一些固定参数定义(无特殊情况不用修改)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line"># 获取当前脚本所在目录</span><br><span class="line">script_dir&#x3D;&quot;$( cd &quot;$( dirname &quot;$0&quot;  )&quot; &amp;&amp; pwd  )&quot;</span><br><span class="line"># 工程根目录</span><br><span class="line">project_dir&#x3D;$script_dir</span><br><span class="line"></span><br><span class="line"># 时间</span><br><span class="line">DATE&#x3D;&#96;date &#39;+%Y%m%d_%H%M%S&#39;&#96;</span><br><span class="line"># 指定输出导出文件夹路径</span><br><span class="line">export_path&#x3D;&quot;$project_dir&#x2F;Package&#x2F;$scheme_name-$DATE&quot;</span><br><span class="line"># 指定输出归档文件路径</span><br><span class="line">export_archive_path&#x3D;&quot;$export_path&#x2F;$scheme_name.xcarchive&quot;</span><br><span class="line"># 指定输出ipa文件夹路径</span><br><span class="line">export_ipa_path&#x3D;&quot;$export_path&quot;</span><br><span class="line"># 指定输出ipa名称</span><br><span class="line">ipa_name&#x3D;&quot;$&#123;scheme_name&#125;_$&#123;DATE&#125;&quot;</span><br><span class="line"># 指定导出ipa包需要用到的plist配置文件的路径</span><br><span class="line">export_options_plist_path&#x3D;&quot;$project_dir&#x2F;ExportOptions.plist&quot;</span><br><span class="line"></span><br><span class="line">dSYM_path&#x3D;&quot;$export_archive_path&#x2F;dSYMs&#x2F;$scheme_name.app.dSYM&quot;</span><br><span class="line">new_dSYM_path&#x3D;&quot;$export_path&#x2F;$scheme_name.app.dSYM&quot;</span><br><span class="line">zip_dSYM_path&#x3D;&quot;$export_path&#x2F;$scheme_name.app.dSYM.zip&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;--------------------脚本固定参数检查--------------------&quot;</span><br><span class="line">echo &quot;\033[33;1mproject_dir&#x3D;$&#123;project_dir&#125;&quot;</span><br><span class="line">echo &quot;DATE&#x3D;$&#123;DATE&#125;&quot;</span><br><span class="line">echo &quot;export_path&#x3D;$&#123;export_path&#125;&quot;</span><br><span class="line">echo &quot;export_archive_path&#x3D;$&#123;export_archive_path&#125;&quot;</span><br><span class="line">echo &quot;export_ipa_path&#x3D;$&#123;export_ipa_path&#125;&quot;</span><br><span class="line">echo &quot;export_options_plist_path&#x3D;$&#123;export_options_plist_path&#125;&quot;</span><br><span class="line">echo &quot;ipa_name&#x3D;$&#123;ipa_name&#125;&quot;</span><br><span class="line">echo &quot;zip_dSYM_path&#x3D;$&#123;zip_dSYM_path&#125; \033[0m&quot;</span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;自动打包部分(无特殊情况不用修改)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line">echo &quot;------------------------------------------------------&quot;</span><br><span class="line">echo &quot;\033[32m开始构建项目  \033[0m&quot;</span><br><span class="line"># 进入项目工程目录</span><br><span class="line">cd $&#123;project_dir&#125;</span><br><span class="line"></span><br><span class="line"># 指定输出文件目录不存在则创建</span><br><span class="line">if [ -d &quot;$export_path&quot; ] ; then</span><br><span class="line">    echo $export_path</span><br><span class="line">else</span><br><span class="line">    mkdir -pv $export_path</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 5 ];then</span><br><span class="line"></span><br><span class="line">#git 日志路径</span><br><span class="line">txt_path&#x3D;$export_path&#x2F;&#96;date +%Y-%m-%d-%H_%M_%S.html&#96;</span><br><span class="line">temp_txt&#x3D;$export_path&#x2F;gitlog.html</span><br><span class="line"></span><br><span class="line">#写入 ipa 下载链接</span><br><span class="line"># echo &quot;&lt;div style&#x3D;&#39;height: 40px;font-size: 20px;&#39;&gt;iOS 安装包下载链接：&lt;a href&#x3D;$&#123;ipa_link&#125;&gt;$ipa_link&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&quot; &gt;&gt; $txt_path </span><br><span class="line"></span><br><span class="line">#抓取 git 日志</span><br><span class="line">git log --pretty&#x3D;format:&quot;&lt;span style&#x3D;&#39;font-size: 16px;&#39;&gt;%ai,%an:&lt;&#x2F;span&gt; &lt;span style&#x3D;&#39;color: #469cf7;font-size: 16px;&#39;&gt;%s&lt;&#x2F;span&gt;&lt;br&gt;&quot; \</span><br><span class="line"> --no-merges  &gt;&gt; $txt_path</span><br><span class="line"></span><br><span class="line"># 第二行插入 &lt;div&gt;</span><br><span class="line">sed &quot;2 i\ </span><br><span class="line">&lt;div style&#x3D;&#39;letter-spacing: 0.5px;line-height: 25px&#39;&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"> </span><br><span class="line"># 最后一行插入 &lt;&#x2F;div&gt;</span><br><span class="line">sed &quot;$ a\ </span><br><span class="line">&lt;&#x2F;div&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"></span><br><span class="line">#移除中间转换文件</span><br><span class="line">rm -f $temp_txt</span><br><span class="line"></span><br><span class="line">#打开文件夹</span><br><span class="line">open $export_path</span><br><span class="line">open $txt_path</span><br><span class="line"></span><br><span class="line">exit 0</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 判断编译的项目类型是workspace还是project</span><br><span class="line">if $is_workspace ; then</span><br><span class="line"># 编译前清理工程</span><br><span class="line">xcodebuild clean -workspace $&#123;workspace_name&#125;.xcworkspace \</span><br><span class="line">                 -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                 -configuration $&#123;build_configuration&#125;</span><br><span class="line"></span><br><span class="line">xcodebuild archive -workspace $&#123;workspace_name&#125;.xcworkspace \</span><br><span class="line">                   -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                   -configuration $&#123;build_configuration&#125; \</span><br><span class="line">                   -archivePath $&#123;export_archive_path&#125;</span><br><span class="line">else</span><br><span class="line"># 编译前清理工程</span><br><span class="line">xcodebuild clean -project $&#123;project_name&#125;.xcodeproj \</span><br><span class="line">                 -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                 -configuration $&#123;build_configuration&#125;</span><br><span class="line"></span><br><span class="line">xcodebuild archive -project $&#123;project_name&#125;.xcodeproj \</span><br><span class="line">                   -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                   -configuration $&#123;build_configuration&#125; \</span><br><span class="line">                   -archivePath $&#123;export_archive_path&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#  检查是否构建成功</span><br><span class="line">#  xcarchive 实际是一个文件夹不是一个文件所以使用 -d 判断</span><br><span class="line">if [ -d &quot;$export_archive_path&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1m项目构建成功 🚀 🚀 🚀  \033[0m&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1m项目构建失败 😢 😢 😢  \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;------------------------------------------------------&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;\033[32m开始导出ipa文件 \033[0m&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 先删除export_options_plist文件</span><br><span class="line">if [ -f &quot;$export_options_plist_path&quot; ] ; then</span><br><span class="line">    #echo &quot;$&#123;export_options_plist_path&#125;文件存在，进行删除&quot;</span><br><span class="line">    rm -f $export_options_plist_path</span><br><span class="line">fi</span><br><span class="line"># 根据参数生成export_options_plist文件</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :method String $&#123;method&#125;&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :provisioningProfiles:&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :provisioningProfiles:$&#123;bundle_identifier&#125; String $&#123;mobileprovision_name&#125;&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :compileBitcode bool NO&quot;  $export_options_plist_path</span><br><span class="line"></span><br><span class="line">xcodebuild  -exportArchive \</span><br><span class="line">            -archivePath $&#123;export_archive_path&#125; \</span><br><span class="line">            -exportPath $&#123;export_ipa_path&#125; \</span><br><span class="line">            -exportOptionsPlist $&#123;export_options_plist_path&#125; \</span><br><span class="line">            -allowProvisioningUpdates</span><br><span class="line"></span><br><span class="line"># 检查ipa文件是否存在</span><br><span class="line">if [ -f &quot;$export_ipa_path&#x2F;$scheme_name.ipa&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1mexportArchive ipa包成功,准备进行重命名\033[0m&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1mexportArchive ipa包失败 😢 😢 😢     \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># 修改ipa文件名称</span><br><span class="line">mv $export_ipa_path&#x2F;$scheme_name.ipa $export_ipa_path&#x2F;$ipa_name.ipa</span><br><span class="line"></span><br><span class="line"># 检查文件是否存在</span><br><span class="line">if [ -f &quot;$export_ipa_path&#x2F;$ipa_name.ipa&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1m导出 $&#123;ipa_name&#125;.ipa 包成功 🎉  🎉  🎉   \033[0m&quot;</span><br><span class="line">    # open $export_path</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1m导出 $&#123;ipa_name&#125;.ipa 包失败 😢 😢 😢     \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># 删除export_options_plist文件（中间文件）</span><br><span class="line">if [ -f &quot;$export_options_plist_path&quot; ] ; then</span><br><span class="line">    #echo &quot;$&#123;export_options_plist_path&#125;文件存在，准备删除&quot;</span><br><span class="line">    rm -f $export_options_plist_path</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#导出dSYM并压缩 zip</span><br><span class="line">cp -r &quot;$&#123;dSYM_path&#125;&quot; &quot;$&#123;export_path&#125;&quot;</span><br><span class="line">zip -r &quot;$zip_dSYM_path&quot; &quot;$new_dSYM_path&quot;</span><br><span class="line">rm -r $new_dSYM_path</span><br><span class="line"></span><br><span class="line"># 输出打包总用时</span><br><span class="line">echo &quot;\033[36;1m使用AutoPackage打包总用时: $&#123;SECONDS&#125;s \033[0m&quot;</span><br><span class="line"></span><br><span class="line">#准备上传dSYM文件到 bugly</span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传dSYM文件到 bugly&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line"></span><br><span class="line">curl -k &quot;https:&#x2F;&#x2F;api.bugly.qq.com&#x2F;openapi&#x2F;file&#x2F;upload&#x2F;symbol?app_key&#x3D;4ec76824-0694-4de5-a0a3-447f3ad4259a&amp;app_id&#x3D;cf4e8e6eaa&quot; \</span><br><span class="line">--form &quot;api_version&#x3D;1&quot; --form &quot;app_id&#x3D;cf4e8e6eaa&quot; --form &quot;app_key&#x3D;4ec76824-0694-4de5-a0a3-447f3ad4259a&quot; \</span><br><span class="line">--form &quot;symbolType&#x3D;2&quot; --form &quot;bundleId&#x3D;yourBundleId&quot;  --form &quot;fileName&#x3D;$scheme_name.app.dSYM.zip&quot; \</span><br><span class="line">--form &quot;file&#x3D;@&#x2F;$zip_dSYM_path&quot; --verbose | python -m json.tool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 1 ];then</span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传ipa到App Store&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line">#验证并上传到App Store，将-u 后面的XXX替换成自己的AppleID的账号，-p后面的XXX替换成自己的密码</span><br><span class="line">altoolPath&#x3D;&quot;&#x2F;Applications&#x2F;Xcode.app&#x2F;Contents&#x2F;Applications&#x2F;Application Loader.app&#x2F;Contents&#x2F;Frameworks&#x2F;ITunesSoftwareService.framework&#x2F;Versions&#x2F;A&#x2F;Support&#x2F;altool&quot;</span><br><span class="line">&quot;$altoolPath&quot; --validate-app -f $&#123;ipa_name&#125;.ipa -u appid账号 -p appid密码 -t ios --output-format xml</span><br><span class="line">&quot;$altoolPath&quot; --upload-app -f $&#123;ipa_name&#125;.ipa -u  appid账号 -p appid密码 -t ios --output-format xml</span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传ipa到fir&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line">#自定义短链</span><br><span class="line">short&#x3D;&quot;rxios&quot;</span><br><span class="line"></span><br><span class="line">#ipa 完整下载链接</span><br><span class="line">ipa_link&#x3D;&quot;https:&#x2F;&#x2F;fir.im&#x2F;$short&quot;</span><br><span class="line"></span><br><span class="line">#上传 ipa</span><br><span class="line">fir publish $export_ipa_path&#x2F;$ipa_name.ipa -T &#39;4596a0fbf2d0adeaa017302b17686f0c&#39; -Q -s &quot;$short&quot;</span><br><span class="line"></span><br><span class="line">#git 日志路径</span><br><span class="line">txt_path&#x3D;$export_path&#x2F;&#96;date +%Y-%m-%d-%H_%M_%S.html&#96;</span><br><span class="line">temp_txt&#x3D;$export_path&#x2F;gitlog.html</span><br><span class="line"></span><br><span class="line">#写入 ipa 下载链接</span><br><span class="line">echo &quot;&lt;div style&#x3D;&#39;height: 40px;font-size: 20px;&#39;&gt;iOS 安装包下载链接：&lt;a href&#x3D;$&#123;ipa_link&#125;&gt;$ipa_link&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&quot; &gt;&gt; $txt_path </span><br><span class="line"></span><br><span class="line">#抓取 git 日志</span><br><span class="line">git log --pretty&#x3D;format:&quot;&lt;span style&#x3D;&#39;font-size: 16px;&#39;&gt;%ai,%an:&lt;&#x2F;span&gt; &lt;span style&#x3D;&#39;color: #469cf7;font-size: 16px;&#39;&gt;%s&lt;&#x2F;span&gt;&lt;br&gt;&quot; \</span><br><span class="line"> --no-merges  &gt;&gt; $txt_path</span><br><span class="line"></span><br><span class="line"># 第二行插入 &lt;div&gt;</span><br><span class="line">sed &quot;2 i\ </span><br><span class="line">&lt;div style&#x3D;&#39;letter-spacing: 0.5px;line-height: 25px&#39;&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"> </span><br><span class="line"># 最后一行插入 &lt;&#x2F;div&gt;</span><br><span class="line">sed &quot;$ a\ </span><br><span class="line">&lt;&#x2F;div&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"></span><br><span class="line">#发送版本信息到邮箱，为了防止在widndows电脑上文本乱码，邮件内容用html的形式</span><br><span class="line"># mail_title&#x3D;&quot;容信iOS安装包已更新&quot;</span><br><span class="line"># mail -s  &quot;$(echo &quot;$&#123;mail_title&#125;\nContent-Type:text&#x2F;html;charset&#x3D;UTF-8&quot;)&quot;  \</span><br><span class="line"># eagle_01yz@163.com\</span><br><span class="line"># &lt; $&#123;txt_path&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#移除中间转换文件</span><br><span class="line">rm -f $temp_txt</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#打开文件夹</span><br><span class="line">open $export_path</span><br><span class="line">open $txt_path</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E6%B1%87%E7%BC%96%E6%80%BB%E7%BB%93/" rel="next" title="汇编总结">
+                <i class="fa fa-chevron-left"></i> 汇编总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E7%9A%84%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/" rel="prev" title="详解iOS中的关联对象">
+                详解iOS中的关联对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="ityongzhen" />
+            
+              <p class="site-author-name" itemprop="name">ityongzhen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITyongzhen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="eagle_01yz@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5ca8bb9c6fb9a05e620b8abf" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ityongzhen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

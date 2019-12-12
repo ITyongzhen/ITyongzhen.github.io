@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文首发于我的个人博客 前言前面了解了 Swift之类  和 Swift之结构体   这篇文章分享一下Swift中的属性 Swift中跟实例相关的属性可以分为2大类存储属性（Stored Property） 类似于成员变量这个概念 存储在实例的内存中 结构体、类可以定义存储属性 枚举不可以定义存储属性 关于枚举不可以定义存储属性，根据之前的Swift枚举一文可知，枚举中存储关联值或者keys，不存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift之属性">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;Swift%E4%B9%8B%E5%B1%9E%E6%80%A7&#x2F;index.html">
+<meta property="og:site_name" content="myBlogs">
+<meta property="og:description" content="本文首发于我的个人博客 前言前面了解了 Swift之类  和 Swift之结构体   这篇文章分享一下Swift中的属性 Swift中跟实例相关的属性可以分为2大类存储属性（Stored Property） 类似于成员变量这个概念 存储在实例的内存中 结构体、类可以定义存储属性 枚举不可以定义存储属性 关于枚举不可以定义存储属性，根据之前的Swift枚举一文可知，枚举中存储关联值或者keys，不存">
+<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;14&#x2F;16bee94ad12510f0?w&#x3D;1114&amp;h&#x3D;800&amp;f&#x3D;png&amp;s&#x3D;400156">
+<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;14&#x2F;16bee94ad1350252?w&#x3D;1077&amp;h&#x3D;611&amp;f&#x3D;png&amp;s&#x3D;261495">
+<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;14&#x2F;16bee94ad15fe540?w&#x3D;1950&amp;h&#x3D;678&amp;f&#x3D;png&amp;s&#x3D;272688">
+<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;14&#x2F;16bee94ad1e7961e?w&#x3D;1932&amp;h&#x3D;790&amp;f&#x3D;png&amp;s&#x3D;288329">
+<meta property="article:published_time" content="2019-08-20T00:32:24.000Z">
+<meta property="article:modified_time" content="2019-12-12T06:26:53.513Z">
+<meta property="article:author" content="ityongzhen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;14&#x2F;16bee94ad12510f0?w&#x3D;1114&amp;h&#x3D;800&amp;f&#x3D;png&amp;s&#x3D;400156">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ityongzhen.github.io/Swift之属性/"/>
+
+
+
+
+
+  <title>Swift之属性 | myBlogs</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">myBlogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="myBlogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift之属性</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-20T08:32:24+08:00">
+                2019-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首发于<a href="https://ityongzhen.github.io/Swift之属性.html">我的个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面了解了 <a href="https://juejin.im/post/5d216d6bf265da1b957079d8" target="_blank" rel="noopener">Swift之类</a>  和 <a href="https://juejin.im/post/5d216e1ff265da1bb27752aa" target="_blank" rel="noopener">Swift之结构体</a>  </p>
+<p>这篇文章分享一下Swift中的属性</p>
+<h2 id="Swift中跟实例相关的属性可以分为2大类"><a href="#Swift中跟实例相关的属性可以分为2大类" class="headerlink" title="Swift中跟实例相关的属性可以分为2大类"></a>Swift中跟实例相关的属性可以分为2大类</h2><h3 id="存储属性（Stored-Property）"><a href="#存储属性（Stored-Property）" class="headerlink" title="存储属性（Stored Property）"></a>存储属性（Stored Property）</h3><ul>
+<li>类似于成员变量这个概念</li>
+<li>存储在实例的内存中</li>
+<li>结构体、类可以定义存储属性</li>
+<li>枚举不可以定义存储属性<ul>
+<li>关于枚举不可以定义存储属性，根据之前的<a href="https://juejin.im/post/5d1eeca3f265da1ba6480cc7" target="_blank" rel="noopener">Swift枚举</a>一文可知，<br>枚举中存储关联值或者keys，不存储属性的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="关于存储属性，Swift有个明确的规定"><a href="#关于存储属性，Swift有个明确的规定" class="headerlink" title="关于存储属性，Swift有个明确的规定"></a>关于存储属性，Swift有个明确的规定</h4><ul>
+<li>在创建类 或 结构体的实例时，必须为所有的存储属性设置一个合适的初始值<ul>
+<li>可以在初始化器里为存储属性设置一个初始值</li>
+<li>可以分配一个默认的属性值作为属性定义的一部分</li>
+</ul>
+</li>
+</ul>
+<p>关于这个规定，我们在<a href="https://juejin.im/post/5d216e1ff265da1bb27752aa" target="_blank" rel="noopener">Swift之结构体</a>   一文中已经说过了，这里稍微提一下，比如下面代码，x和y都是存储属性，当初始化的时候，如果没值，编译器会直接报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct Point&#123;</span><br><span class="line">    var x: Int</span><br><span class="line">    var y: Int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 &#x3D; Point(x: 10, y: 20)</span><br><span class="line">var p2 &#x3D; Point(y: 20) &#x2F;&#x2F;报错 Missing argument for parameter &#39;x&#39; in call</span><br><span class="line">var p3 &#x3D; Point(x: 10) &#x2F;&#x2F;报错 Missing argument for parameter &#39;y&#39; in call</span><br><span class="line">var p4 &#x3D; Point()    &#x2F;&#x2F;报错 Missing argument for parameter &#39;x&#39; in call</span><br></pre></td></tr></table></figure>
+
+<h3 id="计算属性（Computed-Property）"><a href="#计算属性（Computed-Property）" class="headerlink" title="计算属性（Computed Property）"></a>计算属性（Computed Property）</h3><ul>
+<li>本质就是方法（函数）</li>
+<li>不占用实例的内存</li>
+<li>枚举、结构体、类都可以定义计算属性</li>
+<li>set传入的新值默认叫做newValue，也可以自定义</li>
+</ul>
+<p>如下面结构体<code>Circle</code>包括了存储属性<code>radius</code>和计算属性<code>diameter</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">truct Circle &#123;</span><br><span class="line">    &#x2F;&#x2F; 存储属性</span><br><span class="line">    var radius: Double</span><br><span class="line">    &#x2F;&#x2F; 计算属性</span><br><span class="line">    var diameter: Double &#123;</span><br><span class="line">        set &#123;</span><br><span class="line">            radius &#x3D; newValue &#x2F; 2</span><br><span class="line">        &#125;</span><br><span class="line">        get &#123;</span><br><span class="line">           return radius * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var circle &#x3D; Circle(radius: 5)</span><br><span class="line">print(circle.radius) &#x2F;&#x2F; 5.0</span><br><span class="line">print(circle.diameter) &#x2F;&#x2F; 10.0</span><br><span class="line">circle.diameter &#x3D; 12</span><br><span class="line">print(circle.radius) &#x2F;&#x2F; 6.0</span><br><span class="line">print(circle.diameter) &#x2F;&#x2F; 12.0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>只读计算属性：只有get，没有set<br>如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct Circle &#123;</span><br><span class="line">    var radius: Double</span><br><span class="line">    var diameter: Double &#123;</span><br><span class="line">        get &#123;</span><br><span class="line">            radius * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只读计算属性可以简写，例如上面的代码可以如下表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct Circle &#123;</span><br><span class="line">    var radius: Double</span><br><span class="line">    var diameter: Double &#123; radius * 2 &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="计算属性不占用实例的内存"><a href="#计算属性不占用实例的内存" class="headerlink" title="计算属性不占用实例的内存"></a>计算属性不占用实例的内存</h4><p>关于不占用实例的内存，可以如下代码证明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct Circle &#123;</span><br><span class="line">    &#x2F;&#x2F; 存储属性</span><br><span class="line">    var radius: Double</span><br><span class="line">    &#x2F;&#x2F; 计算属性</span><br><span class="line">    var diameter: Double &#123;</span><br><span class="line">        set &#123;</span><br><span class="line">            radius &#x3D; newValue &#x2F; 2</span><br><span class="line">        &#125;</span><br><span class="line">        get &#123;</span><br><span class="line">           return radius * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;Double占用字节&quot;, MemoryLayout&lt;Double&gt;.stride)</span><br><span class="line">print(&quot;Circle占用字节&quot;,MemoryLayout&lt;Circle&gt;.stride) &#x2F;&#x2F; 8</span><br></pre></td></tr></table></figure>
+
+<p>输出为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Double占用字节 8</span><br><span class="line">Circle占用字节 8</span><br></pre></td></tr></table></figure>
+
+<p>也就是说<code>Circle</code>占用的仅仅是其存储属性<code>radius</code>所占用的内存。和计算属性无关的，读者也可以多写几个计算属性，自行验证。</p>
+<h3 id="汇编分析存储属性和计算属性的区别"><a href="#汇编分析存储属性和计算属性的区别" class="headerlink" title="汇编分析存储属性和计算属性的区别"></a>汇编分析存储属性和计算属性的区别</h3><p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">struct Circle &#123;</span><br><span class="line">    &#x2F;&#x2F; 存储属性</span><br><span class="line">    var radius: Int</span><br><span class="line">    &#x2F;&#x2F; 计算属性</span><br><span class="line">    var diameter: Int &#123;</span><br><span class="line">        set &#123;</span><br><span class="line">            radius &#x3D; newValue &#x2F; 2</span><br><span class="line">        &#125;</span><br><span class="line">        get &#123;</span><br><span class="line">           return radius * 2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var circle &#x3D; Circle(radius: 9)</span><br><span class="line">circle.radius &#x3D; 5 </span><br><span class="line">circle.diameter &#x3D; 8 &#x2F;&#x2F;这里打断点</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://user-gold-cdn.xitu.io/2019/7/14/16bee94ad12510f0?w=1114&h=800&f=png&s=400156" alt=""></p>
+<ul>
+<li><p>5存储到了全局变量<code>0x3e96(%rip)</code>,全局变量只有<code>circle</code>，所以也就是说存储属性的值，被直接放在了结构体的内存中。</p>
+</li>
+<li><p>8赋值给寄存器<code>%r8d</code>，又给寄存器%edi，作为参数调用函数<code>0x100001ae0</code>的时候传入，而函数<code>0x100001ae0</code>就是<code>testSwift.Circle.diameter.setter</code>这就是存储属性和计算属性的区别</p>
+</li>
+</ul>
+<h2 id="枚举rawValue的原理"><a href="#枚举rawValue的原理" class="headerlink" title="枚举rawValue的原理"></a>枚举rawValue的原理</h2><p>在<a href="https://juejin.im/post/5d1eeca3f265da1ba6480cc7" target="_blank" rel="noopener">Swift枚举</a>一文中，我们说过枚举原始值是不占用内存的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">enum Season: Int&#123;</span><br><span class="line">    case test1 &#x3D; 1, test2, test3, test4</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var s &#x3D; Season.test2</span><br><span class="line">print(s.rawValue) &#x2F;&#x2F;输出2</span><br></pre></td></tr></table></figure>
+
+<p>上面代码输出为2。<br>这些原始值 test1 = 1, test2, test3, test4，系统内部完全可以写成只读计算属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">enum Season: Int&#123;</span><br><span class="line">    case test1 &#x3D; 1, test2, test3, test4</span><br><span class="line">    </span><br><span class="line">    var rawValue : Int &#123;</span><br><span class="line">        switch self &#123;</span><br><span class="line">        case .test1:</span><br><span class="line">            return 11</span><br><span class="line">        case .test2:</span><br><span class="line">            return 12</span><br><span class="line">        case .test3:</span><br><span class="line">            return 13</span><br><span class="line">        case .test4:</span><br><span class="line">            return 14</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var s &#x3D; Season.test2</span><br><span class="line">print(s.rawValue) &#x2F;&#x2F;输出12</span><br></pre></td></tr></table></figure>
+
+<p>上面代码输出为12，这样就完成了获取枚举的原始值的时候，直接获取的是只读计算属性。光看结果是不够令人信服的，那就看汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">enum Season: Int&#123;</span><br><span class="line">    case test1 &#x3D; 1, test2, test3, test4</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var s &#x3D; Season.test2</span><br><span class="line">print(s.rawValue) &#x2F;&#x2F;这里打断点</span><br></pre></td></tr></table></figure>
+
+<p>上述代码在最后一行打断点</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/7/14/16bee94ad1350252?w=1077&h=611&f=png&s=261495" alt=""></p>
+<p>可以看到，确实调用了<code>rawValue.getter</code>。</p>
+<p>所以汇编才是看出本质的神器。</p>
+<h2 id="延迟存储属性（Lazy-Stored-Property）"><a href="#延迟存储属性（Lazy-Stored-Property）" class="headerlink" title="延迟存储属性（Lazy Stored Property）"></a>延迟存储属性（Lazy Stored Property）</h2><h3 id="使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化"><a href="#使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化" class="headerlink" title="使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化"></a>使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化</h3><ul>
+<li>lazy属性必须是var，不能是let<ul>
+<li>let必须在实例的初始化方法完成之前就拥有值</li>
+</ul>
+</li>
+<li>如果多条线程同时第一次访问lazy属性<ul>
+<li>无法保证属性只被初始化1次</li>
+</ul>
+</li>
+</ul>
+<p>eg:有类 Car和类Person ，car作为Person的延迟存储属性，那么当使用car的是，才会调用car的初始化方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Car &#123;</span><br><span class="line">    init() &#123;</span><br><span class="line">        print(&quot;Car init!&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    func run() &#123;</span><br><span class="line">        print(&quot;Car is running!&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Person &#123;</span><br><span class="line">    lazy var car &#x3D; Car()</span><br><span class="line">    init() &#123;</span><br><span class="line">        print(&quot;Person init!&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    func goOut() &#123;</span><br><span class="line">        car.run()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let p &#x3D; Person()</span><br><span class="line">print(&quot;--------&quot;)</span><br><span class="line">p.goOut()</span><br></pre></td></tr></table></figure>
+
+<p>输出为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Person init!</span><br><span class="line">--------</span><br><span class="line">Car init!</span><br><span class="line">Car is running!</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a><strong>注意点</strong></h3><ul>
+<li>当结构体包含一个延迟存储属性时，只有var才能访问延迟存储属性<ul>
+<li>因为延迟属性初始化时需要改变结构体的内存</li>
+</ul>
+</li>
+</ul>
+<h2 id="属性观察器"><a href="#属性观察器" class="headerlink" title="属性观察器"></a>属性观察器</h2><ul>
+<li>可以为非lazy的var存储属性设置属性观察器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">struct Circle &#123;</span><br><span class="line">    var radius: Double &#123;</span><br><span class="line">        willSet &#123;</span><br><span class="line">            print(&quot;willSet&quot;, newValue)</span><br><span class="line">        &#125;</span><br><span class="line">        didSet &#123;</span><br><span class="line">            print(&quot;didSet&quot;, oldValue, radius)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    init() &#123;</span><br><span class="line">        self.radius &#x3D; 1.0</span><br><span class="line">        print(&quot;Circle init!&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var circle &#x3D; Circle()&#x2F;&#x2F; 输出 Circle init!</span><br><span class="line"></span><br><span class="line">circle.radius &#x3D; 10.5 </span><br><span class="line">&#x2F;&#x2F; 输出 willSet 10.5 </span><br><span class="line">&#x2F;&#x2F; didSet 1.0 10.5</span><br><span class="line"></span><br><span class="line">print(circle.radius) &#x2F;&#x2F;输出 10.5</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意点-1"><a href="#注意点-1" class="headerlink" title="注意点"></a>注意点</h3><ul>
+<li>willSet会传递新值，默认叫newValue</li>
+<li>didSet会传递旧值，默认叫oldValue</li>
+<li>在初始化器中设置属性值不会触发willSet和didSet</li>
+<li>在属性定义时设置初始值也不会触发willSet和didSet</li>
+</ul>
+<h2 id="全局变量、局部变量"><a href="#全局变量、局部变量" class="headerlink" title="全局变量、局部变量"></a>全局变量、局部变量</h2><ul>
+<li>属性观察器、计算属性的功能，同样可以应用在全局变量、局部变量身上</li>
+</ul>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var num: Int &#123;</span><br><span class="line">    get &#123;</span><br><span class="line">        return 10</span><br><span class="line">    &#125;</span><br><span class="line">    set &#123;</span><br><span class="line">        print(&quot;setNum&quot;, newValue)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">num &#x3D; 11 &#x2F;&#x2F; setNum 11</span><br><span class="line">print(num) &#x2F;&#x2F; 10</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">func test() &#123;</span><br><span class="line">    var age &#x3D; 10 &#123;</span><br><span class="line">        willSet &#123;</span><br><span class="line">            print(&quot;willSet&quot;, newValue)</span><br><span class="line">        &#125;</span><br><span class="line">        didSet &#123;</span><br><span class="line">            print(&quot;didSet&quot;, oldValue, age)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    age &#x3D; 11</span><br><span class="line">    &#x2F;&#x2F; willSet 11</span><br><span class="line">    &#x2F;&#x2F; didSet 10 11</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型属性（Type-Property）"><a href="#类型属性（Type-Property）" class="headerlink" title="类型属性（Type Property）"></a>类型属性（Type Property）</h2><h3 id="类型属性分类"><a href="#类型属性分类" class="headerlink" title="类型属性分类"></a>类型属性分类</h3><ol>
+<li>实例属性（Instance Property）：只能通过实例去访问<ul>
+<li>存储实例属性（Stored Instance Property）：存储在实例的内存中，每个实例都有1份</li>
+<li>计算实例属性（Computed Instance Property）</li>
+</ul>
+</li>
+<li>类型属性（Type Property）：只能通过类型去访问<ul>
+<li>存储类型属性（Stored Type Property）：整个程序运行过程中，就只有1份内存（类似于全局变量）</li>
+<li>计算类型属性（Computed Type Property）</li>
+</ul>
+</li>
+<li>可以通过static定义类型属性<ul>
+<li>如果是类，也可以用关键字class</li>
+</ul>
+</li>
+</ol>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct Car &#123;</span><br><span class="line">    static var count: Int &#x3D; 0</span><br><span class="line">    init() &#123;</span><br><span class="line">        Car.count +&#x3D; 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let c1 &#x3D; Car()</span><br><span class="line">let c2 &#x3D; Car()</span><br><span class="line">let c3 &#x3D; Car()</span><br><span class="line">print(Car.count) &#x2F;&#x2F; 输出3</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="类型属性细节"><a href="#类型属性细节" class="headerlink" title="类型属性细节"></a>类型属性细节</h3><ol>
+<li>不同于存储实例属性，你必须给存储类型属性设定初始值<ul>
+<li>因为类型没有像实例那样的init初始化器来初始化存储属性</li>
+</ul>
+</li>
+<li>存储类型属性默认就是lazy，会在第一次使用的时候才初始化<ul>
+<li>就算被多个线程同时访问，保证只会初始化一次</li>
+<li>存储类型属性可以是let</li>
+</ul>
+</li>
+<li>枚举类型也可以定义类型属性（存储类型属性、计算类型属性）</li>
+</ol>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>关于单例模式，可以参考我的另一篇文章<a href="https://juejin.im/post/5d295106e51d45105d63a5b2" target="_blank" rel="noopener">你真的懂单例模式么</a></p>
+<p>不同语言的单例模式，都是类似的，这里给出Swift版本单例的实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">public class FileManager &#123;</span><br><span class="line">	&#x2F;&#x2F;单例模式</span><br><span class="line">    public static let shared &#x3D; FileManager()</span><br><span class="line">    private init() &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果单例里面代码过多，可以写成如下</span><br><span class="line">public class FileManager &#123;</span><br><span class="line">    public static let shared &#x3D; &#123;</span><br><span class="line">        &#x2F;&#x2F; ....</span><br><span class="line">        &#x2F;&#x2F; ....</span><br><span class="line">        return FileManager()</span><br><span class="line">    &#125;()</span><br><span class="line">    private init() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="汇编分析-static"><a href="#汇编分析-static" class="headerlink" title="汇编分析 static"></a>汇编分析 static</h2><p>下面的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">public class YZPerson &#123;</span><br><span class="line">    static  var count &#x3D; 3 &#x2F;&#x2F;这里打断点</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">YZPerson.count &#x3D; 6</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示，可以看出，会调用 <code>swift_once</code>函数，来到这个调用位置，si汇编调试指令，一直跟进去</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/7/14/16bee94ad15fe540?w=1950&h=678&f=png&s=272688" alt=""></p>
+<p>最终会来到这里，调用<code>dispatch_once_f</code><br><img src="https://user-gold-cdn.xitu.io/2019/7/14/16bee94ad1e7961e?w=1932&h=790&f=png&s=288329" alt=""></p>
+<p>也就是说<code>static</code>内部封装了<code>dispatch_once_</code> 而<code>dispatch_once_</code>能保证线程安全的，只能被初始化一次，所以单例的时候可以用<code>static</code> 关于 <code>dispatch_once</code>的分析，可以看这篇文章<a href="https://juejin.im/post/5d295106e51d45105d63a5b2" target="_blank" rel="noopener">你真的懂单例模式么</a></p>
+<ul>
+<li>同样的，我们可以从代码角度，汇编角度分别证明 <code>static</code> 修饰的变量，属于全局变量。读者有兴趣自己证明。这里不再赘述。</li>
+</ul>
+<p>参考资料:</p>
+<p><a href="https://github.com/apple/Swift" target="_blank" rel="noopener">Swift官方源码</a></p>
+<p><a href="https://ke.qq.com/course/392094" target="_blank" rel="noopener">从入门到精通Swift编程</a></p>
+<p><a href="https://juejin.im/post/5d295106e51d45105d63a5b2" target="_blank" rel="noopener">你真的懂单例模式么</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Swift%E4%B9%8B%E9%80%9A%E8%BF%87%E6%B1%87%E7%BC%96%E6%8E%A2%E7%A9%B6%E9%97%AD%E5%8C%85%E6%9C%AC%E8%B4%A8/" rel="next" title="Swift之通过汇编探究闭包本质">
+                <i class="fa fa-chevron-left"></i> Swift之通过汇编探究闭包本质
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Swift%E4%B9%8B%E6%96%B9%E6%B3%95/" rel="prev" title="Swift之方法">
+                Swift之方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="ityongzhen" />
+            
+              <p class="site-author-name" itemprop="name">ityongzhen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITyongzhen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="eagle_01yz@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5ca8bb9c6fb9a05e620b8abf" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift中跟实例相关的属性可以分为2大类"><span class="nav-number">2.</span> <span class="nav-text">Swift中跟实例相关的属性可以分为2大类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存储属性（Stored-Property）"><span class="nav-number">2.1.</span> <span class="nav-text">存储属性（Stored Property）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于存储属性，Swift有个明确的规定"><span class="nav-number">2.1.1.</span> <span class="nav-text">关于存储属性，Swift有个明确的规定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算属性（Computed-Property）"><span class="nav-number">2.2.</span> <span class="nav-text">计算属性（Computed Property）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#计算属性不占用实例的内存"><span class="nav-number">2.2.1.</span> <span class="nav-text">计算属性不占用实例的内存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汇编分析存储属性和计算属性的区别"><span class="nav-number">2.3.</span> <span class="nav-text">汇编分析存储属性和计算属性的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举rawValue的原理"><span class="nav-number">3.</span> <span class="nav-text">枚举rawValue的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#延迟存储属性（Lazy-Stored-Property）"><span class="nav-number">4.</span> <span class="nav-text">延迟存储属性（Lazy Stored Property）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化"><span class="nav-number">4.1.</span> <span class="nav-text">使用lazy可以定义一个延迟存储属性，在第一次用到属性的时候才会进行初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点"><span class="nav-number">4.2.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性观察器"><span class="nav-number">5.</span> <span class="nav-text">属性观察器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点-1"><span class="nav-number">5.1.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局变量、局部变量"><span class="nav-number">6.</span> <span class="nav-text">全局变量、局部变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型属性（Type-Property）"><span class="nav-number">7.</span> <span class="nav-text">类型属性（Type Property）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型属性分类"><span class="nav-number">7.1.</span> <span class="nav-text">类型属性分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型属性细节"><span class="nav-number">7.2.</span> <span class="nav-text">类型属性细节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">8.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇编分析-static"><span class="nav-number">9.</span> <span class="nav-text">汇编分析 static</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ityongzhen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
