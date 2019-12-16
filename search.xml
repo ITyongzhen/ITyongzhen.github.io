@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Swift之下标</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87/</url>
+    <url>/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Swift中对枚举、结构体、类使用下标(subscript），就可以像使用数组一样来使用了</p>
 <h2 id="使用规则"><a href="#使用规则" class="headerlink" title="使用规则"></a>使用规则</h2><ul>
@@ -76,7 +76,7 @@
   </entry>
   <entry>
     <title>Swift之协议</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E5%8D%8F%E8%AE%AE/</url>
+    <url>/Swift%E4%B9%8B%E5%8D%8F%E8%AE%AE/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E5%8D%8F%E8%AE%AE.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>协议，有关开发经验的应该都不陌生，很多语言中都有协议，但是相对来说，Swift中的协议更加强大，灵活。</p>
 <ul>
@@ -254,7 +254,7 @@
   </entry>
   <entry>
     <title>汇编深入分析inout本质</title>
-    <url>/ITyongzhen.github.io/%E6%B1%87%E7%BC%96%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90inout%E6%9C%AC%E8%B4%A8/</url>
+    <url>/%E6%B1%87%E7%BC%96%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90inout%E6%9C%AC%E8%B4%A8/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E6%B1%87%E7%BC%96%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90inout%E6%9C%AC%E8%B4%A8.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于<code>输入输出参数inout</code> 在<a href="https://juejin.im/post/5d1eec54f265da1bb27750ba" target="_blank" rel="noopener">Swift之函数</a>一文中，我们已经有了初步的认识。现在我们再继续深入了解一下</p>
 <h2 id="输入输出参数"><a href="#输入输出参数" class="headerlink" title="输入输出参数"></a>输入输出参数</h2><ul>
@@ -388,7 +388,7 @@
   </entry>
   <entry>
     <title>Swift之继承</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E7%BB%A7%E6%89%BF/</url>
+    <url>/Swift%E4%B9%8B%E7%BB%A7%E6%89%BF/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E7%BB%A7%E6%89%BF.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>同其他语言一样，Swift中也是有继承的</p>
 <ul>
@@ -513,7 +513,7 @@
   </entry>
   <entry>
     <title>Swift之方法</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E6%96%B9%E6%B3%95/</url>
+    <url>/Swift%E4%B9%8B%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E6%96%B9%E6%B3%95.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>方法，也就是函数。同其他语言一样，在Swift中，也是分为实例方法和类型方法</p>
 <h2 id="枚举、结构体、类都可以定义实例方法、类型方法"><a href="#枚举、结构体、类都可以定义实例方法、类型方法" class="headerlink" title="枚举、结构体、类都可以定义实例方法、类型方法"></a>枚举、结构体、类都可以定义实例方法、类型方法</h2><h3 id="实例方法（Instance-Method）：通过实例对象调用"><a href="#实例方法（Instance-Method）：通过实例对象调用" class="headerlink" title="实例方法（Instance Method）：通过实例对象调用"></a>实例方法（Instance Method）：通过实例对象调用</h3><h3 id="类型方法（Type-Method）：通过类型调用，用static或者class关键字定义，类似OC中的类方法"><a href="#类型方法（Type-Method）：通过类型调用，用static或者class关键字定义，类似OC中的类方法" class="headerlink" title="类型方法（Type Method）：通过类型调用，用static或者class关键字定义，类似OC中的类方法"></a>类型方法（Type Method）：通过类型调用，用static或者class关键字定义，类似OC中的类方法</h3><p>例如有个类Car,有实例方法<code>getnNum</code>和类型方法<code>getCount</code></p>
@@ -569,7 +569,7 @@
   </entry>
   <entry>
     <title>Swift之属性</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/</url>
+    <url>/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift之属性.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面了解了 <a href="https://juejin.im/post/5d216d6bf265da1b957079d8" target="_blank" rel="noopener">Swift之类</a>  和 <a href="https://juejin.im/post/5d216e1ff265da1bb27752aa" target="_blank" rel="noopener">Swift之结构体</a>  </p>
 <p>这篇文章分享一下Swift中的属性</p>
@@ -736,7 +736,7 @@
   </entry>
   <entry>
     <title>Swift之通过汇编探究闭包本质</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E9%80%9A%E8%BF%87%E6%B1%87%E7%BC%96%E6%8E%A2%E7%A9%B6%E9%97%AD%E5%8C%85%E6%9C%AC%E8%B4%A8/</url>
+    <url>/Swift%E4%B9%8B%E9%80%9A%E8%BF%87%E6%B1%87%E7%BC%96%E6%8E%A2%E7%A9%B6%E9%97%AD%E5%8C%85%E6%9C%AC%E8%B4%A8/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E9%80%9A%E8%BF%87%E6%B1%87%E7%BC%96%E6%8E%A2%E7%A9%B6%E9%97%AD%E5%8C%85%E6%9C%AC%E8%B4%A8.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先回顾一下，上一篇  <a href="https://juejin.im/post/5d229738f265da1b715317b7" target="_blank" rel="noopener">Swift之闭包(Closure)</a>中对闭包的解释</p>
 <ul>
@@ -799,7 +799,7 @@
   </entry>
   <entry>
     <title>Swift之闭包(Closure)</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E9%97%AD%E5%8C%85(Closure)/</url>
+    <url>/Swift%E4%B9%8B%E9%97%AD%E5%8C%85(Closure)/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E9%97%AD%E5%8C%85(Closure).html">我的个人博客</a></p>
 <h2 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h2><ul>
 <li>一个函数和它所捕获的变量\常量环境组合起来，称为闭包<ul>
@@ -929,7 +929,7 @@
   </entry>
   <entry>
     <title>Swift之结构体</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93/</url>
+    <url>/Swift%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift之结构体.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
 <li>在 Swift 标准库中，绝大多数的公开类型都是结构体，而枚举和类只占很小一部分 <ul>
@@ -1001,7 +1001,7 @@
   </entry>
   <entry>
     <title>Swift之类</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E7%B1%BB/</url>
+    <url>/Swift%E4%B9%8B%E7%B1%BB/</url>
     <content><![CDATA[<p>文章首发于<a href="https://ityongzhen.github.io/Swift之类.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>类的定义和结构体类似，但编译器并没有为类自动生成可以传入成员值的初始化器<br>eg 如下代码不会报错</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">struct Point &#123;</span><br><span class="line">    var x: Int &#x3D; 0</span><br><span class="line">	var y: Int &#x3D; 0 </span><br><span class="line">&#125;</span><br><span class="line">let p1 &#x3D; Point()</span><br><span class="line">let p2 &#x3D; Point(x: 10, y: 20)</span><br><span class="line">let p3 &#x3D; Point(x: 10)</span><br><span class="line">let p4 &#x3D; Point(y: 20)</span><br></pre></td></tr></table></figure>
@@ -1089,7 +1089,7 @@
   </entry>
   <entry>
     <title>Swift之可选项</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E5%8F%AF%E9%80%89%E9%A1%B9/</url>
+    <url>/Swift%E4%B9%8B%E5%8F%AF%E9%80%89%E9%A1%B9/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/categories/Swift/">我的个人博客</a></p>
 <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
 <li>可选项，一般也叫可选类型，它允许将值设置为nil </li>
@@ -1236,7 +1236,7 @@
   </entry>
   <entry>
     <title>Swift之枚举</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E6%9E%9A%E4%B8%BE/</url>
+    <url>/Swift%E4%B9%8B%E6%9E%9A%E4%B8%BE/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/categories/Swift/">我的个人博客</a></p>
 <h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><h3 id="枚举的基本用法"><a href="#枚举的基本用法" class="headerlink" title="枚举的基本用法"></a>枚举的基本用法</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;定义方向的枚举</span><br><span class="line">enum Direction &#123;</span><br><span class="line">     case north</span><br><span class="line">     case south</span><br><span class="line">	 case east</span><br><span class="line">	 case west </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面也可以写成</p>
@@ -1330,7 +1330,7 @@
   </entry>
   <entry>
     <title>Swift之函数</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E5%87%BD%E6%95%B0/</url>
+    <url>/Swift%E4%B9%8B%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/categories/Swift/">我的个人博客</a></p>
 <h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><ul>
 <li>形参默认是let 并且只能是let</li>
@@ -1457,7 +1457,7 @@
   </entry>
   <entry>
     <title>Swift之流程控制</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/</url>
+    <url>/Swift%E4%B9%8B%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/categories/Swift/">我的个人博客</a></p>
 <h2 id="if-else"><a href="#if-else" class="headerlink" title="if-else"></a>if-else</h2><ul>
 <li>if后面的条件可以省略小括号</li>
@@ -1580,7 +1580,7 @@
   </entry>
   <entry>
     <title>Swift之基本运算、数据类型、元组</title>
-    <url>/ITyongzhen.github.io/Swift%E4%B9%8B%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%85%83%E7%BB%84/</url>
+    <url>/Swift%E4%B9%8B%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%85%83%E7%BB%84/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/categories/Swift/">我的个人博客</a></p>
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
 <p>  Swift编程语言，支持多编程范式和编译式，用来撰写基于macOS/OS X、iOS、watchOS和tvOS的软件。 苹果公司于2014年在苹果开发者年会（WWDC）发布了Swift编程语言。从设计上苹果公司让Swift与Objective-C共存在苹果公司的操作系统上</p>
@@ -1679,7 +1679,7 @@
   </entry>
   <entry>
     <title>iOS逆向流程</title>
-    <url>/ITyongzhen.github.io/iOS%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B/</url>
+    <url>/iOS%E9%80%86%E5%90%91%E6%B5%81%E7%A8%8B/</url>
     <content><![CDATA[<p>本文首发于 <a href="https://ityongzhen.github.io/categories">个人博客</a></p>
 <h3 id="iOS逆向"><a href="#iOS逆向" class="headerlink" title="iOS逆向"></a>iOS逆向</h3><h5 id="准备：完美越狱iPhone"><a href="#准备：完美越狱iPhone" class="headerlink" title="准备：完美越狱iPhone"></a>准备：完美越狱iPhone</h5><p>逆向APP思路：1，代码分析</p>
 <p>2，对Mach-O文件的静态分析MachOView、class-dump、Hopper Disassembler、ida等</p>
@@ -1934,7 +1934,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(九)观察者模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B9%9D)%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B9%9D)%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/设计模式之(九)观察者模式.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h3><p><a href="https://baike.baidu.com/item/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/5881786?fr=aladdin" target="_blank" rel="noopener">观察者模式</a>  属于行为型模式。</p>
 <blockquote>
@@ -2001,7 +2001,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(八)访问者模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%85%AB)%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%85%AB)%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<p><a href="https://ityongzhen.github.io/设计模式之(八)访问者模式.html">本文首发于个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>本文代码为java代码</strong></p>
 <h3 id="什么是访问者模式"><a href="#什么是访问者模式" class="headerlink" title="什么是访问者模式"></a>什么是访问者模式</h3><p><a href="https://www.runoob.com/design-pattern/visitor-pattern.html" target="_blank" rel="noopener">访问者模式</a>  属于行为型模式，在<a href="https://www.runoob.com/design-pattern/visitor-pattern.html" target="_blank" rel="noopener">菜鸟教程</a>中的定义如下</p>
@@ -2076,7 +2076,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(七)外观模式(门面模式、过程模式)</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%83)%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F(%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E3%80%81%E8%BF%87%E7%A8%8B%E6%A8%A1%E5%BC%8F)/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%83)%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F(%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E3%80%81%E8%BF%87%E7%A8%8B%E6%A8%A1%E5%BC%8F)/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/设计模式之(七)外观模式(门面模式、过程模式).html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是外观模式"><a href="#什么是外观模式" class="headerlink" title="什么是外观模式"></a>什么是外观模式</h3><p><a href="https://baike.baidu.com/item/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/9592040?fr=aladdin" target="_blank" rel="noopener">外观模式</a>  属于结构型模式，在<a href="https://www.runoob.com/design-pattern/facade-pattern.html" target="_blank" rel="noopener">菜鸟教程</a>中的定义如下</p>
 <blockquote>
@@ -2149,7 +2149,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(六)命令模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%85%AD)%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%85%AD)%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是命令模式"><a href="#什么是命令模式" class="headerlink" title="什么是命令模式"></a>什么是命令模式</h3><p><a href="https://baike.baidu.com/item/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/7277118" target="_blank" rel="noopener">命令模式</a>  属于行为型模式，在<a href="https://baike.baidu.com/item/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/7277118" target="_blank" rel="noopener">百度百科</a>中的定义如下</p>
 <blockquote>
 <p>在软件系统中，“行为请求者”与“行为实现者”通常呈现一种“紧耦合”。但在某些场合，比如要对行为进行“记录、撤销/重做、事务”等处理，这种无法抵御变化的紧耦合是不合适的。在这种情况下，如何将“行为请求者”与“行为实现者”解耦？将一组行为抽象为对象，实现二者之间的松耦合。这就是命令模式（Command Pattern）</p>
@@ -2202,7 +2202,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(五)生成器模式(建造模式)</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%BA%94)%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F(%E5%BB%BA%E9%80%A0%E6%A8%A1%E5%BC%8F)/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%BA%94)%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F(%E5%BB%BA%E9%80%A0%E6%A8%A1%E5%BC%8F)/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/设计模式之(五)生成器模式(建造模式)">个人博客</a>.html)</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="什么是生成器模式"><a href="#什么是生成器模式" class="headerlink" title="什么是生成器模式"></a>什么是生成器模式</h3><p><a href="https://zh.wikipedia.org/wiki/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">生成器模式</a> 又名：建造模式 属于创建型模式，在<a href="https://zh.wikipedia.org/wiki/%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">wikipedia</a>中的定义如下</p>
 <blockquote>
@@ -2270,7 +2270,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(四)原型模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%9B%9B)%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E5%9B%9B)%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/设计模式之(四)原型模式.html">个人博客</a></p>
 <h2 id="什么是原型模式"><a href="#什么是原型模式" class="headerlink" title="什么是原型模式"></a>什么是原型模式</h2><h3 id="原型模式定义"><a href="#原型模式定义" class="headerlink" title="原型模式定义"></a>原型模式定义</h3><p> 参考wikipedia中的定义<a href="https://zh.wikipedia.org/wiki/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">原型模式</a></p>
 <blockquote>
@@ -2343,7 +2343,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(三)单例模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%89)%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%89)%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="本文首发于我的个人博客"><a href="#本文首发于我的个人博客" class="headerlink" title="本文首发于我的个人博客"></a>本文首发于<a href="https://ityongzhen.github.io/设计模式之(三)单例模式.html">我的个人博客</a></h2><h2 id="什么是单例"><a href="#什么是单例" class="headerlink" title="什么是单例"></a>什么是单例</h2><p>在开发中，单例模式应该是每个人都会用的，但是你真的深入了解过单例模式么？希望这篇文章能给你更加深入的认识。</p>
 <h3 id="wikipedia中这么介绍"><a href="#wikipedia中这么介绍" class="headerlink" title="wikipedia中这么介绍"></a><a href="https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">wikipedia</a>中这么介绍</h3><blockquote>
 <p>单例模式，也叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个的全局对象，这样有利于我们协调系统整体的行为。比如在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。</p>
@@ -2443,7 +2443,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(二)生产者-消费者</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%BA%8C)%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%BA%8C)%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85/</url>
     <content><![CDATA[<p>本文首发于 <a href="https://ityongzhen.github.io/设计模式之(二)生产者-消费者.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="https://zh.wikipedia.org/wiki/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">维基百科中</a>，这么描述 生产者消费者问题</p>
 <blockquote>
@@ -2485,7 +2485,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>设计模式之(一)策略模式</title>
-    <url>/ITyongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%80)%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</url>
+    <url>/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%B8%80)%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<p>本文首发于 <a href="https://ityongzhen.github.io/设计模式之(一)策略模式.html">我的个人博客</a></p>
 <h2 id="什么是策略模式"><a href="#什么是策略模式" class="headerlink" title="什么是策略模式"></a>什么是策略模式</h2><h3 id="类型：行为类模式"><a href="#类型：行为类模式" class="headerlink" title="类型：行为类模式"></a>类型：行为类模式</h3><blockquote>
 <p>策略模式定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。——《Head First 设计模式》</p>
@@ -2581,7 +2581,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之桶排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%A1%B6%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%A1%B6%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之桶排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?w=1452&h=814&f=png&s=620682" alt=""></p>
@@ -2662,7 +2662,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之基数排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之基数排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -2767,7 +2767,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之计数排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之计数排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -2868,7 +2868,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之希尔排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之希尔排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -2990,7 +2990,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之快速排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之快速排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -3084,7 +3084,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之归并排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之归并排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -3169,7 +3169,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之堆排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%A0%86%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%A0%86%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之堆排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -3229,7 +3229,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之插入排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之插入排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -3303,7 +3303,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之选择排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之选择排序.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""></p>
@@ -3365,7 +3365,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>十大排序算法之冒泡排序</title>
-    <url>/ITyongzhen.github.io/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+    <url>/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/十大排序算法之冒泡排序.html">个人博客</a></p>
 <p><a href="https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" target="_blank" rel="noopener">https://user-gold-cdn.xitu.io/2019/11/14/16e6883ad25132a9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列排序包括十大经典排序算法。</p>
@@ -3443,7 +3443,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>iOS使用RunLoop监控线上卡顿</title>
-    <url>/ITyongzhen.github.io/iOS%E4%BD%BF%E7%94%A8RunLoop%E7%9B%91%E6%8E%A7%E7%BA%BF%E4%B8%8A%E5%8D%A1%E9%A1%BF/</url>
+    <url>/iOS%E4%BD%BF%E7%94%A8RunLoop%E7%9B%91%E6%8E%A7%E7%BA%BF%E4%B8%8A%E5%8D%A1%E9%A1%BF/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/iOS%E4%BD%BF%E7%94%A8RunLoop%E7%9B%91%E6%8E%A7%E7%BA%BF%E4%B8%8A%E5%8D%A1%E9%A1%BF.html">我的个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于性能优化，我之前写过<a href="https://juejin.im/post/5d1a00846fb9a07ed657eb3f" target="_blank" rel="noopener">iOS性能优化</a>，经过优化之后，我们的APP，冷启动，从2.7秒优化到了0.6秒。</p>
 <p>关RunLoop，写过<a href="https://juejin.im/post/5d04c88d5188255e1305ca09" target="_blank" rel="noopener">RunLoop详解之源码分析</a>,以及<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html">详解RunLoop与多线程
@@ -3551,7 +3551,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>KVC那点儿事</title>
-    <url>/ITyongzhen.github.io/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B/</url>
+    <url>/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
 <li>KVC是Key Value Coding的简称。它是一种可以通过字符串的名字（key）来访问类属性的机制。而不是通过调用Setter、Getter方法访问。KVC的方法定义在Foundation/NSKeyValueCoding中。</li>
@@ -3700,7 +3700,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>iOS性能优化</title>
-    <url>/ITyongzhen.github.io/iOS%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
+    <url>/iOS%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html">个人博客</a></p>
 <h3 id="一、App启动优化"><a href="#一、App启动优化" class="headerlink" title="一、App启动优化"></a>一、App启动优化</h3><h4 id="1-App的启动可以分为2种"><a href="#1-App的启动可以分为2种" class="headerlink" title="1.App的启动可以分为2种"></a>1.App的启动可以分为2种</h4><ul>
 <li>冷启动(Cold Launch):从零开始启动APP</li>
@@ -3907,7 +3907,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>详解autoreleasepool</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3autoreleasepool/</url>
+    <url>/%E8%AF%A6%E8%A7%A3autoreleasepool/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3autoreleasepool.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>文章开始之前，先想想下面三种场景，分别输出什么呢？</p>
 <p><strong>注意<code>str</code>的长度不能太短</strong></p>
@@ -4091,7 +4091,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>从iOS中的引用计数说起</title>
-    <url>/ITyongzhen.github.io/%E4%BB%8EiOS%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E8%AF%B4%E8%B5%B7/</url>
+    <url>/%E4%BB%8EiOS%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E8%AF%B4%E8%B5%B7/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/iOS中的引用计数.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>维基百科中这么定义<a href="https://zh.wikipedia.org/wiki/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0" target="_blank" rel="noopener">引用计数</a></p>
 <blockquote>
@@ -4258,7 +4258,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
   </entry>
   <entry>
     <title>iOS中三种定时器(`NSTimer`、`CADisplayLink`、`dispatch_source_t`)</title>
-    <url>/ITyongzhen.github.io/iOS%E4%B8%AD%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8(%60NSTimer%60%E3%80%81%60CADisplayLink%60%E3%80%81%60dispatch_source_t%60)/</url>
+    <url>/iOS%E4%B8%AD%E4%B8%89%E7%A7%8D%E5%AE%9A%E6%97%B6%E5%99%A8(%60NSTimer%60%E3%80%81%60CADisplayLink%60%E3%80%81%60dispatch_source_t%60)/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS中定时器的使用还是很常见的。那么iOS中有几种定时器，平时又怎么使用呢？</p>
 <h3 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h3><p>在详解RunLoop之源码分析一文中，简单描述了NStimer和RunLoop的关系</p>
 <blockquote>
@@ -4396,7 +4396,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>关于iOS中的13种加锁方案</title>
-    <url>/ITyongzhen.github.io/%E5%85%B3%E4%BA%8EiOS%E4%B8%AD%E7%9A%8413%E7%A7%8D%E5%8A%A0%E9%94%81%E6%96%B9%E6%A1%88/</url>
+    <url>/%E5%85%B3%E4%BA%8EiOS%E4%B8%AD%E7%9A%8413%E7%A7%8D%E5%8A%A0%E9%94%81%E6%96%B9%E6%A1%88/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E5%85%B3%E4%BA%8EiOS%E4%B8%AD%E7%9A%8413%E7%A7%8D%E5%8A%A0%E9%94%81%E6%96%B9%E6%A1%88.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS中有很多锁，那么平时使用过程中到底怎么使用呢？本文分享13种加锁方案。本文较长总共一万字。文中代码在<a href="https://github.com/ITyongzhen/iOS-ManyLocks" target="_blank" rel="noopener">github</a>上。</p>
 <ul>
@@ -4826,7 +4826,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解iOS中的Runtime</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E7%9A%84Runtime/</url>
+    <url>/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E7%9A%84Runtime/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h3><p>本文较长，分为以下几个部分</p>
 <ul>
 <li>isa</li>
@@ -5211,7 +5211,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>深入理解iOS的block</title>
-    <url>/ITyongzhen.github.io/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3iOS%E7%9A%84block/</url>
+    <url>/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3iOS%E7%9A%84block/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3iOS%E7%9A%84block.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在文章之前，先抛出如下问题。</p>
 <ul>
@@ -5911,7 +5911,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>iOS中load和initialize</title>
-    <url>/ITyongzhen.github.io/iOS%E4%B8%ADload%E5%92%8Cinitialize/</url>
+    <url>/iOS%E4%B8%ADload%E5%92%8Cinitialize/</url>
     <content><![CDATA[<p>首发于<a href="https://ityongzhen.github.io/iOS%E4%B8%ADload%E5%92%8Cinitialize.html">我的个人博客</a></p>
 <h2 id="load方法"><a href="#load方法" class="headerlink" title="+load方法"></a>+load方法</h2><h3 id="创建类和分类"><a href="#创建类和分类" class="headerlink" title="创建类和分类"></a>创建类和分类</h3><ul>
 <li>先创建类YZPerson类，然后创建它的两个分类</li>
@@ -6070,7 +6070,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解iOS中的关联对象</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E7%9A%84%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/</url>
+    <url>/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E7%9A%84%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/</url>
     <content><![CDATA[<p>首发于<a href="https://ityongzhen.github.io/详解iOS中的关联对象.html">我的个人博客</a></p>
 <h2 id="从给分类添加属性说起"><a href="#从给分类添加属性说起" class="headerlink" title="从给分类添加属性说起"></a>从给分类添加属性说起</h2><p>在<a href="https://juejin.im/post/5d204b77f265da1bcc196313" target="_blank" rel="noopener">详解iOS中分类Cateogry</a> 一文中，我们提出一个问题，</p>
 <h3 id="Category能否添加成员变量？如果可以，如何给Category添加成员变量？"><a href="#Category能否添加成员变量？如果可以，如何给Category添加成员变量？" class="headerlink" title="Category能否添加成员变量？如果可以，如何给Category添加成员变量？"></a>Category能否添加成员变量？如果可以，如何给Category添加成员变量？</h3><ul>
@@ -6319,7 +6319,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>iOS自动打包</title>
-    <url>/ITyongzhen.github.io/iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/</url>
+    <url>/iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过之前<a href="https://ityongzhen.github.io/categories/Shell/">Shell脚本</a>的学习,整理iOS自动打包脚本</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line"></span><br><span class="line"># 使用方法:</span><br><span class="line"># step1: 将该脚本放在工程的根目录下（跟.xcworkspace文件or .xcodeproj文件同目录）</span><br><span class="line"># step2: 根据情况修改下面的参数</span><br><span class="line"># step3: 打开终端，执行脚本。（输入sh ，然后将脚本文件拉到终端，会生成文件路径，然后enter就可）</span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;项目自定义部分(自定义好下列参数后再执行该脚本)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line"># 是否编译工作空间 (例:若是用Cocopods管理的.xcworkspace项目,赋值true;用Xcode默认创建的.xcodeproj,赋值false)</span><br><span class="line">is_workspace&#x3D;&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># .xcworkspace的名字，如果is_workspace为true，则必须填。否则可不填</span><br><span class="line">workspace_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># .xcodeproj的名字，如果is_workspace为false，则必须填。否则可不填</span><br><span class="line">project_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># 指定项目的scheme名称（也就是工程的target名称），必填</span><br><span class="line">scheme_name&#x3D;&quot;xcworkspace的名字&quot;</span><br><span class="line"></span><br><span class="line"># 指定要打包编译的方式 : Release,Debug。一般用Release。必填</span><br><span class="line">build_configuration&#x3D;&quot;Release&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># method，打包的方式。方式分别为 development, ad-hoc, app-store, enterprise 。必填</span><br><span class="line">echo &quot;Place enter the number you want to export ? \033[33;1m [1:app-store 2:ad-hoc 3:development 4:enterprise 5:gitlog]\033[0m&quot;</span><br><span class="line"></span><br><span class="line">read number</span><br><span class="line">while([[ $number !&#x3D; 1 ]] &amp;&amp; [[ $number !&#x3D; 2 ]] &amp;&amp; [[ $number !&#x3D; 3 ]] &amp;&amp; [[ $number !&#x3D; 4 ]] &amp;&amp; [[ $number !&#x3D; 5 ]])</span><br><span class="line">do</span><br><span class="line">echo &quot;Place enter the number you want to export ? \033[33;1m [1:app-store 2:ad-hoc 3:development 4:enterprise 5:gitlog]\033[0m&quot;</span><br><span class="line">read number</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 1 ];then</span><br><span class="line">method&#x3D;&quot;app-store&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 2 ];then</span><br><span class="line">method&#x3D;&quot;ad-hoc&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 3 ];then</span><br><span class="line">method&#x3D;&quot;development&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 4 ];then</span><br><span class="line">method&#x3D;&quot;development&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#  下面两个参数只是在手动指定Pofile文件的时候用到，如果使用Xcode自动管理Profile,直接留空就好</span><br><span class="line"># (跟method对应的)mobileprovision文件名，需要先双击安装.mobileprovision文件.手动管理Profile时必填</span><br><span class="line">mobileprovision_name&#x3D;&quot;&quot;</span><br><span class="line"></span><br><span class="line"># 项目的bundleID，手动管理Profile时必填</span><br><span class="line">bundle_identifier&#x3D;&quot;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;--------------------脚本配置参数检查--------------------&quot;</span><br><span class="line">echo &quot;\033[33;1mis_workspace&#x3D;$&#123;is_workspace&#125; &quot;</span><br><span class="line">echo &quot;workspace_name&#x3D;$&#123;workspace_name&#125;&quot;</span><br><span class="line">echo &quot;project_name&#x3D;$&#123;project_name&#125;&quot;</span><br><span class="line">echo &quot;scheme_name&#x3D;$&#123;scheme_name&#125;&quot;</span><br><span class="line">echo &quot;build_configuration&#x3D;$&#123;build_configuration&#125;&quot;</span><br><span class="line">echo &quot;bundle_identifier&#x3D;$&#123;bundle_identifier&#125;&quot;</span><br><span class="line">echo &quot;method&#x3D;$&#123;method&#125;&quot;</span><br><span class="line">echo &quot;mobileprovision_name&#x3D;$&#123;mobileprovision_name&#125; \033[0m&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;脚本的一些固定参数定义(无特殊情况不用修改)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line"># 获取当前脚本所在目录</span><br><span class="line">script_dir&#x3D;&quot;$( cd &quot;$( dirname &quot;$0&quot;  )&quot; &amp;&amp; pwd  )&quot;</span><br><span class="line"># 工程根目录</span><br><span class="line">project_dir&#x3D;$script_dir</span><br><span class="line"></span><br><span class="line"># 时间</span><br><span class="line">DATE&#x3D;&#96;date &#39;+%Y%m%d_%H%M%S&#39;&#96;</span><br><span class="line"># 指定输出导出文件夹路径</span><br><span class="line">export_path&#x3D;&quot;$project_dir&#x2F;Package&#x2F;$scheme_name-$DATE&quot;</span><br><span class="line"># 指定输出归档文件路径</span><br><span class="line">export_archive_path&#x3D;&quot;$export_path&#x2F;$scheme_name.xcarchive&quot;</span><br><span class="line"># 指定输出ipa文件夹路径</span><br><span class="line">export_ipa_path&#x3D;&quot;$export_path&quot;</span><br><span class="line"># 指定输出ipa名称</span><br><span class="line">ipa_name&#x3D;&quot;$&#123;scheme_name&#125;_$&#123;DATE&#125;&quot;</span><br><span class="line"># 指定导出ipa包需要用到的plist配置文件的路径</span><br><span class="line">export_options_plist_path&#x3D;&quot;$project_dir&#x2F;ExportOptions.plist&quot;</span><br><span class="line"></span><br><span class="line">dSYM_path&#x3D;&quot;$export_archive_path&#x2F;dSYMs&#x2F;$scheme_name.app.dSYM&quot;</span><br><span class="line">new_dSYM_path&#x3D;&quot;$export_path&#x2F;$scheme_name.app.dSYM&quot;</span><br><span class="line">zip_dSYM_path&#x3D;&quot;$export_path&#x2F;$scheme_name.app.dSYM.zip&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;--------------------脚本固定参数检查--------------------&quot;</span><br><span class="line">echo &quot;\033[33;1mproject_dir&#x3D;$&#123;project_dir&#125;&quot;</span><br><span class="line">echo &quot;DATE&#x3D;$&#123;DATE&#125;&quot;</span><br><span class="line">echo &quot;export_path&#x3D;$&#123;export_path&#125;&quot;</span><br><span class="line">echo &quot;export_archive_path&#x3D;$&#123;export_archive_path&#125;&quot;</span><br><span class="line">echo &quot;export_ipa_path&#x3D;$&#123;export_ipa_path&#125;&quot;</span><br><span class="line">echo &quot;export_options_plist_path&#x3D;$&#123;export_options_plist_path&#125;&quot;</span><br><span class="line">echo &quot;ipa_name&#x3D;$&#123;ipa_name&#125;&quot;</span><br><span class="line">echo &quot;zip_dSYM_path&#x3D;$&#123;zip_dSYM_path&#125; \033[0m&quot;</span><br><span class="line"></span><br><span class="line"># &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;自动打包部分(无特殊情况不用修改)&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; #</span><br><span class="line"></span><br><span class="line">echo &quot;------------------------------------------------------&quot;</span><br><span class="line">echo &quot;\033[32m开始构建项目  \033[0m&quot;</span><br><span class="line"># 进入项目工程目录</span><br><span class="line">cd $&#123;project_dir&#125;</span><br><span class="line"></span><br><span class="line"># 指定输出文件目录不存在则创建</span><br><span class="line">if [ -d &quot;$export_path&quot; ] ; then</span><br><span class="line">    echo $export_path</span><br><span class="line">else</span><br><span class="line">    mkdir -pv $export_path</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 5 ];then</span><br><span class="line"></span><br><span class="line">#git 日志路径</span><br><span class="line">txt_path&#x3D;$export_path&#x2F;&#96;date +%Y-%m-%d-%H_%M_%S.html&#96;</span><br><span class="line">temp_txt&#x3D;$export_path&#x2F;gitlog.html</span><br><span class="line"></span><br><span class="line">#写入 ipa 下载链接</span><br><span class="line"># echo &quot;&lt;div style&#x3D;&#39;height: 40px;font-size: 20px;&#39;&gt;iOS 安装包下载链接：&lt;a href&#x3D;$&#123;ipa_link&#125;&gt;$ipa_link&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&quot; &gt;&gt; $txt_path </span><br><span class="line"></span><br><span class="line">#抓取 git 日志</span><br><span class="line">git log --pretty&#x3D;format:&quot;&lt;span style&#x3D;&#39;font-size: 16px;&#39;&gt;%ai,%an:&lt;&#x2F;span&gt; &lt;span style&#x3D;&#39;color: #469cf7;font-size: 16px;&#39;&gt;%s&lt;&#x2F;span&gt;&lt;br&gt;&quot; \</span><br><span class="line"> --no-merges  &gt;&gt; $txt_path</span><br><span class="line"></span><br><span class="line"># 第二行插入 &lt;div&gt;</span><br><span class="line">sed &quot;2 i\ </span><br><span class="line">&lt;div style&#x3D;&#39;letter-spacing: 0.5px;line-height: 25px&#39;&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"> </span><br><span class="line"># 最后一行插入 &lt;&#x2F;div&gt;</span><br><span class="line">sed &quot;$ a\ </span><br><span class="line">&lt;&#x2F;div&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"></span><br><span class="line">#移除中间转换文件</span><br><span class="line">rm -f $temp_txt</span><br><span class="line"></span><br><span class="line">#打开文件夹</span><br><span class="line">open $export_path</span><br><span class="line">open $txt_path</span><br><span class="line"></span><br><span class="line">exit 0</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 判断编译的项目类型是workspace还是project</span><br><span class="line">if $is_workspace ; then</span><br><span class="line"># 编译前清理工程</span><br><span class="line">xcodebuild clean -workspace $&#123;workspace_name&#125;.xcworkspace \</span><br><span class="line">                 -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                 -configuration $&#123;build_configuration&#125;</span><br><span class="line"></span><br><span class="line">xcodebuild archive -workspace $&#123;workspace_name&#125;.xcworkspace \</span><br><span class="line">                   -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                   -configuration $&#123;build_configuration&#125; \</span><br><span class="line">                   -archivePath $&#123;export_archive_path&#125;</span><br><span class="line">else</span><br><span class="line"># 编译前清理工程</span><br><span class="line">xcodebuild clean -project $&#123;project_name&#125;.xcodeproj \</span><br><span class="line">                 -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                 -configuration $&#123;build_configuration&#125;</span><br><span class="line"></span><br><span class="line">xcodebuild archive -project $&#123;project_name&#125;.xcodeproj \</span><br><span class="line">                   -scheme $&#123;scheme_name&#125; \</span><br><span class="line">                   -configuration $&#123;build_configuration&#125; \</span><br><span class="line">                   -archivePath $&#123;export_archive_path&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#  检查是否构建成功</span><br><span class="line">#  xcarchive 实际是一个文件夹不是一个文件所以使用 -d 判断</span><br><span class="line">if [ -d &quot;$export_archive_path&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1m项目构建成功 🚀 🚀 🚀  \033[0m&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1m项目构建失败 😢 😢 😢  \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">echo &quot;------------------------------------------------------&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;\033[32m开始导出ipa文件 \033[0m&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 先删除export_options_plist文件</span><br><span class="line">if [ -f &quot;$export_options_plist_path&quot; ] ; then</span><br><span class="line">    #echo &quot;$&#123;export_options_plist_path&#125;文件存在，进行删除&quot;</span><br><span class="line">    rm -f $export_options_plist_path</span><br><span class="line">fi</span><br><span class="line"># 根据参数生成export_options_plist文件</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :method String $&#123;method&#125;&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :provisioningProfiles:&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :provisioningProfiles:$&#123;bundle_identifier&#125; String $&#123;mobileprovision_name&#125;&quot;  $export_options_plist_path</span><br><span class="line">&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -c  &quot;Add :compileBitcode bool NO&quot;  $export_options_plist_path</span><br><span class="line"></span><br><span class="line">xcodebuild  -exportArchive \</span><br><span class="line">            -archivePath $&#123;export_archive_path&#125; \</span><br><span class="line">            -exportPath $&#123;export_ipa_path&#125; \</span><br><span class="line">            -exportOptionsPlist $&#123;export_options_plist_path&#125; \</span><br><span class="line">            -allowProvisioningUpdates</span><br><span class="line"></span><br><span class="line"># 检查ipa文件是否存在</span><br><span class="line">if [ -f &quot;$export_ipa_path&#x2F;$scheme_name.ipa&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1mexportArchive ipa包成功,准备进行重命名\033[0m&quot;</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1mexportArchive ipa包失败 😢 😢 😢     \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># 修改ipa文件名称</span><br><span class="line">mv $export_ipa_path&#x2F;$scheme_name.ipa $export_ipa_path&#x2F;$ipa_name.ipa</span><br><span class="line"></span><br><span class="line"># 检查文件是否存在</span><br><span class="line">if [ -f &quot;$export_ipa_path&#x2F;$ipa_name.ipa&quot; ] ; then</span><br><span class="line">    echo &quot;\033[32;1m导出 $&#123;ipa_name&#125;.ipa 包成功 🎉  🎉  🎉   \033[0m&quot;</span><br><span class="line">    # open $export_path</span><br><span class="line">else</span><br><span class="line">    echo &quot;\033[31;1m导出 $&#123;ipa_name&#125;.ipa 包失败 😢 😢 😢     \033[0m&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># 删除export_options_plist文件（中间文件）</span><br><span class="line">if [ -f &quot;$export_options_plist_path&quot; ] ; then</span><br><span class="line">    #echo &quot;$&#123;export_options_plist_path&#125;文件存在，准备删除&quot;</span><br><span class="line">    rm -f $export_options_plist_path</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#导出dSYM并压缩 zip</span><br><span class="line">cp -r &quot;$&#123;dSYM_path&#125;&quot; &quot;$&#123;export_path&#125;&quot;</span><br><span class="line">zip -r &quot;$zip_dSYM_path&quot; &quot;$new_dSYM_path&quot;</span><br><span class="line">rm -r $new_dSYM_path</span><br><span class="line"></span><br><span class="line"># 输出打包总用时</span><br><span class="line">echo &quot;\033[36;1m使用AutoPackage打包总用时: $&#123;SECONDS&#125;s \033[0m&quot;</span><br><span class="line"></span><br><span class="line">#准备上传dSYM文件到 bugly</span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传dSYM文件到 bugly&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line"></span><br><span class="line">curl -k &quot;https:&#x2F;&#x2F;api.bugly.qq.com&#x2F;openapi&#x2F;file&#x2F;upload&#x2F;symbol?app_key&#x3D;4ec76824-0694-4de5-a0a3-447f3ad4259a&amp;app_id&#x3D;cf4e8e6eaa&quot; \</span><br><span class="line">--form &quot;api_version&#x3D;1&quot; --form &quot;app_id&#x3D;cf4e8e6eaa&quot; --form &quot;app_key&#x3D;4ec76824-0694-4de5-a0a3-447f3ad4259a&quot; \</span><br><span class="line">--form &quot;symbolType&#x3D;2&quot; --form &quot;bundleId&#x3D;yourBundleId&quot;  --form &quot;fileName&#x3D;$scheme_name.app.dSYM.zip&quot; \</span><br><span class="line">--form &quot;file&#x3D;@&#x2F;$zip_dSYM_path&quot; --verbose | python -m json.tool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ $number &#x3D;&#x3D; 1 ];then</span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传ipa到App Store&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line">#验证并上传到App Store，将-u 后面的XXX替换成自己的AppleID的账号，-p后面的XXX替换成自己的密码</span><br><span class="line">altoolPath&#x3D;&quot;&#x2F;Applications&#x2F;Xcode.app&#x2F;Contents&#x2F;Applications&#x2F;Application Loader.app&#x2F;Contents&#x2F;Frameworks&#x2F;ITunesSoftwareService.framework&#x2F;Versions&#x2F;A&#x2F;Support&#x2F;altool&quot;</span><br><span class="line">&quot;$altoolPath&quot; --validate-app -f $&#123;ipa_name&#125;.ipa -u appid账号 -p appid密码 -t ios --output-format xml</span><br><span class="line">&quot;$altoolPath&quot; --upload-app -f $&#123;ipa_name&#125;.ipa -u  appid账号 -p appid密码 -t ios --output-format xml</span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">echo &quot;\033[33m &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;准备上传ipa到fir&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; \033[0m&quot;</span><br><span class="line">#自定义短链</span><br><span class="line">short&#x3D;&quot;rxios&quot;</span><br><span class="line"></span><br><span class="line">#ipa 完整下载链接</span><br><span class="line">ipa_link&#x3D;&quot;https:&#x2F;&#x2F;fir.im&#x2F;$short&quot;</span><br><span class="line"></span><br><span class="line">#上传 ipa</span><br><span class="line">fir publish $export_ipa_path&#x2F;$ipa_name.ipa -T &#39;4596a0fbf2d0adeaa017302b17686f0c&#39; -Q -s &quot;$short&quot;</span><br><span class="line"></span><br><span class="line">#git 日志路径</span><br><span class="line">txt_path&#x3D;$export_path&#x2F;&#96;date +%Y-%m-%d-%H_%M_%S.html&#96;</span><br><span class="line">temp_txt&#x3D;$export_path&#x2F;gitlog.html</span><br><span class="line"></span><br><span class="line">#写入 ipa 下载链接</span><br><span class="line">echo &quot;&lt;div style&#x3D;&#39;height: 40px;font-size: 20px;&#39;&gt;iOS 安装包下载链接：&lt;a href&#x3D;$&#123;ipa_link&#125;&gt;$ipa_link&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&quot; &gt;&gt; $txt_path </span><br><span class="line"></span><br><span class="line">#抓取 git 日志</span><br><span class="line">git log --pretty&#x3D;format:&quot;&lt;span style&#x3D;&#39;font-size: 16px;&#39;&gt;%ai,%an:&lt;&#x2F;span&gt; &lt;span style&#x3D;&#39;color: #469cf7;font-size: 16px;&#39;&gt;%s&lt;&#x2F;span&gt;&lt;br&gt;&quot; \</span><br><span class="line"> --no-merges  &gt;&gt; $txt_path</span><br><span class="line"></span><br><span class="line"># 第二行插入 &lt;div&gt;</span><br><span class="line">sed &quot;2 i\ </span><br><span class="line">&lt;div style&#x3D;&#39;letter-spacing: 0.5px;line-height: 25px&#39;&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"> </span><br><span class="line"># 最后一行插入 &lt;&#x2F;div&gt;</span><br><span class="line">sed &quot;$ a\ </span><br><span class="line">&lt;&#x2F;div&gt;&quot; $txt_path &gt; $temp_txt</span><br><span class="line">echo &#96;cat $temp_txt&#96; &gt; $txt_path </span><br><span class="line"></span><br><span class="line">#发送版本信息到邮箱，为了防止在widndows电脑上文本乱码，邮件内容用html的形式</span><br><span class="line"># mail_title&#x3D;&quot;容信iOS安装包已更新&quot;</span><br><span class="line"># mail -s  &quot;$(echo &quot;$&#123;mail_title&#125;\nContent-Type:text&#x2F;html;charset&#x3D;UTF-8&quot;)&quot;  \</span><br><span class="line"># eagle_01yz@163.com\</span><br><span class="line"># &lt; $&#123;txt_path&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#移除中间转换文件</span><br><span class="line">rm -f $temp_txt</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#打开文件夹</span><br><span class="line">open $export_path</span><br><span class="line">open $txt_path</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
@@ -6334,7 +6334,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>汇编总结</title>
-    <url>/ITyongzhen.github.io/%E6%B1%87%E7%BC%96%E6%80%BB%E7%BB%93/</url>
+    <url>/%E6%B1%87%E7%BC%96%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<p>本文首发于 <a href="https://ityongzhen.github.io/%E6%B1%87%E7%BC%96%E6%80%BB%E7%BB%93.html">个人博客</a></p>
 <h3 id="汇编语言的种类"><a href="#汇编语言的种类" class="headerlink" title="汇编语言的种类"></a>汇编语言的种类</h3><ul>
 <li>8086汇编(16bit) </li>
@@ -6505,7 +6505,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解iOS中分类Cateogry</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry/</url>
+    <url>/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry/</url>
     <content><![CDATA[<p>首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3iOS%E4%B8%AD%E5%88%86%E7%B1%BBCateogry.html">我的个人博客</a></p>
 <h2 id="分类的基本使用"><a href="#分类的基本使用" class="headerlink" title="分类的基本使用"></a>分类的基本使用</h2><ul>
 <li>首先我们定义一个类 YZPerson 继承自 NSObject</li>
@@ -6616,7 +6616,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解RunLoop之面试题</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <url>/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html">个人博客</a></p>
 <h2 id="回顾详解RunLoop之源码分析中提出的问题"><a href="#回顾详解RunLoop之源码分析中提出的问题" class="headerlink" title="回顾详解RunLoop之源码分析中提出的问题"></a>回顾<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html">详解RunLoop之源码分析</a>中提出的问题</h2><ul>
 <li>什么是Runloop</li>
@@ -6693,7 +6693,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>关于KVO看这篇就够了</title>
-    <url>/ITyongzhen.github.io/%E5%85%B3%E4%BA%8EKVO%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/</url>
+    <url>/%E5%85%B3%E4%BA%8EKVO%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E5%85%B3%E4%BA%8EKVO%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86.html">个人博客</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
 <li>KVO全称KeyValueObserving，俗称<strong>键值监听</strong>，是苹果提供的一套事件通知机制。允许对象监听另一个对象特定属性的改变，并在改变时接收到事件。由于KVO的实现机制，所以对属性才会发生作用，一般继承自NSObject的对象都默认支持KVO。</li>
@@ -6840,7 +6840,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解RunLoop与多线程</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <url>/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html">个人博客</a></p>
 <h2 id="控制线程生命周期（线程保活）"><a href="#控制线程生命周期（线程保活）" class="headerlink" title="控制线程生命周期（线程保活）"></a>控制线程生命周期（线程保活）</h2><p>通过上一篇<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html">详解RunLoop之源码分析</a> 我们知道了runlLoop每条线程都有唯一的一个与之对应的RunLoop对象 并且 RunLoop会在线程结束时销毁<br>接下来就具体分析RunLoop会在线程结束时销毁这个特点</p>
 <p>首先定义定义一个YZThread继承自NSThread 重写它的dealloc方法，为了检测是否销毁<br>然后，创建该类，并执行方法，如下图所示</p>
@@ -6945,7 +6945,7 @@ interval * NSEC_PER_SEC, 0);</code></pre><p>  // 设置回调<br>  //    dispatc
   </entry>
   <entry>
     <title>详解RunLoop之源码分析</title>
-    <url>/ITyongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
+    <url>/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<p> 首发于 <a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html">个人博客</a></p>
 <h2 id="RunLoop是什么"><a href="#RunLoop是什么" class="headerlink" title="RunLoop是什么"></a>RunLoop是什么</h2><p>runloop 是什么？Runloop 还是比较顾名思义的一个东西，说白了就是一种循环，只不过它这种循环比较高级。一般的 while 循环会导致 CPU 进入忙等待状态，而 Runloop 则是一种“闲”等待，这部分可以类比 Linux 下的 epoll。当没有事件时，Runloop 会进入休眠状态，有事件发生时， Runloop 会去找对应的 Handler 处理事件。Runloop 可以让线程在需要做事的时候忙起来，不需要的话就让线程休眠</p>
 <h3 id="开始之前，先想想这几道面试题"><a href="#开始之前，先想想这几道面试题" class="headerlink" title="开始之前，先想想这几道面试题"></a>开始之前，先想想这几道面试题</h3><ul>
