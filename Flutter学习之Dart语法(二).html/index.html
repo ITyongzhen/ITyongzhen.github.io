@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="殷永振">
 <meta property="og:description" content="本文首发于个人博客 函数函数的基本定义 Dart是一种真正的面向对象语言，所以即使函数也是对象，所有也有类型, 类型就是Function。 这也就意味着函数可以作为变量定义或者作为其他函数的参数或者返回值.  函数的定义方式: 1234返回值 函数的名称(参数列表) &amp;#123;  函数体  return 返回值&amp;#125;  按照上面的定义方式, 我们定义一个完整的函数: 123int sum(">
 <meta property="article:published_time" content="2020-02-13T00:32:24.000Z">
-<meta property="article:modified_time" content="2020-02-29T07:00:21.073Z">
+<meta property="article:modified_time" content="2020-02-29T07:29:38.418Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
 
@@ -431,7 +431,7 @@
 <p>Effective Dart建议对公共的API, 使用类型注解, 但是如果我们省略掉了类型, 依然是可以正常工作的</p>
 <figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sum</span>(num1, num2) &#123;</span><br><span class="line">  <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>复制代码另外, 如果函数中只有一个表达式, 那么可以使用箭头语法(arrow syntax)</p>
+<p>另外, 如果函数中只有一个表达式, 那么可以使用箭头语法(arrow syntax)</p>
 <ul>
 <li>注意, 这里面只能是一个表达式, 不能是一个语句</li>
 </ul>
@@ -447,14 +447,16 @@
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 命名可选参数</span></span><br><span class="line">print<span class="constructor">Info1(String <span class="params">name</span>, &#123;<span class="params">int</span> <span class="params">age</span>, <span class="params">double</span> <span class="params">height</span>&#125;)</span> &#123;</span><br><span class="line">  print('name=$name age=$age height=$height');</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用printInfo1函数</span></span><br><span class="line">print<span class="constructor">Info1('<span class="params">eagle</span>')</span>; <span class="comment">// name=eagle age=null height=null</span></span><br><span class="line">print<span class="constructor">Info1('<span class="params">eagle</span>', <span class="params">age</span>: 18)</span>; <span class="comment">// name=eagle age=18 height=null</span></span><br><span class="line">print<span class="constructor">Info1('<span class="params">eagle</span>', <span class="params">age</span>: 18, <span class="params">height</span>: 1.88)</span>; <span class="comment">// name=eagle age=18 height=1.88</span></span><br><span class="line">print<span class="constructor">Info1('<span class="params">eagle</span>', <span class="params">height</span>: 1.88)</span>; <span class="comment">// name=eagle age=null height=1.88</span></span><br></pre></td></tr></table></figure>
 
 <p>位置可选参数的演示:</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义位置可选参数</span></span><br><span class="line">printInfo2(<span class="built_in">String</span> name, [<span class="built_in">int</span> age, <span class="built_in">double</span> height]) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">'name=<span class="subst">$name</span> age=<span class="subst">$age</span> height=<span class="subst">$height</span>'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用printInfo2函数</span></span><br><span class="line">printInfo2(<span class="string">'eagle'</span>); <span class="comment">// name=eagle age=null height=null</span></span><br><span class="line">printInfo2(<span class="string">'eagle'</span>, <span class="number">18</span>); <span class="comment">// name=eagle age=18 height=null</span></span><br><span class="line">printInfo2(<span class="string">'eagle'</span>, <span class="number">18</span>, <span class="number">1.88</span>); <span class="comment">// name=eagle age=18 height=1.88</span></span><br><span class="line"></span><br><span class="line">复制代码命名可选参数, 可以指定某个参数是必传的(使用<span class="meta">@required</span>, 有问题)</span><br><span class="line"><span class="comment">// 命名可选参数的必须</span></span><br><span class="line">printInfo3(<span class="built_in">String</span> name, &#123;<span class="built_in">int</span> age, <span class="built_in">double</span> height, <span class="meta">@required</span> <span class="built_in">String</span> address&#125;) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">'name=<span class="subst">$name</span> age=<span class="subst">$age</span> height=<span class="subst">$height</span> address=<span class="subst">$address</span>'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义位置可选参数</span></span><br><span class="line">print<span class="constructor">Info2(String <span class="params">name</span>, [<span class="params">int</span> <span class="params">age</span>, <span class="params">double</span> <span class="params">height</span>])</span> &#123;</span><br><span class="line">  print('name=$name age=$age height=$height');</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用printInfo2函数</span></span><br><span class="line">print<span class="constructor">Info2('<span class="params">eagle</span>')</span>; <span class="comment">// name=eagle age=null height=null</span></span><br><span class="line">print<span class="constructor">Info2('<span class="params">eagle</span>', 18)</span>; <span class="comment">// name=eagle age=18 height=null</span></span><br><span class="line">print<span class="constructor">Info2('<span class="params">eagle</span>', 18, 1.88)</span>; <span class="comment">// name=eagle age=18 height=1.88</span></span><br></pre></td></tr></table></figure>
+
+<p>命名可选参数, 可以指定某个参数是必传的(使用@required, 有问题)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 命名可选参数的必须</span></span><br><span class="line">printInfo3(<span class="built_in">String</span> name, &#123;<span class="built_in">int</span> age, <span class="built_in">double</span> height, <span class="meta">@required</span> <span class="built_in">String</span> address&#125;) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">'name=<span class="subst">$name</span> age=<span class="subst">$age</span> height=<span class="subst">$height</span> address=<span class="subst">$address</span>'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="参数默认值"><a href="#参数默认值" class="headerlink" title="参数默认值"></a>参数默认值</h4><p>参数可以有默认值, 在不传入的情况下, 使用默认值</p>
 <p>注意, 只有可选参数才可以有默认值, 必须参数不能有默认值</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数的默认值</span></span><br><span class="line">printInfo4(<span class="built_in">String</span> name, &#123;<span class="built_in">int</span> age = <span class="number">18</span>, <span class="built_in">double</span> height=<span class="number">1.88</span>&#125;) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">'name=<span class="subst">$name</span> age=<span class="subst">$age</span> height=<span class="subst">$height</span>'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-<p>复制代码Dart中的main函数就是一个接受可选的列表参数作为参数的, 所以在使用main函数时, 我们可以传入参数, 也可以不传入</p>
+<p>Dart中的main函数就是一个接受可选的列表参数作为参数的, 所以在使用main函数时, 我们可以传入参数, 也可以不传入</p>
 <h3 id="函数是一等公民"><a href="#函数是一等公民" class="headerlink" title="函数是一等公民"></a>函数是一等公民</h3><p>在很多语言中, 函数并不能作为一等公民来使用, 比如Java/OC. 这种限制让编程不够灵活, 所以现代的编程语言基本都支持函数作为一等公民来使用, Dart也支持.<br>这就意味着你可以将函数赋值给一个变量, 也可以将函数作为另外一个函数的参数或者返回值来使用.</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; args) &#123;</span><br><span class="line">  <span class="comment">// 1.将函数赋值给一个变量</span></span><br><span class="line">  <span class="keyword">var</span> bar = foo;</span><br><span class="line">  <span class="built_in">print</span>(bar);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.将函数作为另一个函数的参数</span></span><br><span class="line">  test(foo);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 3.将函数作为另一个函数的返回值</span></span><br><span class="line">  <span class="keyword">var</span> func =getFunc();</span><br><span class="line">  func(<span class="string">'kobe'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.定义一个函数</span></span><br><span class="line">foo(<span class="built_in">String</span> name) &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">'传入的name:<span class="subst">$name</span>'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.将函数作为另外一个函数的参数</span></span><br><span class="line">test(<span class="built_in">Function</span> func) &#123;</span><br><span class="line">  func(<span class="string">'eagle'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.将函数作为另一个函数的返回值</span></span><br><span class="line">getFunc() &#123;</span><br><span class="line">  <span class="keyword">return</span> foo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -549,6 +551,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/Flutter%E5%AD%A6%E4%B9%A0%E4%B9%8BDart%E8%AF%AD%E6%B3%95(%E4%B8%89).html/" rel="prev" title="Flutter学习之Dart语法(三)">
+                Flutter学习之Dart语法(三) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -628,7 +634,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -746,7 +752,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">119.2k</span>
+    <span title="Site words total count">122.1k</span>
   
 </div>
 
