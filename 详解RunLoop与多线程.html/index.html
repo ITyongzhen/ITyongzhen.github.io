@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ITyongzhen" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="殷永振" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文首发于个人博客 控制线程生命周期（线程保活）通过上一篇详解RunLoop之源码分析 我们知道了runlLoop每条线程都有唯一的一个与之对应的RunLoop对象 并且 RunLoop会在线程结束时销毁接下来就具体分析RunLoop会在线程结束时销毁这个特点 首先定义定义一个YZThread继承自NSThread 重写它的dealloc方法，为了检测是否销毁然后，创建该类，并执行方法，如下图所示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解RunLoop与多线程">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html&#x2F;index.html">
+<meta property="og:site_name" content="殷永振">
+<meta property="og:description" content="本文首发于个人博客 控制线程生命周期（线程保活）通过上一篇详解RunLoop之源码分析 我们知道了runlLoop每条线程都有唯一的一个与之对应的RunLoop对象 并且 RunLoop会在线程结束时销毁接下来就具体分析RunLoop会在线程结束时销毁这个特点 首先定义定义一个YZThread继承自NSThread 重写它的dealloc方法，为了检测是否销毁然后，创建该类，并执行方法，如下图所示">
+<meta property="article:published_time" content="2017-05-15T00:32:24.000Z">
+<meta property="article:modified_time" content="2019-12-12T02:31:23.305Z">
+<meta property="article:author" content="ityongzhen">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: "",
+      labels: ""
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ityongzhen.github.io/详解RunLoop与多线程.html/"/>
+
+
+
+
+
+  <title>详解RunLoop与多线程 | 殷永振</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">殷永振</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/../source/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="殷永振">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">详解RunLoop与多线程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-15T08:32:24+08:00">
+                2017-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.1k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首发于<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B8%8E%E5%A4%9A%E7%BA%BF%E7%A8%8B.html">个人博客</a></p>
+<h2 id="控制线程生命周期（线程保活）"><a href="#控制线程生命周期（线程保活）" class="headerlink" title="控制线程生命周期（线程保活）"></a>控制线程生命周期（线程保活）</h2><p>通过上一篇<a href="https://ityongzhen.github.io/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html">详解RunLoop之源码分析</a> 我们知道了runlLoop每条线程都有唯一的一个与之对应的RunLoop对象 并且 RunLoop会在线程结束时销毁<br>接下来就具体分析RunLoop会在线程结束时销毁这个特点</p>
+<p>首先定义定义一个YZThread继承自NSThread 重写它的dealloc方法，为了检测是否销毁<br>然后，创建该类，并执行方法，如下图所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** YZThread **&#x2F;</span><br><span class="line">@interface YZThread : NSThread</span><br><span class="line">@end</span><br><span class="line">@implementation YZThread</span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (strong, nonatomic) YZThread *thread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">      YZThread *thread &#x3D; [[YZThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line">    [thread start];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 这个方法</span><br><span class="line">- (void)run &#123;</span><br><span class="line">     NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> Interview03-线程保活[7854:134789] -[ViewController run] &lt;YZThread: 0x600000a13b80&gt;&#123;number &#x3D; 3, name &#x3D; (null)&#125;</span><br><span class="line">Interview03-线程保活[7854:134789] -[YZThread dealloc]</span><br></pre></td></tr></table></figure>
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-68ebe0a1db98ffbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<p>从结果中，我们发现，当执行完run这个方法之后，该线程就销毁了。</p>
+<p>但是在项目中，或者很多第三方中(比如AFN)，可能会遇到这个线程我们经常做事情，如果每次都销毁、创建、销毁、、、那么对性能也是一种损耗.我们就需要我们自己控制线程的销毁和创建。<br>上面线程之所以立即销毁，根据上篇文章我们知道，</p>
+<ul>
+<li>是因为 如果Mode里没有任何Source0/Source1/Timer/Observer，RunLoop会立马退出<br>那我们给它加上这些东西不就行了么？来试试看吧。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** YZThread **&#x2F;</span><br><span class="line">@interface YZThread : NSThread</span><br><span class="line">@end</span><br><span class="line">@implementation YZThread</span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (strong, nonatomic) YZThread *thread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">      YZThread *thread &#x3D; [[YZThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line">    [thread start];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 这个方法</span><br><span class="line">- (void)run &#123;</span><br><span class="line">     NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">    &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;%s ----end----&quot;, __func__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Interview03-线程保活[7967:136867] -[ViewController run] &lt;YZThread: 0x600003105b00&gt;&#123;number &#x3D; 3, name &#x3D; (null)&#125;</span><br></pre></td></tr></table></figure>
+
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-fa48f4d18531e917.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+<p>如上所示，添加了port之后，该线程就没有调用dealloc方法了。上一篇介绍了，Source1包含了基于Port的线程间通信，也就是说。添加了port之后，相当于与有了source1 那么线程就不会退出，也就不会调用dealloc方法了。</p>
+<p>但是如果我们想在这个线程执行自己的操作，那就需要我们持有这个线程了。如下图所示，增加个属性，并且屏幕点击事件中调用test方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;** YZThread **&#x2F;</span><br><span class="line">@interface YZThread : NSThread</span><br><span class="line">@end</span><br><span class="line">@implementation YZThread</span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (strong, nonatomic) YZThread *thread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line"></span><br><span class="line">    self.thread &#x3D; [[YZThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line">    [self.thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)run &#123;</span><br><span class="line">    NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">    &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;%s ----end----&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这个方法的目的：线程保活</span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;点击屏幕&quot;);</span><br><span class="line">    [self performSelector:@selector(test) onThread:self.thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Interview03-线程保活[8035:138457] -[ViewController run] &lt;YZThread: 0x60000232d4c0&gt;&#123;number &#x3D; 3, name &#x3D; (null)&#125;</span><br><span class="line"> Interview03-线程保活[8035:138399] 点击屏幕</span><br><span class="line">Interview03-线程保活[8035:138457] -[ViewController test] &lt;YZThread: 0x60000232d4c0&gt;&#123;number &#x3D; 3, name &#x3D; (null)&#125;</span><br></pre></td></tr></table></figure>
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-28907f837de1264c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<p>果然是线程不会销毁，而且 由 number = 3 可知，确实是在我们自己创建的线程中执行的操作</p>
+<p>接下来我们再看一个问题，首先在控制器中写上dealloc方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后给个导航控制器跳转到当前控制器，之后返回的时候发现dealloc并没有执行<br>这是因为代码中用的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.thread &#x3D; [[YZThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br></pre></td></tr></table></figure>
+<p>这个方法，会导致线程持有当前控制器，导致循环引用，如果解除循环引用，需要把这个initWithTarget 换成initWithBlock</p>
+<p>我们将之前的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.thread &#x3D; [[YZThread alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line">    [self.thread start];</span><br><span class="line">&#125;</span><br><span class="line">- (void)run &#123;</span><br><span class="line">    NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">    &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;%s ----end----&quot;, __func__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">   self.thread &#x3D; [[MJThread alloc] initWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;%@----begin----&quot;, [NSThread currentThread]);</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">        [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">        &#x2F;&#x2F; 这个方法会不能退出循环</span><br><span class="line">        [[NSRunLoop currentRunLoop] run];</span><br><span class="line">               </span><br><span class="line">    &#125;];</span><br><span class="line">    [self.thread start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以发现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Interview03-线程保活[8035:138457] -[ViewController dealloc]</span><br></pre></td></tr></table></figure>
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-7a5b894d4017485f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<p>这次控制器可以销毁了。然后，你可能已经发现了，虽然控制器可以销毁，但是线程并没有销毁。换句话说，虽然没有循环引用了。而且控制器销毁了，然后线程依然没有销毁，这是为什么呢。</p>
+<h3 id="注意-NSRunLoop-currentRunLoop-run"><a href="#注意-NSRunLoop-currentRunLoop-run" class="headerlink" title="注意[[NSRunLoop currentRunLoop] run]"></a>注意[[NSRunLoop currentRunLoop] run]</h3><p>其实关键的一句代码是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] run];</span><br></pre></td></tr></table></figure>
+
+<p>看一下官方对这个方法的解释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Discussion</span><br><span class="line"></span><br><span class="line">If no input sources or timers are attached to the run loop, this method exits immediately;</span><br><span class="line"> otherwise, it runs the receiver in the NSDefaultRunLoopMode by repeatedly invoking runMode:beforeDate:. </span><br><span class="line"> In other words, this method effectively begins an infinite loop that processes data from the run loop’s input sources and timers.</span><br></pre></td></tr></table></figure>
+<p>也就是说，NSRunLoop的run方法是无法停止的，它专门用于开启一个永不销毁的线程（NSRunLoop）<br>就相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>就算我们手动调用停止RunLoop的方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 停止RunLoop</span><br><span class="line">CFRunLoopStop(CFRunLoopGetCurrent());</span><br></pre></td></tr></table></figure>
+<p>也无法停止这个线程，因为这个只能停止这一次的RunLoop,下次循环，依然可以继续进行下去</p>
+<p>我们把代码修改为如下的写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    __weak typeof(self) weakSelf &#x3D; self;</span><br><span class="line">      </span><br><span class="line">    self.stopped &#x3D; NO;</span><br><span class="line">    self.thread &#x3D; [[MJThread alloc] initWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;%@----begin----&quot;, [NSThread currentThread]);</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">        [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    </span><br><span class="line">        while (weakSelf &amp;&amp; !weakSelf.isStoped) &#123;</span><br><span class="line">            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@----end----&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">    [self.thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 用于停止子线程的RunLoop</span><br><span class="line">- (void)stopThread</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 设置标记为NO</span><br><span class="line">    self.stopped &#x3D; YES;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 停止RunLoop</span><br><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());</span><br><span class="line">    NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们用一个bool值做未标记,当下次进来的时候。判断已经停止了。那就不进入下次RunLoop了，就可以退出循环</p>
+<p><strong>注意</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在子线程调用stop（waitUntilDone设置为YES，代表子线程的代码执行完毕后，这个方法才会往下走）</span><br><span class="line">    [self performSelector:@selector(stopThread) onThread:self.thread withObject:nil waitUntilDone:YES];</span><br></pre></td></tr></table></figure>
+
+<p>至此，我们代码如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line">#import &quot;MJThread.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (strong, nonatomic) MJThread *thread;</span><br><span class="line">@property (assign, nonatomic, getter&#x3D;isStoped) BOOL stopped;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    __weak typeof(self) weakSelf &#x3D; self;</span><br><span class="line">    </span><br><span class="line">    self.stopped &#x3D; NO;</span><br><span class="line">    </span><br><span class="line">    self.thread &#x3D; [[MJThread alloc] initWithBlock:^&#123;</span><br><span class="line">        NSLog(@&quot;%@----begin----&quot;, [NSThread currentThread]);</span><br><span class="line">        &#x2F;&#x2F; 往RunLoop里面添加Source\Timer\Observer</span><br><span class="line">        [[NSRunLoop currentRunLoop] addPort:[[NSPort alloc] init] forMode:NSDefaultRunLoopMode];</span><br><span class="line">        &#x2F;&#x2F; 这个方法会不能退出循环</span><br><span class="line">&#x2F;&#x2F;        [[NSRunLoop currentRunLoop] run];</span><br><span class="line">        while (!weakSelf.isStoped) &#123;</span><br><span class="line">            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];</span><br><span class="line">        &#125;</span><br><span class="line">        NSLog(@&quot;%@----end----&quot;, [NSThread currentThread]);</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">    [self.thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(test) onThread:self.thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 子线程需要执行的任务</span><br><span class="line">- (void)test</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (IBAction)stop &#123;</span><br><span class="line">    &#x2F;&#x2F; 在子线程调用stop</span><br><span class="line">    [self performSelector:@selector(stopThread) onThread:self.thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 用于停止子线程的RunLoop</span><br><span class="line">- (void)stopThread</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 设置标记为NO</span><br><span class="line">    self.stopped &#x3D; YES;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 停止RunLoop</span><br><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());</span><br><span class="line">    NSLog(@&quot;%s %@&quot;, __func__, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">    </span><br><span class="line">&#x2F;&#x2F;    [self stop];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-96f84c22b8766692.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<h3 id="封装线程"><a href="#封装线程" class="headerlink" title="封装线程"></a>封装线程</h3><p>到这里，我们已经可以控制线程的创建，执行，销毁了。<br>但是，这也太复杂了吧。每次我们都需要写这么多代码，如果我们每次，都这么干的话，岂不是疯掉了。所以我们要抽取出来，这样，以后用的时候，直接拿来就可以了。</p>
+<p>首先新建一个继承自 NSObject的类MJPermenantThread 然后持有一个NSThread的属性，注意这里不是直接继承NSThread 是因为，如果继承了NSThread 那么外界调用的时候，可以直接使用NSThread的方法，会影响线程的使用。所以，本着简洁，可控的原则，定义的类继承自NSThread 然后拥有属性NSThread，这样，外界只能使用我们暴露出去接口。</p>
+<p>.h中代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^MJPermenantThreadTask)(void);</span><br><span class="line"></span><br><span class="line">@interface MJPermenantThread : NSObject</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 开启线程</span><br><span class="line"> *&#x2F;</span><br><span class="line">&#x2F;&#x2F;- (void)run;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 在当前子线程执行一个任务</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)executeTask:(MJPermenantThreadTask)task;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 结束线程</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)stop;</span><br></pre></td></tr></table></figure>
+<p>.m中代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** MJPermenantThread **&#x2F;</span><br><span class="line">@interface MJPermenantThread()</span><br><span class="line">@property (strong, nonatomic) NSThread *innerThread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MJPermenantThread</span><br><span class="line">#pragma mark - public methods</span><br><span class="line">- (instancetype)init</span><br><span class="line">&#123;</span><br><span class="line">    if (self &#x3D; [super init]) &#123;</span><br><span class="line">        self.innerThread &#x3D; [[NSThread alloc] initWithBlock:^&#123;</span><br><span class="line">            NSLog(@&quot;begin----&quot;);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 创建上下文（要初始化一下结构体）</span><br><span class="line">            CFRunLoopSourceContext context &#x3D; &#123;0&#125;;</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 创建source</span><br><span class="line">            CFRunLoopSourceRef source &#x3D; CFRunLoopSourceCreate(kCFAllocatorDefault, 0, &amp;context);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 往Runloop中添加source</span><br><span class="line">            CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 销毁source</span><br><span class="line">            CFRelease(source);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 启动</span><br><span class="line">            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0e10, false);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F;            while (weakSelf &amp;&amp; !weakSelf.isStopped) &#123;</span><br><span class="line">            &#x2F;&#x2F;                &#x2F;&#x2F; 第3个参数：returnAfterSourceHandled，设置为true，代表执行完source后就会退出当前loop</span><br><span class="line">            &#x2F;&#x2F;                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0e10, true);</span><br><span class="line">            &#x2F;&#x2F;            &#125;</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;end----&quot;);</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        [self.innerThread start];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;- (void)run</span><br><span class="line">&#x2F;&#x2F;&#123;</span><br><span class="line">&#x2F;&#x2F;    if (!self.innerThread) return;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;    [self.innerThread start];</span><br><span class="line">&#x2F;&#x2F;&#125;</span><br><span class="line"></span><br><span class="line">- (void)executeTask:(MJPermenantThreadTask)task</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.innerThread || !task) return;</span><br><span class="line">    </span><br><span class="line">    [self performSelector:@selector(__executeTask:) onThread:self.innerThread withObject:task waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)stop</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.innerThread) return;</span><br><span class="line">    </span><br><span class="line">    [self performSelector:@selector(__stop) onThread:self.innerThread withObject:nil waitUntilDone:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">    </span><br><span class="line">    [self stop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - private methods</span><br><span class="line">- (void)__stop</span><br><span class="line">&#123;</span><br><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());</span><br><span class="line">    self.innerThread &#x3D; nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)__executeTask:(MJPermenantThreadTask)task</span><br><span class="line">&#123;</span><br><span class="line">    task();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>MJPermenantThread.h 就是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation&#x2F;Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">typedef void (^MJPermenantThreadTask)(void);</span><br><span class="line"></span><br><span class="line">@interface MJPermenantThread : NSObject</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 开启线程</span><br><span class="line"> *&#x2F;</span><br><span class="line">&#x2F;&#x2F;- (void)run;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 在当前子线程执行一个任务</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)executeTask:(MJPermenantThreadTask)task;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 结束线程</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)stop;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-92bf3f5f5c91efcd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+<p>MJPermenantThread.m 就是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;MJPermenantThread.h&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;** MJThread **&#x2F;</span><br><span class="line">@interface MJThread : NSThread</span><br><span class="line">@end</span><br><span class="line">@implementation MJThread</span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">&#x2F;** MJPermenantThread **&#x2F;</span><br><span class="line">@interface MJPermenantThread()</span><br><span class="line">@property (strong, nonatomic) NSThread *innerThread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MJPermenantThread</span><br><span class="line">#pragma mark - public methods</span><br><span class="line">- (instancetype)init</span><br><span class="line">&#123;</span><br><span class="line">    if (self &#x3D; [super init]) &#123;</span><br><span class="line">        self.innerThread &#x3D; [[NSThread alloc] initWithBlock:^&#123;</span><br><span class="line">            NSLog(@&quot;begin----&quot;);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 创建上下文（要初始化一下结构体）</span><br><span class="line">            CFRunLoopSourceContext context &#x3D; &#123;0&#125;;</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 创建source</span><br><span class="line">            CFRunLoopSourceRef source &#x3D; CFRunLoopSourceCreate(kCFAllocatorDefault, 0, &amp;context);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 往Runloop中添加source</span><br><span class="line">            CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 销毁source</span><br><span class="line">            CFRelease(source);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F; 启动</span><br><span class="line">            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0e10, false);</span><br><span class="line">            </span><br><span class="line">            &#x2F;&#x2F;            while (weakSelf &amp;&amp; !weakSelf.isStopped) &#123;</span><br><span class="line">            &#x2F;&#x2F;                &#x2F;&#x2F; 第3个参数：returnAfterSourceHandled，设置为true，代表执行完source后就会退出当前loop</span><br><span class="line">            &#x2F;&#x2F;                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0e10, true);</span><br><span class="line">            &#x2F;&#x2F;            &#125;</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;end----&quot;);</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        [self.innerThread start];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;- (void)run</span><br><span class="line">&#x2F;&#x2F;&#123;</span><br><span class="line">&#x2F;&#x2F;    if (!self.innerThread) return;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;    [self.innerThread start];</span><br><span class="line">&#x2F;&#x2F;&#125;</span><br><span class="line"></span><br><span class="line">- (void)executeTask:(MJPermenantThreadTask)task</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.innerThread || !task) return;</span><br><span class="line">    </span><br><span class="line">    [self performSelector:@selector(__executeTask:) onThread:self.innerThread withObject:task waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)stop</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.innerThread) return;</span><br><span class="line">    </span><br><span class="line">    [self performSelector:@selector(__stop) onThread:self.innerThread withObject:nil waitUntilDone:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">    </span><br><span class="line">    [self stop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - private methods</span><br><span class="line">- (void)__stop</span><br><span class="line">&#123;</span><br><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());</span><br><span class="line">    self.innerThread &#x3D; nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)__executeTask:(MJPermenantThreadTask)task</span><br><span class="line">&#123;</span><br><span class="line">    task();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-21d4500bcdd19d2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://upload-images.jianshu.io/upload_images/3373351-d7651f5badd92a1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<p>这样就简单封装了线程，而且因为是用C语言创建的，能更灵活的控制 看官方对CFRunLoopAddSource的定义，第三个参数，如果是false,那么这个线程，执行完当前这次RunLoop，不会退出。这样写的话，就可以保证线程一直存在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F;第三个参数 ：A flag indicating whether the run loop should exit after processing one source. </span><br><span class="line">&#x2F;&#x2F;If false, the run loop continues processing events until seconds has passed.</span><br><span class="line">CFRunLoopAddSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFRunLoopMode mode);</span><br></pre></td></tr></table></figure>
+
+<h3 id="封装之后的使用"><a href="#封装之后的使用" class="headerlink" title="封装之后的使用"></a>封装之后的使用</h3><p>使用的时候，我们可以主动调用stop 来销毁掉线程，也可以，不做任何处理，当控制器销毁时候，MJPermenantThread对象就会销毁，根据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">    </span><br><span class="line">    [self stop];</span><br><span class="line">&#125;</span><br><span class="line">- (void)stop</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.innerThread) return;</span><br><span class="line">    </span><br><span class="line">    [self performSelector:@selector(__stop) onThread:self.innerThread withObject:nil waitUntilDone:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)__stop</span><br><span class="line">&#123;</span><br><span class="line">    CFRunLoopStop(CFRunLoopGetCurrent());</span><br><span class="line">    self.innerThread &#x3D; nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可知，RunLoop也会停止，线程也就退出了。所以使用的时候，如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line">#import &quot;MJPermenantThread.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (strong, nonatomic) MJPermenantThread *thread;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">     self.thread &#x3D; [[MJPermenantThread alloc] init];</span><br><span class="line">       </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self.thread executeTask:^&#123;</span><br><span class="line">        NSLog(@&quot;执行任务 - %@&quot;, [NSThread currentThread]);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (IBAction)stop &#123;</span><br><span class="line">    [self.thread stop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%s&quot;, __func__);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<!--![image.png](https://upload-images.jianshu.io/upload_images/3373351-638ce4f6cd8239dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)-->
+
+<p>至此。就说完了RunLoop和线程直接关系，以及线程的保活，以及自定义线程。这样使用起来更加得心用手。</p>
+<p>本文相关代码github地址 <a href="https://github.com/ITyongzhen/MyBlogs-iOS-Demos" target="_blank" rel="noopener">github</a></p>
+<p>本文参考资料:</p>
+<p><a href="https://opensource.apple.com/tarballs/CF/" target="_blank" rel="noopener">RunLoop官方源码</a></p>
+<p><a href="https://ke.qq.com/course/package/11609" target="_blank" rel="noopener">iOS底层原理</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E8%AF%A6%E8%A7%A3RunLoop%E4%B9%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90.html/" rel="next" title="详解RunLoop之源码分析">
+                <i class="fa fa-chevron-left"></i> 详解RunLoop之源码分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/%E5%85%B3%E4%BA%8EKVO%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86.html/" rel="prev" title="关于KVO看这篇就够了">
+                关于KVO看这篇就够了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/../source/images/avatar.gif"
+                alt="ityongzhen" />
+            
+              <p class="site-author-name" itemprop="name">ityongzhen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITyongzhen" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="eagle_01yz@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5ca8bb9c6fb9a05e620b8abf" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制线程生命周期（线程保活）"><span class="nav-number">1.</span> <span class="nav-text">控制线程生命周期（线程保活）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-NSRunLoop-currentRunLoop-run"><span class="nav-number">1.1.</span> <span class="nav-text">注意[[NSRunLoop currentRunLoop] run]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装线程"><span class="nav-number">1.2.</span> <span class="nav-text">封装线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#封装之后的使用"><span class="nav-number">1.3.</span> <span class="nav-text">封装之后的使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ityongzhen</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">125k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
