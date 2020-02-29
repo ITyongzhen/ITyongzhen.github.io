@@ -1,6 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Flutter学习之Dart语法(一)</title>
+    <url>/Flutter%E5%AD%A6%E4%B9%A0%E4%B9%8BDart%E8%AF%AD%E6%B3%95(%E4%B8%80)/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Flutter学习之Dart语法(一).html">个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>Dart是谷歌开发的计算机编程语言，后来被Ecma (ECMA-408)认定为标准 。它被用于web、服务器、移动应用和物联网等领域的开发。它是宽松开源许可证（修改的BSD证书）下的开源软件。</li>
+<li>Dart是面向对象的、类定义的、单继承的语言。它的语法类似C语言，可以转译为JavaScript，支持接口(interfaces)、混入(mixins)、抽象类(abstract classes)、具体化泛型(reified generics)、可选类型(optional typing)和sound type system</li>
+</ul>
+<p><strong>Google为Flutter选择了Dart作为开发语言</strong></p>
+<p>关于Dart的环境安装和配置这里就不赘述了。</p>
+<h2 id="新建程序"><a href="#新建程序" class="headerlink" title="新建程序"></a>新建程序</h2><p>用VSCode新建一个Dart文件，默认是如下代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">main(List&lt;String&gt; args) &#123;</span><br><span class="line">  print(&#39;Hello World&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实这也和Java,C等等其他语言一样，main函数作为入口。</p>
+<ul>
+<li>Dart语言的入口也是main函数，并且必须显示的进行定义；</li>
+<li>Dart的入口函数main是没有返回值的；</li>
+<li>传递给main的命令行参数，是通过List<String>完成的。<ul>
+<li>从字面值就可以理解List是Dart中的集合类型。</li>
+<li>其中的每一个String都表示传递给main的一个参数；</li>
+</ul>
+</li>
+<li>定义字符串的时候，可以使用单引号或双引号；</li>
+<li>每行语句必须使用分号结尾，很多语言并不需要分号，比如Swift、JavaScript；</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="明确声明-Explicit"><a href="#明确声明-Explicit" class="headerlink" title="明确声明(Explicit)"></a>明确声明(Explicit)</h3><p>明确声明变量的方式, 格式如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">变量类型 变量名称 &#x3D; 赋值;</span><br></pre></td></tr></table></figure>
+
+<p>示例代码:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String name &#x3D; &#39;eagle&#39;;</span><br><span class="line">int age &#x3D; 20;</span><br><span class="line">print(&#39;$&#123;name&#125;, $&#123;age&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+
+<p>注意: 定义的变量可以修改值, 但是不能赋值其他类型</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String content &#x3D; &#39;Hello World&#39;;</span><br><span class="line">content &#x3D; &#39;Hello China&#39;; &#x2F;&#x2F; 正确的</span><br><span class="line">content &#x3D; 111; &#x2F;&#x2F; 错误的, 将一个int值赋值给一个String变量</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型推导-Type-Inference"><a href="#类型推导-Type-Inference" class="headerlink" title="类型推导(Type Inference)"></a>类型推导(Type Inference)</h3><p>和swift等语言类似，Dart也是支持类型推导的，类型推导声明变量的方式, 格式如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var&#x2F;dynamic&#x2F;const&#x2F;final 变量名称 &#x3D; 赋值;</span><br></pre></td></tr></table></figure>
+
+<h4 id="var的使用"><a href="#var的使用" class="headerlink" title="var的使用"></a>var的使用</h4><p>var的使用示例:</p>
+<ul>
+<li>runtimeType用于获取变量当前的类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var name &#x3D; &#39;eagle&#39;;</span><br><span class="line">name &#x3D; &#39;ITYongzhen&#39;;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; String</span><br></pre></td></tr></table></figure>
+
+<p>var的错误用法:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var age &#x3D; 18;</span><br><span class="line">age &#x3D; &#39;eagle&#39;; &#x2F;&#x2F; 不可以将String赋值给一个int类型</span><br></pre></td></tr></table></figure>
+
+<h4 id="dynamic的使用"><a href="#dynamic的使用" class="headerlink" title="dynamic的使用"></a>dynamic的使用</h4><p>如果确实希望这样做,可以使用dynamic来声明变量:</p>
+<ul>
+<li>但是在开发中, 通常情况下不使用dynamic, 因为类型的变量会带来潜在的危险</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dynamic name &#x3D; &#39;eagle&#39;;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; String</span><br><span class="line">name &#x3D; 18;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; int</span><br></pre></td></tr></table></figure>
+
+<h4 id="final-amp-const的使用"><a href="#final-amp-const的使用" class="headerlink" title="final&amp;const的使用"></a>final&amp;const的使用</h4><p>final和const都是用于定义常量的, 也就是定义之后值都不可以修改</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">final name &#x3D; &#39;eagle&#39;;</span><br><span class="line">name &#x3D; &#39;ITyongzhen&#39;; &#x2F;&#x2F; 错误做法</span><br><span class="line"></span><br><span class="line">const age &#x3D; 18;</span><br><span class="line">age &#x3D; 20; &#x2F;&#x2F; 错误做法</span><br></pre></td></tr></table></figure>
+
+<h4 id="final和const的区别"><a href="#final和const的区别" class="headerlink" title="final和const的区别"></a>final和const的区别</h4><p>const在赋值时, 赋值的内容必须是在编译期间就确定下来的<br>final在赋值时, 可以动态获取, 比如赋值一个函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String getName() &#123;</span><br><span class="line">  return &#39;eagle&#39;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main(List&lt;String&gt; args) &#123;</span><br><span class="line">  const name &#x3D; getName(); &#x2F;&#x2F; 错误的做法, 因为要执行函数才能获取到值</span><br><span class="line">  final name &#x3D; getName(); &#x2F;&#x2F; 正确的做法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>final和const小案例:</p>
+<ul>
+<li>首先, const是不可以赋值为DateTime.now()</li>
+<li>其次, final一旦被赋值后就有确定的结果, 不会再次赋值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; const time &#x3D; DateTime.now(); &#x2F;&#x2F; 错误的赋值方式</span><br><span class="line">final time &#x3D; DateTime.now();</span><br><span class="line">print(time); &#x2F;&#x2F; 2020-02-05 12:04:50.052626</span><br><span class="line"></span><br><span class="line">sleep(Duration(seconds: 2));</span><br><span class="line">print(time); &#x2F;&#x2F; 2020-02-05 12:04:50.052626</span><br></pre></td></tr></table></figure>
+
+<p>const放在赋值语句的右边，可以共享对象，提高性能:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">  const Person();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main(List&lt;String&gt; args) &#123;</span><br><span class="line">  final a &#x3D; const Person();</span><br><span class="line">  final b &#x3D; const Person();</span><br><span class="line">  print(identical(a, b)); &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">  final m &#x3D; Person();</span><br><span class="line">  final n &#x3D; Person();</span><br><span class="line">  print(identical(m, n)); &#x2F;&#x2F; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="数字类型"><a href="#数字类型" class="headerlink" title="数字类型"></a>数字类型</h3><h4 id="int和double"><a href="#int和double" class="headerlink" title="int和double"></a><code>int</code>和<code>double</code></h4><p>对于数值来说，我们也不用关心它是否有符号，以及数据的宽度和精度等问题。只要记着整数用<code>int</code>，浮点数用<code>double</code>就行了。<br>不过，要注意的是<code>Dart</code>中的<code>int</code>和<code>double</code>可表示的范围并不是固定的，它取决于运行Dart的平台。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 1.整数类型int</span><br><span class="line">int age &#x3D; 18;</span><br><span class="line">int hexAge &#x3D; 0x12;</span><br><span class="line">print(age);</span><br><span class="line">print(hexAge);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.浮点类型double</span><br><span class="line">double height &#x3D; 1.88;</span><br><span class="line">print(height);</span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串和数字之间的转化"><a href="#字符串和数字之间的转化" class="headerlink" title="字符串和数字之间的转化"></a>字符串和数字之间的转化</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 字符串和数字转化</span><br><span class="line">&#x2F;&#x2F; 1.字符串转数字</span><br><span class="line">var one &#x3D; int.parse(&#39;111&#39;);</span><br><span class="line">var two &#x3D; double.parse(&#39;12.22&#39;);</span><br><span class="line">print(&#39;$&#123;one&#125; $&#123;one.runtimeType&#125;&#39;); &#x2F;&#x2F; 111 int</span><br><span class="line">print(&#39;$&#123;two&#125; $&#123;two.runtimeType&#125;&#39;); &#x2F;&#x2F; 12.22 double</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.数字转字符串</span><br><span class="line">var num1 &#x3D; 123;</span><br><span class="line">var num2 &#x3D; 123.456;</span><br><span class="line">var num1Str &#x3D; num1.toString();</span><br><span class="line">var num2Str &#x3D; num2.toString();</span><br><span class="line">var num2StrD &#x3D; num2.toStringAsFixed(2); &#x2F;&#x2F; 保留两位小数</span><br><span class="line">print(&#39;$&#123;num1Str&#125; $&#123;num1Str.runtimeType&#125;&#39;); &#x2F;&#x2F; 123 String</span><br><span class="line">print(&#39;$&#123;num2Str&#125; $&#123;num2Str.runtimeType&#125;&#39;); &#x2F;&#x2F; 123.456 String</span><br><span class="line">print(&#39;$&#123;num2StrD&#125; $&#123;num2StrD.runtimeType&#125;&#39;); &#x2F;&#x2F; 123.46 String</span><br></pre></td></tr></table></figure>
+
+<h3 id="布尔类型"><a href="#布尔类型" class="headerlink" title="布尔类型"></a>布尔类型</h3><p>布尔类型中,Dart提供了一个bool的类型, 取值为true和false</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 布尔类型</span><br><span class="line">var isFlag &#x3D; true;</span><br><span class="line">print(&#39;$isFlag $&#123;isFlag.runtimeType&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意: Dart中不能判断非0即真, 或者非空即真</strong></p>
+<p>Dart的类型安全性意味着您不能使用if(非booleanvalue)或assert(非booleanvalue)之类的代码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var message &#x3D; &#39;Hello Dart&#39;;</span><br><span class="line">&#x2F;&#x2F; 错误的写法</span><br><span class="line">if (message) &#123;</span><br><span class="line">  print(message)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="字符串类型"><a href="#字符串类型" class="headerlink" title="字符串类型"></a>字符串类型</h3><p>Dart字符串是UTF-16编码单元的序列。您可以使用单引号或双引号创建一个字符串:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 1.定义字符串的方式</span><br><span class="line">var s1 &#x3D; &#39;Hello World&#39;;</span><br><span class="line">var s2 &#x3D; &quot;Hello Dart&quot;;</span><br><span class="line">var s3 &#x3D; &#39;Hello\&#39;Fullter&#39;;</span><br><span class="line">var s4 &#x3D; &quot;Hello&#39;Fullter&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用三个单引号或者双引号表示多行字符串:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 2.表示多行字符串的方式</span><br><span class="line">var message1 &#x3D; &#39;&#39;&#39;</span><br><span class="line">哈哈哈</span><br><span class="line">呵呵呵</span><br><span class="line">嘿嘿嘿&#39;&#39;&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>字符串和其他变量或表达式拼接: 使用<code>${expression}</code>, 如果表达式是一个标识符, 那么<code>{}</code>可以省略</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 3.拼接其他变量</span><br><span class="line">var name &#x3D; &#39;eagle&#39;;</span><br><span class="line">var age &#x3D; 18;</span><br><span class="line">var height &#x3D; 1.88;</span><br><span class="line">print(&#39;my name is $&#123;name&#125;, age is $age, height is $height&#39;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h3><ul>
+<li>集合类型的定义</li>
+</ul>
+<p>对于集合类型，Dart则内置了最常用的三种：<code>List / Set / Map</code>。<br>其中，<code>List</code>可以这样来定义</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; List定义</span><br><span class="line">&#x2F;&#x2F; 1.使用类型推导定义</span><br><span class="line">var letters &#x3D; [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;];</span><br><span class="line">print(&#39;$letters $&#123;letters.runtimeType&#125;&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.明确指定类型</span><br><span class="line">List&lt;int&gt; numbers &#x3D; [1, 2, 3, 4];</span><br><span class="line">print(&#39;$numbers $&#123;numbers.runtimeType&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>set</code>可以这样来定义：</p>
+<p>其实，也就是把[]换成{}就好了。<br>Set和List最大的两个不同就是：Set是无序的，并且元素是不重复的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Set的定义</span><br><span class="line">&#x2F;&#x2F; 1.使用类型推导定义</span><br><span class="line">var lettersSet &#x3D; &#123;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;&#125;;</span><br><span class="line">print(&#39;$lettersSet $&#123;lettersSet.runtimeType&#125;&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.明确指定类型</span><br><span class="line">Set&lt;int&gt; numbersSet &#x3D; &#123;1, 2, 3, 4&#125;;</span><br><span class="line">print(&#39;$numbersSet $&#123;numbersSet.runtimeType&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>最后，Map是我们常说的字典类型，它的定义是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Map的定义</span><br><span class="line">&#x2F;&#x2F; 1.使用类型推导定义</span><br><span class="line">var infoMap1 &#x3D; &#123;&#39;name&#39;: &#39;eagle&#39;, &#39;age&#39;: 18&#125;;</span><br><span class="line">print(&#39;$infoMap1 $&#123;infoMap1.runtimeType&#125;&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.明确指定类型</span><br><span class="line">Map&lt;String, Object&gt; infoMap2 &#x3D; &#123;&#39;height&#39;: 1.88, &#39;address&#39;: &#39;北京市&#39;&#125;;</span><br><span class="line">print(&#39;$infoMap2 $&#123;infoMap2.runtimeType&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="集合的常见操作"><a href="#集合的常见操作" class="headerlink" title="集合的常见操作"></a>集合的常见操作</h4><p>了解了这三个集合的定义方式之后，我们来看一些最基础的公共操作</p>
+<p>第一类，是所有集合都支持的获取长度的属性length：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 获取集合的长度</span><br><span class="line">print(letters.length);</span><br><span class="line">print(lettersSet.length);</span><br><span class="line">print(infoMap1.length);</span><br></pre></td></tr></table></figure>
+
+<p>第二类, 是添加/删除/包含操作</p>
+<p>并且，对List来说，由于元素是有序的，它还提供了一个删除指定索引位置上元素的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 添加&#x2F;删除&#x2F;包含元素</span><br><span class="line">numbers.add(5);</span><br><span class="line">numbersSet.add(5);</span><br><span class="line">print(&#39;$numbers $numbersSet&#39;);</span><br><span class="line"></span><br><span class="line">numbers.remove(1);</span><br><span class="line">numbersSet.remove(1);</span><br><span class="line">print(&#39;$numbers $numbersSet&#39;);</span><br><span class="line"></span><br><span class="line">print(numbers.contains(2));</span><br><span class="line">print(numbersSet.contains(2));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; List根据index删除元素</span><br><span class="line">numbers.removeAt(3);</span><br><span class="line">print(&#39;$numbers&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>第三类，是Map的操作</p>
+<p>由于它有key和value，因此无论是读取值，还是操作，都要明确是基于key的，还是基于value的，或者是基于key/value对的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Map的操作</span><br><span class="line">&#x2F;&#x2F; 1.根据key获取value</span><br><span class="line">print(infoMap1[&#39;name&#39;]); &#x2F;&#x2F; eagle</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2.获取所有的entries</span><br><span class="line">print(&#39;$&#123;infoMap1.entries&#125; $&#123;infoMap1.entries.runtimeType&#125;&#39;); &#x2F;&#x2F; (MapEntry(name: eagle), MapEntry(age: 18)) MappedIterable&lt;String, MapEntry&lt;String, Object&gt;&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 3.获取所有的keys</span><br><span class="line">print(&#39;$&#123;infoMap1.keys&#125; $&#123;infoMap1.keys.runtimeType&#125;&#39;); &#x2F;&#x2F; (name, age) _CompactIterable&lt;String&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4.获取所有的values</span><br><span class="line">print(&#39;$&#123;infoMap1.values&#125; $&#123;infoMap1.values.runtimeType&#125;&#39;); &#x2F;&#x2F; (eagle, 18) _CompactIterable&lt;Object&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 5.判断是否包含某个key或者value</span><br><span class="line">print(&#39;$&#123;infoMap1.containsKey(&#39;age&#39;)&#125; $&#123;infoMap1.containsValue(18)&#125;&#39;); &#x2F;&#x2F; true true</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 6.根据key删除元素</span><br><span class="line">infoMap1.remove(&#39;age&#39;);</span><br><span class="line">print(&#39;$&#123;infoMap1&#125;&#39;); &#x2F;&#x2F; &#123;name: eagle&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Flutter学习之Dart语法(一)</title>
+    <url>/Flutter%E5%AD%A6%E4%B9%A0%E4%B9%8BDart%E8%AF%AD%E6%B3%95(%E4%B8%80)~/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Flutter学习之Dart语法(一).html">个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>Dart是谷歌开发的计算机编程语言，后来被Ecma (ECMA-408)认定为标准 。它被用于web、服务器、移动应用和物联网等领域的开发。它是宽松开源许可证（修改的BSD证书）下的开源软件。</li>
+<li>Dart是面向对象的、类定义的、单继承的语言。它的语法类似C语言，可以转译为JavaScript，支持接口(interfaces)、混入(mixins)、抽象类(abstract classes)、具体化泛型(reified generics)、可选类型(optional typing)和sound type system</li>
+</ul>
+<p><strong>Google为Flutter选择了Dart作为开发语言</strong></p>
+<p>关于Dart的环境安装和配置这里就不赘述了。</p>
+<h2 id="新建程序"><a href="#新建程序" class="headerlink" title="新建程序"></a>新建程序</h2><p>用VSCode新建一个Dart文件，默认是如下代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">main(List&lt;String&gt; args) &#123;</span><br><span class="line">  print(&#39;Hello World&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实这也和Java,C等等其他语言一样，main函数作为入口。</p>
+<ul>
+<li>Dart语言的入口也是main函数，并且必须显示的进行定义；</li>
+<li>Dart的入口函数main是没有返回值的；</li>
+<li>传递给main的命令行参数，是通过List<String>完成的。<ul>
+<li>从字面值就可以理解List是Dart中的集合类型。</li>
+<li>其中的每一个String都表示传递给main的一个参数；</li>
+</ul>
+</li>
+<li>定义字符串的时候，可以使用单引号或双引号；</li>
+<li>每行语句必须使用分号结尾，很多语言并不需要分号，比如Swift、JavaScript；</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="明确声明-Explicit"><a href="#明确声明-Explicit" class="headerlink" title="明确声明(Explicit)"></a>明确声明(Explicit)</h3><p>明确声明变量的方式, 格式如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">变量类型 变量名称 &#x3D; 赋值;</span><br></pre></td></tr></table></figure>
+
+<p>示例代码:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String name &#x3D; &#39;eagle&#39;;</span><br><span class="line">int age &#x3D; 20;</span><br><span class="line">print(&#39;$&#123;name&#125;, $&#123;age&#125;&#39;);</span><br></pre></td></tr></table></figure>
+
+
+<p>注意: 定义的变量可以修改值, 但是不能赋值其他类型</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String content &#x3D; &#39;Hello World&#39;;</span><br><span class="line">content &#x3D; &#39;Hello China&#39;; &#x2F;&#x2F; 正确的</span><br><span class="line">content &#x3D; 111; &#x2F;&#x2F; 错误的, 将一个int值赋值给一个String变量</span><br></pre></td></tr></table></figure>
+
+<h3 id="类型推导-Type-Inference"><a href="#类型推导-Type-Inference" class="headerlink" title="类型推导(Type Inference)"></a>类型推导(Type Inference)</h3><p>和swift等语言类似，Dart也是支持类型推导的，类型推导声明变量的方式, 格式如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var&#x2F;dynamic&#x2F;const&#x2F;final 变量名称 &#x3D; 赋值;</span><br></pre></td></tr></table></figure>
+
+<h4 id="var的使用"><a href="#var的使用" class="headerlink" title="var的使用"></a>var的使用</h4><p>var的使用示例:</p>
+<ul>
+<li>runtimeType用于获取变量当前的类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var name &#x3D; &#39;eagle&#39;;</span><br><span class="line">name &#x3D; &#39;ITYongzhen&#39;;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; String</span><br></pre></td></tr></table></figure>
+
+<p>var的错误用法:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var age &#x3D; 18;</span><br><span class="line">age &#x3D; &#39;eagle&#39;; &#x2F;&#x2F; 不可以将String赋值给一个int类型</span><br></pre></td></tr></table></figure>
+
+<h4 id="dynamic的使用"><a href="#dynamic的使用" class="headerlink" title="dynamic的使用"></a>dynamic的使用</h4><p>如果确实希望这样做,可以使用dynamic来声明变量:</p>
+<ul>
+<li>但是在开发中, 通常情况下不使用dynamic, 因为类型的变量会带来潜在的危险</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dynamic name &#x3D; &#39;eagle&#39;;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; String</span><br><span class="line">name &#x3D; 18;</span><br><span class="line">print(name.runtimeType); &#x2F;&#x2F; int</span><br></pre></td></tr></table></figure>
+
+<h4 id="final-amp-const的使用"><a href="#final-amp-const的使用" class="headerlink" title="final&amp;const的使用"></a>final&amp;const的使用</h4><p>final和const都是用于定义常量的, 也就是定义之后值都不可以修改</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">final name &#x3D; &#39;eagle&#39;;</span><br><span class="line">name &#x3D; &#39;ITyongzhen&#39;; &#x2F;&#x2F; 错误做法</span><br><span class="line"></span><br><span class="line">const age &#x3D; 18;</span><br><span class="line">age &#x3D; 20; &#x2F;&#x2F; 错误做法</span><br></pre></td></tr></table></figure>
+
+<h5 id="final和const有什么区别呢"><a href="#final和const有什么区别呢" class="headerlink" title="final和const有什么区别呢?"></a>final和const有什么区别呢?</h5><p>const在赋值时, 赋值的内容必须是在编译期间就确定下来的<br>final在赋值时, 可以动态获取, 比如赋值一个函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String getName() &#123;</span><br><span class="line">  return &#39;eagle&#39;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main(List&lt;String&gt; args) &#123;</span><br><span class="line">  const name &#x3D; getName(); &#x2F;&#x2F; 错误的做法, 因为要执行函数才能获取到值</span><br><span class="line">  final name &#x3D; getName(); &#x2F;&#x2F; 正确的做法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>final和const小案例:</p>
+<ul>
+<li>首先, const是不可以赋值为DateTime.now()</li>
+<li>其次, final一旦被赋值后就有确定的结果, 不会再次赋值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; const time &#x3D; DateTime.now(); &#x2F;&#x2F; 错误的赋值方式</span><br><span class="line">final time &#x3D; DateTime.now();</span><br><span class="line">print(time); &#x2F;&#x2F; 2020-02-05 12:04:50.052626</span><br><span class="line"></span><br><span class="line">sleep(Duration(seconds: 2));</span><br><span class="line">print(time); &#x2F;&#x2F; 2020-02-05 12:04:50.052626</span><br></pre></td></tr></table></figure>
+
+<p>const放在赋值语句的右边，可以共享对象，提高性能:</p>
+<p>class Person {<br>  const Person();<br>}</p>
+<p>main(List<String> args) {<br>  final a = const Person();<br>  final b = const Person();<br>  print(identical(a, b)); // true</p>
+<p>  final m = Person();<br>  final n = Person();<br>  print(identical(m, n)); // false<br>}</p>
+<p>参考资料:<br><a href="https://juejin.im/post/5d76340c6fb9a06adb800961" target="_blank" rel="noopener"></a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Swift之下标</title>
     <url>/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87.html">个人博客</a></p>
