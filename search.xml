@@ -357,6 +357,133 @@
       </categories>
   </entry>
   <entry>
+    <title>C++语法之函数重载</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD.html/</url>
+    <content><![CDATA[<h2 id="函数重载（Overload）"><a href="#函数重载（Overload）" class="headerlink" title="函数重载（Overload）"></a>函数重载（Overload）</h2><p><strong>C语言中没有函数重载</strong></p>
+<p><strong>C++语言中有函数重载</strong></p>
+<h3 id="函数名相同，参数个数不同、参数类型不同、参数顺序不同"><a href="#函数名相同，参数个数不同、参数类型不同、参数顺序不同" class="headerlink" title="函数名相同，参数个数不同、参数类型不同、参数顺序不同"></a>函数名相同，参数个数不同、参数类型不同、参数顺序不同</h3><p>例如下面就是函数重载</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">double</span> b)</span></span>&#123;</span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; a+b &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="返回值类型与函数重载无关"><a href="#返回值类型与函数重载无关" class="headerlink" title="返回值类型与函数重载无关"></a>返回值类型与函数重载无关</h3><p>返回值类型与函数重载无关，下面代码不构成重载，编译会报错</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//返回值类型与函数重载无关</span></span><br><span class="line"><span class="keyword">int</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">double <span class="function"><span class="keyword">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实参的隐式类型转换可能会产生二义性"><a href="#实参的隐式类型转换可能会产生二义性" class="headerlink" title="实参的隐式类型转换可能会产生二义性"></a>实参的隐式类型转换可能会产生二义性</h3><p><strong>不同编译器有不同处理</strong></p>
+<p>下面代码在vs上编译不过，但是在Xcode中可以编译通过。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">double</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    sum(<span class="number">10</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>采用了name mangling或者叫name decoration技术<ul>
+<li>C++编译器默认会对符号名（比如函数名）进行改编、修饰，有些地方翻译为“命名倾轧”</li>
+<li>重载时会生成多个不同的函数名，不同编译器（MSVC、g++）有不同的生成规则</li>
+<li>通过IDA打开【VS_Release_禁止优化】可以看到 或者通过hopper查看</li>
+</ul>
+</li>
+</ul>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>下面的代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">double</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在代码中，<code>void sum(double a){}</code> 和 <code>void sum(int a){}</code> 是如何重载，调用函数的时候是如何能正确找到对应的函数呢？</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>我是用xcode的编译出可执行文件，放在hopper中查看</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">		   __Z3sumd:</span>        // sum(double)</span><br><span class="line">0000000100000ce0         <span class="keyword">push</span>       <span class="built_in">rbp</span>         <span class="comment">; CODE XREF=_main+23</span></span><br><span class="line">0000000100000ce1         <span class="keyword">mov</span>        <span class="built_in">rbp</span>, <span class="built_in">rsp</span></span><br><span class="line">0000000100000ce4         <span class="keyword">sub</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000ce8         <span class="keyword">mov</span>        <span class="built_in">rdi</span>, <span class="built_in">qword</span> [__ZNSt3__14coutE_100001000]</span><br><span class="line">0000000100000cef         <span class="keyword">movsd</span>      <span class="built_in">qword</span> [<span class="built_in">rbp</span>+var_8], <span class="built_in">xmm0</span></span><br><span class="line">0000000100000cf4         <span class="keyword">movsd</span>      <span class="built_in">xmm0</span>, <span class="built_in">qword</span> [<span class="built_in">rbp</span>+var_8]</span><br><span class="line">0000000100000cf9         <span class="keyword">call</span>       imp___stubs___ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEd <span class="comment">; std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;::operator&lt;&lt;(double)</span></span><br><span class="line">0000000100000cfe         <span class="keyword">mov</span>        <span class="built_in">rdi</span>, <span class="built_in">rax</span></span><br><span class="line">0000000100000d01         <span class="keyword">lea</span>        <span class="built_in">rsi</span>, <span class="built_in">qword</span> [__ZNSt3__1L4endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_]</span><br><span class="line">0000000100000d08         <span class="keyword">call</span>       __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E <span class="comment">; std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;::operator&lt;&lt;(std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&amp; (*)(std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&amp;))</span></span><br><span class="line">0000000100000d0d         <span class="keyword">mov</span>        <span class="built_in">qword</span> [<span class="built_in">rbp</span>+var_10], <span class="built_in">rax</span></span><br><span class="line">0000000100000d11         <span class="keyword">add</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000d15         <span class="keyword">pop</span>        <span class="built_in">rbp</span></span><br><span class="line">0000000100000d16         <span class="keyword">ret</span></span><br><span class="line">                        <span class="comment">; endp</span></span><br><span class="line">0000000100000d17         <span class="keyword">nop</span>        <span class="built_in">word</span> [<span class="built_in">rax</span>+<span class="built_in">rax</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可知 <code>void sum(double a){}</code> 被编译器修改为函数<code>__Z3sumd</code></p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">                     __Z3sumi:</span>        // sum(<span class="keyword">int</span>)</span><br><span class="line">0000000100000da0         <span class="keyword">push</span>       <span class="built_in">rbp</span></span><br><span class="line">0000000100000da1         <span class="keyword">mov</span>        <span class="built_in">rbp</span>, <span class="built_in">rsp</span></span><br><span class="line">0000000100000da4         <span class="keyword">sub</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000da8         <span class="keyword">mov</span>        <span class="built_in">rax</span>, <span class="built_in">qword</span> [__ZNSt3__14coutE_100001000]</span><br><span class="line">0000000100000daf         <span class="keyword">mov</span>        <span class="built_in">dword</span> [<span class="built_in">rbp</span>+var_4], <span class="built_in">edi</span></span><br><span class="line">0000000100000db2         <span class="keyword">mov</span>        <span class="built_in">esi</span>, <span class="built_in">dword</span> [<span class="built_in">rbp</span>+var_4]</span><br><span class="line">0000000100000db5         <span class="keyword">mov</span>        <span class="built_in">rdi</span>, <span class="built_in">rax</span></span><br><span class="line">0000000100000db8         <span class="keyword">call</span>       imp___stubs___ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEi <span class="comment">; std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;::operator&lt;&lt;(int)</span></span><br><span class="line">0000000100000dbd         <span class="keyword">mov</span>        <span class="built_in">rdi</span>, <span class="built_in">rax</span>                                    <span class="comment">; argument #1 for method __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E</span></span><br><span class="line">0000000100000dc0         <span class="keyword">lea</span>        <span class="built_in">rsi</span>, <span class="built_in">qword</span> [__ZNSt3__1L4endlIcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_]</span><br><span class="line">0000000100000dc7         <span class="keyword">call</span>       __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEElsEPFRS3_S4_E <span class="comment">; std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;::operator&lt;&lt;(std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&amp; (*)(std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt;&amp;))</span></span><br><span class="line">0000000100000dcc         <span class="keyword">mov</span>        <span class="built_in">qword</span> [<span class="built_in">rbp</span>+var_10], <span class="built_in">rax</span></span><br><span class="line">0000000100000dd0         <span class="keyword">add</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000dd4         <span class="keyword">pop</span>        <span class="built_in">rbp</span></span><br><span class="line">0000000100000dd5         <span class="keyword">ret</span></span><br><span class="line">                        <span class="comment">; endp</span></span><br><span class="line">0000000100000dd6         <span class="keyword">nop</span>        <span class="built_in">word</span> [<span class="built_in">cs</span>:<span class="built_in">rax</span>+<span class="built_in">rax</span>]</span><br></pre></td></tr></table></figure>
+
+
+<p>可知 <code>void sum(int a){}</code> 被编译器修改为函数<code>__Z3sumi</code></p>
+<p>这样当我们调用的时候</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> main()&#123;</span><br><span class="line">    sum(<span class="number">10.5</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>汇编如下，可知：因为 10.5是double类型，调用函数的时候是调用 <code>__Z3sumd</code></p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><span class="line">0000000100000de0         <span class="keyword">push</span>       <span class="built_in">rbp</span></span><br><span class="line">0000000100000de1         <span class="keyword">mov</span>        <span class="built_in">rbp</span>, <span class="built_in">rsp</span></span><br><span class="line">0000000100000de4         <span class="keyword">sub</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000de8         <span class="keyword">movsd</span>      <span class="built_in">xmm0</span>, <span class="built_in">qword</span> [<span class="number">0x100000f80</span>]</span><br><span class="line">0000000100000df0         <span class="keyword">mov</span>        <span class="built_in">dword</span> [<span class="built_in">rbp</span>+var_4], <span class="number">0x0</span></span><br><span class="line">0000000100000df7         <span class="keyword">call</span>       __Z3sumd        <span class="comment">; sum(double)</span></span><br><span class="line">0000000100000dfc         <span class="keyword">xor</span>        <span class="built_in">eax</span>, <span class="built_in">eax</span></span><br><span class="line">0000000100000dfe         <span class="keyword">add</span>        <span class="built_in">rsp</span>, <span class="number">0x10</span></span><br><span class="line">0000000100000e02         <span class="keyword">pop</span>        <span class="built_in">rbp</span></span><br><span class="line">0000000100000e03         <span class="keyword">ret</span></span><br><span class="line">                        <span class="comment">; endp</span></span><br><span class="line">0000000100000e04         <span class="keyword">nop</span>        <span class="built_in">word</span> [<span class="built_in">cs</span>:<span class="built_in">rax</span>+<span class="built_in">rax</span>]</span><br><span class="line">0000000100000e0e         <span class="keyword">nop</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>由上面的汇编代码可知，当参数类型不同的时候，编译器会生成不同的函数名作为区别，这样就能实现函数重载。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++语法之输入输出</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA.html/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>C++ 标准库提供了一组丰富的输入/输出功能，本文讨论 C++ 编程中最基本和最常见的 I/O 操作。</p>
+</blockquote>
+<blockquote>
+<p>C++ 的 I/O 发生在流中，流是字节序列。如果字节流是从设备（如键盘、磁盘驱动器、网络连接等）流向内存，这叫做输入操作。如果字节流是从内存流向设备（如显示屏、打印机、磁盘驱动器、网络连接等），这叫做输出操作。</p>
+</blockquote>
+<h2 id="I-O-库头文件"><a href="#I-O-库头文件" class="headerlink" title="I/O 库头文件"></a>I/O 库头文件</h2><table>
+<thead>
+<tr>
+<th align="center">头文件</th>
+<th align="center">函数和描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>&lt;iostream&gt;</code></td>
+<td align="center">该文件定义了 cin、cout、cerr 和 clog 对象，分别对应于标准输入流、标准输出流、非缓冲标准错误流和缓冲标准错误流。</td>
+</tr>
+<tr>
+<td align="center"><code>&lt;iomanip&gt;</code></td>
+<td align="center">该文件通过所谓的参数化的流操纵器（比如 setw 和 setprecision），来声明对执行标准化 I/O 有用的服务。</td>
+</tr>
+<tr>
+<td align="center"><code>&lt;fstream&gt;</code></td>
+<td align="center">该文件为用户控制的文件处理声明服务。</td>
+</tr>
+</tbody></table>
+<h2 id="标准输出流（cout）"><a href="#标准输出流（cout）" class="headerlink" title="标准输出流（cout）"></a>标准输出流（cout）</h2><p>预定义的对象 cout 是 iostream 类的一个实例。cout 对象”连接”到标准输出设备，通常是显示屏。cout 是与流插入运算符 &lt;&lt; 结合使用的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"hello eagle"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<blockquote>
+<p>hello eagle</p>
+</blockquote>
+<p>流插入运算符 &lt;&lt; 在一个语句中可以多次使用，如上面实例中所示，endl 用于在行末添加一个换行符。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"hello eagle "</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="标准输入流（cin）"><a href="#标准输入流（cin）" class="headerlink" title="标准输入流（cin）"></a>标准输入流（cin）</h2><p>预定义的对象 cin 是 iostream 类的一个实例。cin 对象附属到标准输入设备，通常是键盘。cin 是与流提取运算符 &gt;&gt; 结合使用的，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"iostream"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">     <span class="built_in">cin</span> &gt;&gt; age;</span><br><span class="line">     <span class="built_in">cout</span> &lt;&lt; <span class="string">"age is "</span> &lt;&lt; age &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制台输入18<br>然后打印</p>
+<blockquote>
+<p>age is 18</p>
+</blockquote>
+<p>流提取运算符 &gt;&gt; 在一个语句中可以多次使用，如果要求输入多个数据，可以使用如下语句：</p>
+<blockquote>
+<p>cin &gt;&gt; name &gt;&gt; age;</p>
+</blockquote>
+<p>等价</p>
+<blockquote>
+<p>cin &gt;&gt; name;</p>
+<p>cin &gt;&gt; age;</p>
+</blockquote>
+<h2 id="标准日志流（clog）"><a href="#标准日志流（clog）" class="headerlink" title="标准日志流（clog）"></a>标准日志流（clog）</h2><p>预定义的对象 clog 是 iostream 类的一个实例。clog 对象附属到标准错误设备，通常也是显示屏，但是 clog 对象是<strong>缓冲</strong>的。这意味着每个流插入到 clog 都会先存储在缓冲在，直到缓冲填满或者缓冲区刷新时才会输出。</p>
+<p>clog 也是与流插入运算符 &lt;&lt; 结合使用的，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">char</span> str[] = <span class="string">"Unable to read...."</span>;</span><br><span class="line"> </span><br><span class="line">   <span class="built_in">clog</span> &lt;&lt; <span class="string">"Error message : "</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+<blockquote>
+<p>Error message : Unable to read….</p>
+</blockquote>
+<h2 id="标准错误流（cerr）"><a href="#标准错误流（cerr）" class="headerlink" title="标准错误流（cerr）"></a>标准错误流（cerr）</h2><p>预定义的对象 cerr 是 iostream 类的一个实例。cerr 对象附属到标准错误设备，通常也是显示屏，但是 cerr 对象是<strong>非缓冲</strong>的，且每个流插入到 cerr 都会立即输出。</p>
+<p>cerr 也是与流插入运算符 &lt;&lt; 结合使用的，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">char</span> str[] = <span class="string">"Unable to read...."</span>;</span><br><span class="line"> </span><br><span class="line">   <span class="built_in">cerr</span> &lt;&lt; <span class="string">"Error message : "</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+<blockquote>
+<p>Error message : Unable to read….</p>
+</blockquote>
+<p>在编写和执行程序时，使用 cerr 流来显示错误消息，而其他的日志消息则使用 clog 流来输出。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Swift之下标</title>
     <url>/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87.html/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Swift%E4%B9%8B%E4%B8%8B%E6%A0%87.html">个人博客</a></p>
