@@ -81,10 +81,14 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="殷永振">
-<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;archives&#x2F;2018&#x2F;page&#x2F;2&#x2F;index.html">
+<meta name="description" content="本文首发于个人博客 extern &quot;C&quot; extern &quot;C&quot;的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern &quot;C&quot;后，会指示编译器这部分代码按C语言（而不是C++）的方式进行编译。由于C++支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++语法之C和C++混编">
+<meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;C++%E8%AF%AD%E6%B3%95%E4%B9%8BC%E5%92%8CC++%E6%B7%B7%E7%BC%96.html&#x2F;index.html">
 <meta property="og:site_name" content="殷永振">
+<meta property="og:description" content="本文首发于个人博客 extern &quot;C&quot; extern &quot;C&quot;的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern &quot;C&quot;后，会指示编译器这部分代码按C语言（而不是C++）的方式进行编译。由于C++支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数">
+<meta property="article:published_time" content="2019-11-23T21:32:24.000Z">
+<meta property="article:modified_time" content="2020-03-03T07:46:39.782Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://ityongzhen.github.io/archives/2018/page/2/"/>
+  <link rel="canonical" href="https://ityongzhen.github.io/C++语法之C和C++混编.html/"/>
 
 
 
 
 
-  <title>归档 | 殷永振</title>
+  <title>C++语法之C和C++混编 | 殷永振</title>
   
 
 
@@ -141,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -279,336 +283,254 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ityongzhen.github.io/C++%E8%AF%AD%E6%B3%95%E4%B9%8BC%E5%92%8CC++%E6%B7%B7%E7%BC%96.html/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ityongzhen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="殷永振">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">C++语法之C和C++混编</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-24T05:32:24+08:00">
+                2019-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 60 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.html/" itemprop="url">
+          
+
+          
+            <div class="post-wordcount">
               
-                <span itemprop="name">十大排序算法之插入排序</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.1k 字
+                </span>
               
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-18T08:32:24+08:00"
-              content="2018-07-18" >
-          07-18
-        </time>
-      </div>
+              
+                <span class="post-meta-divider">|</span>
+              
 
-    </header>
-  </article>
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4 分钟
+                </span>
+              
+            </div>
+          
 
+          
 
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.html/" itemprop="url">
-              
-                <span itemprop="name">十大排序算法之选择排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-28T08:32:24+08:00"
-              content="2018-06-28" >
-          06-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
+      
+        <p>本文首发于<a href="https://ityongzhen.github.io/C++语法之C和C++混编.html/">个人博客</a></p>
+<h2 id="extern-quot-C-quot"><a href="#extern-quot-C-quot" class="headerlink" title="extern &quot;C&quot;"></a><code>extern &quot;C&quot;</code></h2><blockquote>
+<p><code>extern &quot;C&quot;</code>的主要作用就是为了能够正确实现<code>C++</code>代码调用其他C语言代码。加上<code>extern &quot;C&quot;</code>后，会指示编译器这部分代码按<code>C</code>语言（而不是<code>C++</code>）的方式进行编译。由于<code>C++</code>支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数重载，因此编译C语言代码的函数时不会带上函数的参数类型，一般只包括函数名。</p>
+</blockquote>
+<blockquote>
+<p>这个功能十分有用处，因为在<code>C++</code>出现以前，很多代码都是<code>C</code>语言写的，而且很底层的库也是<code>C</code>语言写的，为了更好的支持原来的<code>C</code>代码和已经写好的<code>C</code>语言库，需要在<code>C++</code>中尽可能的支持<code>C</code>，而<code>extern &quot;C&quot;</code>就是其中的一个策略。</p>
+</blockquote>
+<h3 id="extern-quot-C-quot-可以修饰单个函数，也可以修饰多个函数。"><a href="#extern-quot-C-quot-可以修饰单个函数，也可以修饰多个函数。" class="headerlink" title="extern &quot;C&quot; 可以修饰单个函数，也可以修饰多个函数。"></a><code>extern &quot;C&quot;</code> 可以修饰单个函数，也可以修饰多个函数。</h3><p>例如下面的三个函数都会用 C语音的方式编译</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b = <span class="number">10</span>)</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"test2"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        
-        
+<h3 id="声明必须修饰，实现可修饰可不修饰"><a href="#声明必须修饰，实现可修饰可不修饰" class="headerlink" title="声明必须修饰，实现可修饰可不修饰"></a>声明必须修饰，实现可修饰可不修饰</h3><ul>
+<li><p>如果函数同时有声明和实现，要让函数声明被extern “C”修饰，函数实现可以不修饰</p>
+</li>
+<li><p>函数的声明都被extern “C”修饰是可以编译通过的</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以编译通过</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/%E5%8D%81%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.html/" itemprop="url">
-              
-                <span itemprop="name">十大排序算法之冒泡排序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-08T08:32:24+08:00"
-              content="2018-06-08" >
-          06-08
-        </time>
-      </div>
-
-    </header>
-  </article>
+<ul>
+<li>函数的声明被extern “C”修饰，实现没有被extern “C”修饰，是可以编译通过的</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以编译通过</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
+<ul>
+<li>函数的声明没有被extern “C”修饰，实现被extern “C”修饰，不能编译通过</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不能编译通过</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="cplusplus"><a href="#cplusplus" class="headerlink" title="__cplusplus"></a><code>__cplusplus</code></h2><p>有时候我们的函数，不仅要在C语言中调用，还要再C++中调用。怎么做呢？</p>
+<p>如果我们加了<code>extern &quot;C&quot;</code> 那么只能是C语言的环境编译，C++环境编译就会有问题了。</p>
+<p>如果我们不加<code>extern &quot;C&quot;</code> 那么只能是C++语言的环境编译，C环境编译就会有问题了。</p>
+<p>如果能够判断是C语言环境还是C++环境，这样在C++语言的环境下按照C++编译方式，在C语言的环境下按照C编译方式，岂不是都可以了。</p>
+<p> <code>__cplusplus</code>就可以达成这样的效果。</p>
+<p> 例如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这样就能做到C++语言的环境下按照C++编译方式，在C语言的环境下按照C编译方式。</p>
+<h2 id="ifndef"><a href="#ifndef" class="headerlink" title="ifndef"></a><code>ifndef</code></h2><p>我们知道，当引用其他文件的时候，我们要用到 <code>#include</code> 例如</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们不小心写了很多次</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>那就相当于把引用的文件的内容拷贝过来很多次，编译器编译的时候，要执行多次，浪费性能。这时候我们只需要在被引用文件里面加上如下代码即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _LIBCPP_IOSTREAM</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _LIBCPP_IOSTREAM</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//。。。很多代码</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这样就算引用多次，也没关系。因为第二次引用的时候，判断引用过了，直接跳过。其中<code>_LIBCPP_IOSTREAM</code>这个为了避免重复，一般采用和文件同名的大写字母来命名。</p>
+<h2 id="pragma-once"><a href="#pragma-once" class="headerlink" title="pragma once"></a>pragma once</h2><ul>
+<li>我们经常使用#ifndef、#define、#endif来防止头文件的内容被重复包含</li>
+<li>#pragma once可以防止整个文件的内容被重复包含</li>
+</ul>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li><code>#ifndef</code>、<code>#define</code>、<code>#endif</code>受<code>C\C++</code>标准的支持，不受编译器的任何限制</li>
+<li>有些编译器不支持<code>#pragma once</code>（较老编译器不支持，如<code>GCC 3.4</code>版本之前），兼容性不够好</li>
+<li><code>#ifndef</code>、<code>#define</code>、<code>#endif</code>可以针对一个文件中的部分代码，而<code>#pragma once</code>只能针对整个文件</li>
+</ul>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/iOS%E4%BD%BF%E7%94%A8RunLoop%E7%9B%91%E6%8E%A7%E7%BA%BF%E4%B8%8A%E5%8D%A1%E9%A1%BF.html/" itemprop="url">
-              
-                <span itemprop="name">iOS使用RunLoop监控线上卡顿</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-05-16T06:32:24+08:00"
-              content="2018-05-16" >
-          05-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/KVC%E9%82%A3%E7%82%B9%E5%84%BF%E4%BA%8B.html/" itemprop="url">
-              
-                <span itemprop="name">KVC那点儿事</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-05-15T10:32:24+08:00"
-              content="2018-05-15" >
-          05-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/iOS%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html/" itemprop="url">
-              
-                <span itemprop="name">iOS性能优化</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-16T06:32:24+08:00"
-              content="2018-04-16" >
-          04-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/%E8%AF%A6%E8%A7%A3autoreleasepool.html/" itemprop="url">
-              
-                <span itemprop="name">详解autoreleasepool</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-02-18T06:32:24+08:00"
-              content="2018-02-18" >
-          02-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/%E4%BB%8EiOS%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E8%AF%B4%E8%B5%B7.html/" itemprop="url">
-              
-                <span itemprop="name">从iOS中的引用计数说起</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-01-15T06:32:24+08:00"
-              content="2018-01-15" >
-          01-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD.html/" rel="next" title="C++语法之函数重载和默认参数">
+                <i class="fa fa-chevron-left"></i> C++语法之函数重载和默认参数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0.html/" rel="prev" title="C++语法之内联函数">
+                C++语法之内联函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2018/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/archives/2018/">1</a><span class="page-number current">2</span>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -616,6 +538,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -636,8 +562,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -730,6 +665,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#extern-quot-C-quot"><span class="nav-number">1.</span> <span class="nav-text">extern &quot;C&quot;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#extern-quot-C-quot-可以修饰单个函数，也可以修饰多个函数。"><span class="nav-number">1.1.</span> <span class="nav-text">extern &quot;C&quot; 可以修饰单个函数，也可以修饰多个函数。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声明必须修饰，实现可修饰可不修饰"><span class="nav-number">1.2.</span> <span class="nav-text">声明必须修饰，实现可修饰可不修饰</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cplusplus"><span class="nav-number">2.</span> <span class="nav-text">__cplusplus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ifndef"><span class="nav-number">3.</span> <span class="nav-text">ifndef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pragma-once"><span class="nav-number">4.</span> <span class="nav-text">pragma once</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">4.1.</span> <span class="nav-text">区别</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -879,6 +830,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

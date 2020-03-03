@@ -357,6 +357,134 @@
       </categories>
   </entry>
   <entry>
+    <title>C++语法之内联函数</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之内联函数.html/">个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>在 c/c++ 中，为了解决一些频繁调用的小函数大量消耗栈空间（栈内存）的问题，特别的引入了 inline 修饰符，表示为内联函数。</p>
+</blockquote>
+<blockquote>
+<p>栈空间就是指放置程序的局部数据（也就是函数内数据）的内存空间。</p>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li>使用inline修饰函数的声明或者实现，可以使其变成内联函数</li>
+<li>建议声明和实现都增加inline修饰</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="built_in">cout</span> &lt;&lt; <span class="string">"test"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test3();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码经过内敛之后就相当于</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="built_in">cout</span> &lt;&lt; <span class="string">"test"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>编译器会将函数调用直接展开为函数体代码</li>
+<li>可以减少函数调用的开销</li>
+<li>会增大代码体积</li>
+</ul>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>尽量不要内联超过10行代码的函数</li>
+<li>有些函数即使声明为inline，也不一定会被编译器内联，比如递归函数</li>
+</ul>
+<p>例如下面的代码就算加了inline 也不会被编译器内敛的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    test3(a--);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test3(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="inline只是建议"><a href="#inline只是建议" class="headerlink" title="inline只是建议"></a><code>inline</code>只是建议</h2><p>inline 函数仅仅是一个对编译器的建议，所以最后能否真正内联，看编译器的意思，它如果认为函数不复杂，能在调用点展开，就会真正内联，并不是说声明了内联就会内联，声明内联只是一个建议而已。</p>
+<h2 id="慎用-inline"><a href="#慎用-inline" class="headerlink" title="慎用 inline"></a>慎用 inline</h2><ul>
+<li>内联能提高函数的执行效率，为什么不把所有的函数都定义成内联函数？如果所有的函数都是内联函数，还用得着”内联”这个关键字吗？ </li>
+<li>内联是以代码膨胀（复制）为代价，仅仅省去了函数调用的开销，从而提高函数的执行效率。 </li>
+<li>如果执行函数体内代码的时间，相比于函数调用的开销较大，那么效率的收获会很少。另一方面，每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间。</li>
+</ul>
+<p>以下情况不宜使用内联： </p>
+<ul>
+<li>如果函数体内的代码比较长，使用内联将导致内存消耗代价较高。 </li>
+<li>如果函数体内出现循环，那么执行函数体内代码的时间要比函数调用的开销大。类的构造函数和析构函数容易让人误解成使用内联更有效。要当心构造函数和析构函数可能会隐藏一些行为，如”偷偷地”执行了基类或成员对象的构造函数和析构函数。所以不要随便地将构造函数和析构函数的定义体放在类声明中。一个好的编译器将会根据函数的定义体，自动地取消不值得的内联（这进一步说明了 inline 不应该出现在函数的声明中）。</li>
+</ul>
+<h2 id="内联函数和宏"><a href="#内联函数和宏" class="headerlink" title="内联函数和宏"></a>内联函数和宏</h2><ul>
+<li>内联函数和宏，都可以减少函数调用的开销</li>
+<li>对比宏，内联函数多了语法检测和函数特性</li>
+<li>宏使用不当，会导致和我们想法不一致的情况</li>
+</ul>
+<p>例如下面的代码,如果是宏定义，就相当于b = (a++ + a++);结果和预期不符。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sum(x) (x + x)</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x + x; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a = <span class="number">10</span>; </span><br><span class="line">	<span class="keyword">int</span> b = sum(a++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>内联函数并不是一个增强性能的灵丹妙药。只有当函数非常短小的时候它才能得到我们想要的效果；但是，如果函数并不是很短而且在很多地方都被调用的话，那么将会使得可执行体的体积增大。 </li>
+<li>最令人烦恼的还是当编译器拒绝内联的时候。在老的实现中，结果很不尽人意，虽然在新的实现中有很大的改善，但是仍然还是不那么完善的。一些编译器能够足够的聪明来指出哪些函数可以内联哪些不能，但是大多数编译器就不那么聪明了，因此这就需要我们的经验来判断。如果内联函数不能增强性能，就避免使用它！</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++语法之C和C++混编</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8BC%E5%92%8CC++%E6%B7%B7%E7%BC%96.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之C和C++混编.html/">个人博客</a></p>
+<h2 id="extern-quot-C-quot"><a href="#extern-quot-C-quot" class="headerlink" title="extern &quot;C&quot;"></a><code>extern &quot;C&quot;</code></h2><blockquote>
+<p><code>extern &quot;C&quot;</code>的主要作用就是为了能够正确实现<code>C++</code>代码调用其他C语言代码。加上<code>extern &quot;C&quot;</code>后，会指示编译器这部分代码按<code>C</code>语言（而不是<code>C++</code>）的方式进行编译。由于<code>C++</code>支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数重载，因此编译C语言代码的函数时不会带上函数的参数类型，一般只包括函数名。</p>
+</blockquote>
+<blockquote>
+<p>这个功能十分有用处，因为在<code>C++</code>出现以前，很多代码都是<code>C</code>语言写的，而且很底层的库也是<code>C</code>语言写的，为了更好的支持原来的<code>C</code>代码和已经写好的<code>C</code>语言库，需要在<code>C++</code>中尽可能的支持<code>C</code>，而<code>extern &quot;C&quot;</code>就是其中的一个策略。</p>
+</blockquote>
+<h3 id="extern-quot-C-quot-可以修饰单个函数，也可以修饰多个函数。"><a href="#extern-quot-C-quot-可以修饰单个函数，也可以修饰多个函数。" class="headerlink" title="extern &quot;C&quot; 可以修饰单个函数，也可以修饰多个函数。"></a><code>extern &quot;C&quot;</code> 可以修饰单个函数，也可以修饰多个函数。</h3><p>例如下面的三个函数都会用 C语音的方式编译</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b = <span class="number">10</span>)</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"test2"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="声明必须修饰，实现可修饰可不修饰"><a href="#声明必须修饰，实现可修饰可不修饰" class="headerlink" title="声明必须修饰，实现可修饰可不修饰"></a>声明必须修饰，实现可修饰可不修饰</h3><ul>
+<li><p>如果函数同时有声明和实现，要让函数声明被extern “C”修饰，函数实现可以不修饰</p>
+</li>
+<li><p>函数的声明都被extern “C”修饰是可以编译通过的</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//可以编译通过</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>函数的声明被extern “C”修饰，实现没有被extern “C”修饰，是可以编译通过的</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//可以编译通过</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>函数的声明没有被extern “C”修饰，实现被extern “C”修饰，不能编译通过</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//不能编译通过</span></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="cplusplus"><a href="#cplusplus" class="headerlink" title="__cplusplus"></a><code>__cplusplus</code></h2><p>有时候我们的函数，不仅要在C语言中调用，还要再C++中调用。怎么做呢？</p>
+<p>如果我们加了<code>extern &quot;C&quot;</code> 那么只能是C语言的环境编译，C++环境编译就会有问题了。</p>
+<p>如果我们不加<code>extern &quot;C&quot;</code> 那么只能是C++语言的环境编译，C环境编译就会有问题了。</p>
+<p>如果能够判断是C语言环境还是C++环境，这样在C++语言的环境下按照C++编译方式，在C语言的环境下按照C编译方式，岂不是都可以了。</p>
+<p> <code>__cplusplus</code>就可以达成这样的效果。</p>
+<p> 例如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这样就能做到C++语言的环境下按照C++编译方式，在C语言的环境下按照C编译方式。</p>
+<h2 id="ifndef"><a href="#ifndef" class="headerlink" title="ifndef"></a><code>ifndef</code></h2><p>我们知道，当引用其他文件的时候，我们要用到 <code>#include</code> 例如</p>
+<figure class="highlight autoit"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们不小心写了很多次</p>
+<figure class="highlight autoit"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="string">"iostream"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>那就相当于把引用的文件的内容拷贝过来很多次，编译器编译的时候，要执行多次，浪费性能。这时候我们只需要在被引用文件里面加上如下代码即可</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _LIBCPP_IOSTREAM</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _LIBCPP_IOSTREAM</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//。。。很多代码</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>这样就算引用多次，也没关系。因为第二次引用的时候，判断引用过了，直接跳过。其中<code>_LIBCPP_IOSTREAM</code>这个为了避免重复，一般采用和文件同名的大写字母来命名。</p>
+<h2 id="pragma-once"><a href="#pragma-once" class="headerlink" title="pragma once"></a>pragma once</h2><ul>
+<li>我们经常使用#ifndef、#define、#endif来防止头文件的内容被重复包含</li>
+<li>#pragma once可以防止整个文件的内容被重复包含</li>
+</ul>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li><code>#ifndef</code>、<code>#define</code>、<code>#endif</code>受<code>C\C++</code>标准的支持，不受编译器的任何限制</li>
+<li>有些编译器不支持<code>#pragma once</code>（较老编译器不支持，如<code>GCC 3.4</code>版本之前），兼容性不够好</li>
+<li><code>#ifndef</code>、<code>#define</code>、<code>#endif</code>可以针对一个文件中的部分代码，而<code>#pragma once</code>只能针对整个文件</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C++语法之函数重载和默认参数</title>
     <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD.html/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之函数重载.html/">个人博客</a></p>
