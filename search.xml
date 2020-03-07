@@ -357,6 +357,259 @@
       </categories>
   </entry>
   <entry>
+    <title>C++语法之友元函数、友元类</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%E3%80%81%E5%8F%8B%E5%85%83%E7%B1%BB.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之友元函数、友元类.html/">个人博客</a></p>
+<h2 id="友元"><a href="#友元" class="headerlink" title="友元"></a>友元</h2><ul>
+<li>友元包括友元函数和友元类</li>
+<li>如果将函数A（非成员函数）声明为类C的友元函数，那么函数A就能直接访问类C对象的所有成员</li>
+<li>如果将类A声明为类C的友元类，那么类A的所有成员函数都能直接访问类C对象的所有成员</li>
+<li>友元破坏了面向对象的封装性，但在某些频繁访问成员变量的地方可以提高性能</li>
+</ul>
+<h3 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h3><p>如下代码：类Point。x和y坐标，成员变量是私有的，获取值通过get函数获取</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> Point &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">int</span> m_x;</span><br><span class="line">    <span class="built_in">int</span> m_y;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> get<span class="constructor">X()</span> &#123;</span><br><span class="line">        return m_x;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">int</span> get<span class="constructor">Y()</span> &#123;</span><br><span class="line">        return m_y;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="constructor">Point(<span class="params">int</span> <span class="params">x</span>, <span class="params">int</span> <span class="params">y</span>)</span> :m<span class="constructor">_x(<span class="params">x</span>)</span>, m<span class="constructor">_y(<span class="params">y</span>)</span> &#123;&#125;</span><br><span class="line">    void display<span class="literal">()</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">"("</span> &lt;&lt; m_x &lt;&lt; <span class="string">", "</span> &lt;&lt; m_y &lt;&lt; <span class="string">")"</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Point add(Point p1, Point p2) &#123;</span><br><span class="line">    return <span class="constructor">Point(<span class="params">p1</span>.<span class="params">getX</span>()</span> + p2.get<span class="constructor">X()</span>, p1.get<span class="constructor">Y()</span> + p2.get<span class="constructor">Y()</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义2个point，然后我们想把这两个point相加。就如下所示</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> main()&#123;</span><br><span class="line">    Point p1(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line">    Point p2(<span class="number">20</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">    Point p3 = add(p1, p2);</span><br><span class="line">    p3.display();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>能达到要求，但是问题是，调用add函数时候，每次获取x和y的值，都要通过<code>getX()</code>或者<code>getY()</code>来取值。因为<code>m_x</code>是私有成员，使用<code>p1. m_x</code>是会报错的。</li>
+<li>有什么办法能直接<code>p1. m_x</code>就可以访问么。同时<code>m_x</code>依然是私有成员</li>
+</ul>
+<h3 id="那就通过友元函数来实现"><a href="#那就通过友元函数来实现" class="headerlink" title="那就通过友元函数来实现"></a>那就通过友元函数来实现</h3><p>上的代码改成</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Point &#123;</span><br><span class="line">     friend Point add(Point, Point);</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">int</span> m_x;</span><br><span class="line">    <span class="built_in">int</span> m_y;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> get<span class="constructor">X()</span> &#123;</span><br><span class="line">        return m_x;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">int</span> get<span class="constructor">Y()</span> &#123;</span><br><span class="line">        return m_y;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="constructor">Point(<span class="params">int</span> <span class="params">x</span>, <span class="params">int</span> <span class="params">y</span>)</span> :m<span class="constructor">_x(<span class="params">x</span>)</span>, m<span class="constructor">_y(<span class="params">y</span>)</span> &#123;&#125;</span><br><span class="line">    void display<span class="literal">()</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">"("</span> &lt;&lt; m_x &lt;&lt; <span class="string">", "</span> &lt;&lt; m_y &lt;&lt; <span class="string">")"</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Point add(Point p1, Point p2) &#123;</span><br><span class="line">    return <span class="constructor">Point(<span class="params">p1</span>.<span class="params">m_x</span> + <span class="params">p2</span>.<span class="params">m_x</span>, <span class="params">p1</span>.<span class="params">m_y</span> + <span class="params">p2</span>.<span class="params">m_y</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说把<code>friend Point add(Point, Point)</code>放在<code>class Point</code>中,这样说明这个函数是朋友了嘛，既然是朋友了，那可以直接访问私有成员变量。当然了其他函数想直接访问私有成员变量依然是不可以的。</p>
+<h2 id="友元类"><a href="#友元类" class="headerlink" title="友元类"></a>友元类</h2><p>既然和函数可以做朋友，那和类呢？答案是可以的。如下</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> &#123;</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Math</span>;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> m_x;</span><br><span class="line">    <span class="keyword">int</span> m_y;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_x;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> m_y;</span><br><span class="line">        </span><br><span class="line">    &#125;;</span><br><span class="line">    Point(<span class="keyword">int</span> x, <span class="keyword">int</span> y) :m_x(x), m_y(y) &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"("</span> &lt;&lt; m_x &lt;&lt; <span class="string">", "</span> &lt;&lt; m_y &lt;&lt; <span class="string">")"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Math</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">Point <span class="title">add</span><span class="params">(Point p1, Point p2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Point(p1.m_x + p2.m_x, p1.m_y + p2.m_y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="function">Point <span class="title">p1</span><span class="params">(<span class="number">10</span>, <span class="number">20</span>)</span></span>;</span><br><span class="line">        p1.m_x = <span class="number">10</span>;</span><br><span class="line">        p1.m_x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>class Point</code> 中声明了友元类<code>friend class Math;</code>那么在类<code>Math</code>中也是可以直接访问类<code>Point</code>中的私有成员变量。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++语法之static、const</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8Bstatic%E3%80%81const.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之static、const.html/">个人博客</a></p>
+<h2 id="static"><a href="#static" class="headerlink" title="static"></a>static</h2><ul>
+<li><p>静态成员的提出是为了解决数据共享的问题。实现共享有许多方法，如：设置全局性的变量或对象是一种方法。但是，全局变量或对象是有局限性的。</p>
+</li>
+<li><p>静态成员：被static修饰的成员变量\函数</p>
+<ul>
+<li>可以通过对象（对象.静态成员）、对象指针（对象指针-&gt;静态成员）、类访问（类名::静态成员）</li>
+</ul>
+</li>
+<li><p>静态成员变量</p>
+<ul>
+<li>存储在数据段（全局区，类似于全局变量），整个程序运行过程中只有一份内存</li>
+<li>对比全局变量，它可以设定访问权限（public、protected、private），达到局部共享的目的</li>
+<li>必须初始化，必须在类外面初始化，初始化时不能带static，如果类的声明和实现分离（在实现.cpp中初始化）</li>
+</ul>
+</li>
+<li><p>静态成员函数</p>
+<ul>
+<li>内部不能使用this指针（this指针只能用在非静态成员函数内部）</li>
+<li>不能是虚函数（虚函数只能是非静态成员函数）</li>
+<li>内部不能访问非静态成员变量\函数，只能访问静态成员变量\函数</li>
+<li>非静态成员函数内部可以访问静态成员变量\函数</li>
+<li>构造函数、析构函数不能是静态</li>
+<li>当声明和实现分离时，实现部分不能带static</li>
+</ul>
+</li>
+</ul>
+<h3 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h3><p>在C++中，可以利用static关键字在全局只有一份的特性，来写代理</p>
+<p>例如</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rocket</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> Rocket *ms_rocket;</span><br><span class="line">    Rocket() &#123;&#125;</span><br><span class="line">    Rocket(<span class="keyword">const</span> Rocket &amp;rocket) &#123;&#125;</span><br><span class="line">    ~Rocket() &#123;&#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="keyword">operator</span>=(<span class="keyword">const</span> Rocket &amp;rocket) &#123;&#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">static</span> Rocket *sharedRocket() &#123;</span><br><span class="line">        <span class="comment">// 这里要考虑多线程安全</span></span><br><span class="line">        <span class="keyword">if</span> (ms_rocket == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            ms_rocket = <span class="keyword">new</span> Rocket();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ms_rocket;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteRocket</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 这里要考虑多线程安全</span></span><br><span class="line">        <span class="keyword">if</span> (ms_rocket != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">delete</span> ms_rocket;</span><br><span class="line">            ms_rocket = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="const成员"><a href="#const成员" class="headerlink" title="const成员"></a>const成员</h2><ul>
+<li>const成员：被const修饰的成员变量、非静态成员函数</li>
+<li>const成员变量<ul>
+<li>必须初始化（类内部初始化），可以在声明的时候直接初始化赋值</li>
+<li>非static的const成员变量还可以在初始化列表中初始化</li>
+</ul>
+</li>
+<li>const成员函数（非静态）<ul>
+<li>const关键字写在参数列表后面，函数的声明和实现都必须带const</li>
+<li>内部不能修改非static成员变量</li>
+<li>内部只能调用const成员函数、static成员函数</li>
+<li>非const成员函数可以调用const成员函数</li>
+<li>const成员函数和非const成员函数构成重载</li>
+<li>非const对象（指针）优先调用非const成员函数</li>
+<li>const对象（指针）只能调用const成员函数、static成员函数</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++语法之虚函数、虚表</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E8%99%9A%E5%87%BD%E6%95%B0%E3%80%81%E8%99%9A%E8%A1%A8.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之虚函数、虚表.html/">个人博客</a></p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><ul>
+<li>C++中的多态通过虚函数（virtual function）来实现<ul>
+<li>虚函数：被virtual修饰的成员函数</li>
+<li>只要在父类中声明为虚函数，子类中重写的函数也自动变成虚函数（也就是说子类中可以省略virtual关键字）</li>
+</ul>
+</li>
+</ul>
+<h3 id="先看一个例子"><a href="#先看一个例子" class="headerlink" title="先看一个例子"></a>先看一个例子</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt; <span class="string">"Person::run()"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span> <span class="keyword">public</span> Person&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="built_in">cout</span>&lt;&lt; <span class="string">"Student::run()"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>我们用<code>Person</code>指针指向<code>Student</code>对象，然后真正输出的是<code>Person::run()</code></p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Person *stu = <span class="keyword">new</span> Student();</span><br><span class="line">    stu-&gt;<span class="built_in">run</span>(); <span class="comment">//输出 Person::run()</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出 </p>
+<blockquote>
+<p>Person::run()</p>
+</blockquote>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><ul>
+<li>那是因为对于编译器来说，编译代码的时候，发现<code>stu</code>指针是Person类型，那么调用的时候，直接调用了<code>Person::run()</code>。有没有办法调用<code>Student::run()</code>呢？答案是有的，就是用<code>virtual</code>修饰</li>
+<li>用<code>virtual</code>修饰的函数，是虚函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt; <span class="string">"Person::run()"</span> &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>改成如上代码之后，输出结果为</p>
+<blockquote>
+<p>Student::run()</p>
+</blockquote>
+<h2 id="虚表"><a href="#虚表" class="headerlink" title="虚表"></a>虚表</h2><ul>
+<li>虚函数的实现原理是虚表，这个虚表里面存储着最终需要调用的虚函数地址，这个虚表也叫虚函数表</li>
+</ul>
+<p>对于上面的例子中，<code>Student</code>对象的前4个字节存放的是指向虚表的地址<br>当我们调用的时候，</p>
+<figure class="highlight gauss"><table><tr><td class="code"><pre><span class="line">Person *stu = <span class="keyword">new</span> <span class="built_in">Student</span>();</span><br><span class="line">stu-&gt;<span class="keyword">run</span>();</span><br></pre></td></tr></table></figure>
+
+<p>会首先把虚表地址取出来，然后去虚表中调用<code>Student::run()</code></p>
+<p><strong>所有的Student对象（不管在全局区、栈、堆）共用同一份虚表</strong></p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="number">0x1000010e5</span> &lt;+<span class="number">53</span>&gt;: movq   <span class="number">-0x18</span>(%rbp), %rax</span><br><span class="line"><span class="number">0x1000010e9</span> &lt;+<span class="number">57</span>&gt;: movq   %rax, <span class="number">-0x10</span>(%rbp)</span><br><span class="line"><span class="number">0x1000010ed</span> &lt;+<span class="number">61</span>&gt;: movq   <span class="number">-0x10</span>(%rbp), %rax</span><br><span class="line"><span class="number">0x1000010f1</span> &lt;+<span class="number">65</span>&gt;: movq   (%rax), %rdx</span><br><span class="line"><span class="number">0x1000010f4</span> &lt;+<span class="number">68</span>&gt;: movq   %rax, %rdi</span><br><span class="line"><span class="number">0x1000010f7</span> &lt;+<span class="number">71</span>&gt;: callq  *(%rdx) <span class="comment">//rdx里面存放虚表地址</span></span><br></pre></td></tr></table></figure>
+
+<p> 跟踪汇编代码调用如下的<code>Student::run:</code></p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"> C++test01`Student::<span class="built_in">run</span>:</span><br><span class="line">-&gt;  <span class="number">0x100001190</span> &lt;+<span class="number">0</span>&gt;:  pushq  %rbp</span><br><span class="line">    <span class="number">0x100001191</span> &lt;+<span class="number">1</span>&gt;:  movq   %rsp, %rbp</span><br><span class="line">    <span class="number">0x100001194</span> &lt;+<span class="number">4</span>&gt;:  subq   $<span class="number">0x10</span>, %rsp</span><br><span class="line">    <span class="number">0x100001198</span> &lt;+<span class="number">8</span>&gt;:  movq   <span class="number">0xe61</span>(%rip), %rax         ; (<span class="keyword">void</span> *)<span class="number">0x00007fff97678760</span>: <span class="built_in">std</span>::__1::<span class="built_in">cout</span></span><br><span class="line">    <span class="number">0x10000119f</span> &lt;+<span class="number">15</span>&gt;: movq   %rdi, <span class="number">-0x8</span>(%rbp)</span><br><span class="line">    <span class="number">0x1000011a3</span> &lt;+<span class="number">19</span>&gt;: movq   %rax, %rdi</span><br><span class="line">    <span class="number">0x1000011a6</span> &lt;+<span class="number">22</span>&gt;: leaq   <span class="number">0xda6</span>(%rip), %rsi         ; <span class="string">"Student::run()"</span></span><br><span class="line">    <span class="number">0x1000011ad</span> &lt;+<span class="number">29</span>&gt;: callq  <span class="number">0x100001de2</span>               ; symbol stub <span class="keyword">for</span>: <span class="built_in">std</span>::__1::basic_ostream&lt;<span class="keyword">char</span>, <span class="built_in">std</span>::__1::char_traits&lt;<span class="keyword">char</span>&gt; &gt;&amp; <span class="built_in">std</span>::__1::<span class="keyword">operator</span>&lt;&lt;&lt;<span class="built_in">std</span>::__1::char_traits&lt;<span class="keyword">char</span>&gt; &gt;(<span class="built_in">std</span>::__1::basic_ostream&lt;<span class="keyword">char</span>, <span class="built_in">std</span>::__1::char_traits&lt;<span class="keyword">char</span>&gt; &gt;&amp;, <span class="keyword">char</span> <span class="keyword">const</span>*)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h2><ul>
+<li>纯虚函数：没有函数体且初始化为0的虚函数，用来定义接口规范</li>
+<li>抽象类（Abstract Class） <ul>
+<li>含有纯虚函数的类，不可以实例化（不可以创建对象）</li>
+<li>抽象类也可以包含非纯虚函数、成员变量</li>
+<li>如果父类是抽象类，子类没有完全重写纯虚函数，那么这个子类依然是抽象类</li>
+</ul>
+</li>
+</ul>
+<p>例如下面的<code>Person</code>类就是一个含有纯虚函数的类，可以用来定义接口规范</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">Person</span>&#123;</span><br><span class="line">    virtual <span class="built_in">void</span> run()=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义纯虚函数的目的在于，使派生类仅仅只是继承函数的接口。</li>
+<li>纯虚函数的意义，让所有的类对象（主要是派生类对象）都可以执行纯虚函数的动作，但类无法为纯虚函数提供一个合理的默认实现。</li>
+<li>所以类纯虚函数的声明就是在告诉子类的设计者，”你必须提供一个纯虚函数的实现，但我不知道你会怎样实现它”。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>C++语法之继承</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E7%BB%A7%E6%89%BF.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之继承.html/">个人博客</a></p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><ul>
+<li>继承，可以让子类拥有父类的所有成员（变量\函数）</li>
+</ul>
+<h3 id="默认私有继承"><a href="#默认私有继承" class="headerlink" title="默认私有继承"></a>默认私有继承</h3><p>例如下面的代码中，类Cat继承类Animal</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt; <span class="string">"Animal::eat()"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span> Animal&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="built_in">cout</span>&lt;&lt; <span class="string">"Cat::run()"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如下调用的时候，发现设置父类的成员变量，访问父类的函数，会报错。</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">int main()&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">Cat</span> <span class="keyword">cat</span>;</span><br><span class="line">    <span class="keyword">cat</span>.age =3; <span class="comment">//编译报错</span></span><br><span class="line">    <span class="keyword">cat</span>.height = 4;</span><br><span class="line">    <span class="keyword">cat</span>.<span class="keyword">run</span>();</span><br><span class="line">    <span class="keyword">cat</span>.eat(); <span class="comment">//编译报错</span></span><br><span class="line">   </span><br><span class="line">    <span class="keyword">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改为public继承"><a href="#修改为public继承" class="headerlink" title="修改为public继承"></a>修改为<code>public</code>继承</h3><p>那是因为C++中默认是私有继承。如果子类想访问父类的函数等，需要public继承，改成如下就可以了。</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span> <span class="keyword">public</span> Animal&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="built_in">cout</span>&lt;&lt; <span class="string">"Cat::run()"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>c++中没有类似Java中的java.lang.Object 或者ObjectC中的NSObject的基类</strong></p>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><ul>
+<li>父类的成员变量在前，子类的成员变量在后</li>
+</ul>
+<p>上面的代码反汇编</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">  <span class="number">0x100001160</span> &lt;+<span class="number">0</span>&gt;:  pushq  %rbp</span><br><span class="line">    <span class="number">0x100001161</span> &lt;+<span class="number">1</span>&gt;:  movq   %rsp, %rbp</span><br><span class="line">    <span class="number">0x100001164</span> &lt;+<span class="number">4</span>&gt;:  subq   $<span class="number">0x10</span>, %rsp</span><br><span class="line">    <span class="number">0x100001168</span> &lt;+<span class="number">8</span>&gt;:  movl   $<span class="number">0x0</span>, <span class="number">-0x4</span>(%rbp)</span><br><span class="line">    <span class="number">0x10000116f</span> &lt;+<span class="number">15</span>&gt;: movl   $<span class="number">0x3</span>, <span class="number">-0x10</span>(%rbp) <span class="comment">//cat.age =3</span></span><br><span class="line">    <span class="number">0x100001176</span> &lt;+<span class="number">22</span>&gt;: movl   $<span class="number">0x4</span>, <span class="number">-0xc</span>(%rbp)<span class="comment">//cat.height =4</span></span><br><span class="line">-&gt;  <span class="number">0x10000117d</span> &lt;+<span class="number">29</span>&gt;: leaq   <span class="number">-0x10</span>(%rbp), %rdi</span><br><span class="line">    <span class="number">0x100001181</span> &lt;+<span class="number">33</span>&gt;: callq  <span class="number">0x1000011a0</span>               ; Cat::run at Main.cpp:<span class="number">42</span></span><br><span class="line">    <span class="number">0x100001186</span> &lt;+<span class="number">38</span>&gt;: leaq   <span class="number">-0x10</span>(%rbp), %rdi</span><br><span class="line">    <span class="number">0x10000118a</span> &lt;+<span class="number">42</span>&gt;: callq  <span class="number">0x1000011e0</span>               ; Animal::eat at Main.cpp:<span class="number">33</span></span><br><span class="line">    <span class="number">0x10000118f</span> &lt;+<span class="number">47</span>&gt;: xorl   %eax, %eax</span><br><span class="line">    <span class="number">0x100001191</span> &lt;+<span class="number">49</span>&gt;: addq   $<span class="number">0x10</span>, %rsp</span><br><span class="line">    <span class="number">0x100001195</span> &lt;+<span class="number">53</span>&gt;: popq   %rbp</span><br><span class="line">    <span class="number">0x100001196</span> &lt;+<span class="number">54</span>&gt;: retq</span><br></pre></td></tr></table></figure>
+
+<p>从上面的汇编可以看到<code>age</code>在<code>height</code>的地址前面，而且是连续的内存。</p>
+<h2 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h2><ul>
+<li>C++允许一个类可以有多个父类（不建议使用，会增加程序设计复杂度）</li>
+</ul>
+<p>如下所示：<code>GoodStudent</code>同时继承<code>Person</code>和<code>Student</code></p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Person::run()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Student::play()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GoodStudent</span>:</span><span class="keyword">public</span> Person,<span class="keyword">public</span> Student&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> score;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"GoodStudent::study()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    GoodStudent stu;</span><br><span class="line">    stu.age = <span class="number">1</span>;</span><br><span class="line">    stu.<span class="built_in">height</span> = <span class="number">2</span>;</span><br><span class="line">    stu.score = <span class="number">3</span>;</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应汇编如下，可知是把父类的成员变量放在了子类中，并且内存是连续的</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">    <span class="number">0x100000f90</span> &lt;+<span class="number">0</span>&gt;:  pushq  %rbp</span><br><span class="line">    <span class="number">0x100000f91</span> &lt;+<span class="number">1</span>&gt;:  movq   %rsp, %rbp</span><br><span class="line">    <span class="number">0x100000f94</span> &lt;+<span class="number">4</span>&gt;:  xorl   %eax, %eax</span><br><span class="line">    <span class="number">0x100000f96</span> &lt;+<span class="number">6</span>&gt;:  movl   $<span class="number">0x0</span>, <span class="number">-0x4</span>(%rbp)</span><br><span class="line">    <span class="number">0x100000f9d</span> &lt;+<span class="number">13</span>&gt;: movl   $<span class="number">0x1</span>, <span class="number">-0x10</span>(%rbp)</span><br><span class="line">    <span class="number">0x100000fa4</span> &lt;+<span class="number">20</span>&gt;: movl   $<span class="number">0x2</span>, <span class="number">-0xc</span>(%rbp)</span><br><span class="line">-&gt;  <span class="number">0x100000fab</span> &lt;+<span class="number">27</span>&gt;: movl   $<span class="number">0x3</span>, <span class="number">-0x8</span>(%rbp)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多个父类同样的函数"><a href="#多个父类同样的函数" class="headerlink" title="多个父类同样的函数"></a>多个父类同样的函数</h2><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Person::run()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">height</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Student::play()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Student::run()"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>子类调用的时候需要区分命名空间</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">stu.Person::<span class="built_in">run</span>(); <span class="comment">//调用Person的run()</span></span><br><span class="line">stu.Student::<span class="built_in">run</span>();<span class="comment">//调用Student的run()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="菱形继承"><a href="#菱形继承" class="headerlink" title="菱形继承"></a>菱形继承</h2><ul>
+<li><p>如果存在类A，同时类B和类C都继承A，有类D继承B和C。则称为菱形继承</p>
+</li>
+<li><p>一般在开发中，不会使用菱形继承。</p>
+<ul>
+<li>最底下子类从基类继承的成员变量冗余、重复</li>
+<li>最底下子类无法访问基类的成员，有二义性</li>
+</ul>
+</li>
+</ul>
+<p>例如如下的代码中，就是菱形继承的例子</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">Student:<span class="symbol">public</span></span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> height;</span><br><span class="line">   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">Work:<span class="symbol">public</span></span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> salary;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">GoodStudent:<span class="symbol">public</span></span> <span class="symbol">Student,<span class="symbol">public</span></span> <span class="symbol">Work</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> score;</span><br><span class="line">   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在X86架构下，一个GoodStudent对象占用内存20字节，是因为，Student和Work都从Person继承了age，那么GoodStudent中就有2个age了。同时加上score,height, salary就是5个成员变量。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">GoodStudent stu;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt; <span class="keyword">sizeof</span>(stu) &lt;&lt;<span class="built_in">endl</span>;  <span class="comment">//输出20</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="虚继承"><a href="#虚继承" class="headerlink" title="虚继承"></a>虚继承</h2><p>为了解决菱形继承的问题，我们可以使用虚继承。</p>
+<p>如下代码 Person类被称为虚基类</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">Student:<span class="symbol">virtual</span></span> <span class="symbol">public</span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> height;</span><br><span class="line">   </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">Work:<span class="symbol">virtual</span></span> <span class="symbol">public</span> <span class="symbol">Person</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> salary;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="symbol">GoodStudent:<span class="symbol">public</span></span> <span class="symbol">Student,<span class="symbol">public</span></span> <span class="symbol">Work</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">int</span> score;</span><br><span class="line">   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这样一个GoodStudent对象里面只有一个age成员变量。当然这样做增加了虚函数表。这里不做展开。</p>
+<h2 id="成员访问权限"><a href="#成员访问权限" class="headerlink" title="成员访问权限"></a>成员访问权限</h2><ul>
+<li>成员访问权限、继承方式有3种 <ul>
+<li>public：公共的，任何地方都可以访问（struct默认）</li>
+<li>protected：子类内部、当前类内部可以访问</li>
+<li>private：私有的，只有当前类内部可以访问（class默认）<ul>
+<li>子类内部访问父类成员的权限，是以下2项中权限最小的那个</li>
+</ul>
+</li>
+<li>成员本身的访问权限</li>
+<li>上一级父类的继承方式<ul>
+<li>开发中用的最多的继承方式是public，这样能保留父类原来的成员访问权限</li>
+<li>访问权限不影响对象的内存布局</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="初始化列表"><a href="#初始化列表" class="headerlink" title="初始化列表"></a>初始化列表</h2><ul>
+<li>一种便捷的初始化成员变量的方式</li>
+<li>只能用在构造函数中</li>
+<li>初始化顺序只跟成员变量的声明顺序有关</li>
+</ul>
+<p>下面两种写法是等价的</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> Person&#123;</span><br><span class="line">    <span class="built_in">int</span> m_age;</span><br><span class="line">    <span class="constructor">Person(<span class="params">int</span> <span class="params">age</span>)</span>&#123;</span><br><span class="line">        this-&gt;m_age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Person&#123;</span><br><span class="line">    <span class="built_in">int</span> m_age;</span><br><span class="line">    <span class="constructor">Person(<span class="params">int</span> <span class="params">age</span>)</span>: m<span class="constructor">_age(<span class="params">age</span>)</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化列表与默认参数配合使用"><a href="#初始化列表与默认参数配合使用" class="headerlink" title="初始化列表与默认参数配合使用"></a>初始化列表与默认参数配合使用</h2><p>例如下面的代码</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> Person&#123;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> m_age;</span><br><span class="line">    <span class="built_in">int</span> m_height;</span><br><span class="line">    <span class="constructor">Person(<span class="params">int</span> <span class="params">age</span> = 0, <span class="params">int</span> <span class="params">height</span> =0)</span>:m<span class="constructor">_age(<span class="params">age</span>)</span>,m<span class="constructor">_height(<span class="params">height</span>)</span>&#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候如下三种都可以</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">Person person1;</span><br><span class="line">Person person2(<span class="number">18</span>);</span><br><span class="line">Person person3(<span class="number">18</span>,<span class="number">188</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C++语法之封装、构造函数、析构函数</title>
     <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%B0%81%E8%A3%85%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0.html/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之封装、构造函数、析构函数.html/">个人博客</a></p>
@@ -421,6 +674,14 @@
 <p>在不同的空间调用的时候，如下区别</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 全局区</span></span><br><span class="line">Person p1;      <span class="comment">//调用Person()</span></span><br><span class="line"><span class="function">Person <span class="title">p2</span><span class="params">()</span></span>;    <span class="comment">//这是一个函数，函数名是p2,返回值类型是Person，无参</span></span><br><span class="line"><span class="function">Person <span class="title">p3</span><span class="params">(<span class="number">18</span>)</span></span>;  <span class="comment">//调用 Person(int)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//栈空间</span></span><br><span class="line">    Person p4;      <span class="comment">//调用Person()</span></span><br><span class="line">    <span class="function">Person <span class="title">p5</span><span class="params">()</span></span>;    <span class="comment">//这是一个函数，函数名是p5,返回值类型是Person，无参</span></span><br><span class="line">    <span class="function">Person <span class="title">p6</span><span class="params">(<span class="number">18</span>)</span></span>;  <span class="comment">//调用 Person(int)</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//堆空间</span></span><br><span class="line">    Person *p7  = <span class="keyword">new</span> Person;      <span class="comment">//调用Person()</span></span><br><span class="line">    Person *p8  = <span class="keyword">new</span> Person();    <span class="comment">//调用Person()</span></span><br><span class="line">    Person *p9  = <span class="keyword">new</span> Person(<span class="number">20</span>);  <span class="comment">//调用 Person(int)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="构造函数的互相调用"><a href="#构造函数的互相调用" class="headerlink" title="构造函数的互相调用"></a>构造函数的互相调用</h2><p>下面代码中有2个构造函数，<code>Person()</code>是可以调用<code>Person(int age, int height):m_age(age),m_height(height)</code>的。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> Person&#123;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> m_age;</span><br><span class="line">    <span class="built_in">int</span> m_height;</span><br><span class="line">    <span class="constructor">Person()</span>:<span class="constructor">Person(10,20)</span>&#123;&#125;</span><br><span class="line">    <span class="constructor">Person(<span class="params">int</span> <span class="params">age</span>, <span class="params">int</span> <span class="params">height</span>)</span>:m<span class="constructor">_age(<span class="params">age</span>)</span>,m<span class="constructor">_height(<span class="params">height</span>)</span>&#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="父类的构造函数"><a href="#父类的构造函数" class="headerlink" title="父类的构造函数"></a>父类的构造函数</h2><ul>
+<li>子类的构造函数默认会调用父类的无参构造函数</li>
+<li>如果子类的构造函数显式地调用了父类的有参构造函数，就不会再去默认调用父类的无参构造函数</li>
+<li>如果父类缺少无参构造函数，子类的构造函数必须显式调用父类的有参构造函数</li>
+</ul>
 <h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><ul>
 <li>析构函数（也叫析构器），在对象销毁的时候自动调用，一般用于完成对象的清理工作</li>
 </ul>
@@ -550,10 +811,10 @@
 </ul>
 <h3 id="间接证明"><a href="#间接证明" class="headerlink" title="间接证明"></a>间接证明</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">person</span> &#123;</span></span><br><span class="line">   <span class="keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"person size is "</span> &lt;&lt; <span class="keyword">sizeof</span>(person) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在64位架构下，上面的代码输入为 <code>person size is 4</code><br>如果代码改成如下</p>
+<p>在X86位架构下，上面的代码输入为 <code>person size is 4</code><br>如果代码改成如下</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">person</span> &#123;</span></span><br><span class="line">   <span class="keyword">int</span> &amp;ref;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"person size is "</span> &lt;&lt; <span class="keyword">sizeof</span>(person) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>在64位架构下，上面的代码输入为 <code>person size is 8</code><br>而我们知道在64位架构下，指针类型占用字节为8。int 类型为占用4个字节。所以引用和指针占用字节数一样。</p>
+<p>在X86架构下，上面的代码输入为 <code>person size is 8</code><br>而我们知道在X86架构下，指针类型占用字节为8。int 类型为占用4个字节。所以引用和指针占用字节数一样。</p>
 <h3 id="汇编证明"><a href="#汇编证明" class="headerlink" title="汇编证明"></a>汇编证明</h3><ul>
 <li>如下使用指针的代码</li>
 </ul>

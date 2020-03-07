@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="殷永振">
 <meta property="og:description" content="本文首发于个人博客 封装 成员变量私有化，提供公共的getter和setter给外界去访问成员变量  12345678910111213141516171819class Person &amp;#123;    int age;    public:    void setAge(int age)&amp;#123;        this-&gt;age &#x3D; age;    &amp;#125;        int">
 <meta property="article:published_time" content="2019-12-05T21:32:24.000Z">
-<meta property="article:modified_time" content="2020-03-06T06:36:15.891Z">
+<meta property="article:modified_time" content="2020-03-07T08:13:41.263Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
 
@@ -380,7 +380,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k 字
+                  1.4k 字
                 </span>
               
 
@@ -479,6 +479,14 @@
 <p>在不同的空间调用的时候，如下区别</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局区</span></span><br><span class="line">Person p1;      <span class="comment">//调用Person()</span></span><br><span class="line"><span class="function">Person <span class="title">p2</span><span class="params">()</span></span>;    <span class="comment">//这是一个函数，函数名是p2,返回值类型是Person，无参</span></span><br><span class="line"><span class="function">Person <span class="title">p3</span><span class="params">(<span class="number">18</span>)</span></span>;  <span class="comment">//调用 Person(int)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//栈空间</span></span><br><span class="line">    Person p4;      <span class="comment">//调用Person()</span></span><br><span class="line">    <span class="function">Person <span class="title">p5</span><span class="params">()</span></span>;    <span class="comment">//这是一个函数，函数名是p5,返回值类型是Person，无参</span></span><br><span class="line">    <span class="function">Person <span class="title">p6</span><span class="params">(<span class="number">18</span>)</span></span>;  <span class="comment">//调用 Person(int)</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//堆空间</span></span><br><span class="line">    Person *p7  = <span class="keyword">new</span> Person;      <span class="comment">//调用Person()</span></span><br><span class="line">    Person *p8  = <span class="keyword">new</span> Person();    <span class="comment">//调用Person()</span></span><br><span class="line">    Person *p9  = <span class="keyword">new</span> Person(<span class="number">20</span>);  <span class="comment">//调用 Person(int)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="构造函数的互相调用"><a href="#构造函数的互相调用" class="headerlink" title="构造函数的互相调用"></a>构造函数的互相调用</h2><p>下面代码中有2个构造函数，<code>Person()</code>是可以调用<code>Person(int age, int height):m_age(age),m_height(height)</code>的。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Person&#123;</span><br><span class="line">public:</span><br><span class="line">    <span class="built_in">int</span> m_age;</span><br><span class="line">    <span class="built_in">int</span> m_height;</span><br><span class="line">    <span class="constructor">Person()</span>:<span class="constructor">Person(10,20)</span>&#123;&#125;</span><br><span class="line">    <span class="constructor">Person(<span class="params">int</span> <span class="params">age</span>, <span class="params">int</span> <span class="params">height</span>)</span>:m<span class="constructor">_age(<span class="params">age</span>)</span>,m<span class="constructor">_height(<span class="params">height</span>)</span>&#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="父类的构造函数"><a href="#父类的构造函数" class="headerlink" title="父类的构造函数"></a>父类的构造函数</h2><ul>
+<li>子类的构造函数默认会调用父类的无参构造函数</li>
+<li>如果子类的构造函数显式地调用了父类的有参构造函数，就不会再去默认调用父类的无参构造函数</li>
+<li>如果父类缺少无参构造函数，子类的构造函数必须显式调用父类的有参构造函数</li>
+</ul>
 <h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><ul>
 <li>析构函数（也叫析构器），在对象销毁的时候自动调用，一般用于完成对象的清理工作</li>
 </ul>
@@ -539,8 +547,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Flutter%E5%AD%A6%E4%B9%A0%E4%B9%8BDart%E8%AF%AD%E6%B3%95(%E4%B8%80).html/" rel="prev" title="Flutter学习之Dart语法(一)">
-                Flutter学习之Dart语法(一) <i class="fa fa-chevron-right"></i>
+              <a href="/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E7%BB%A7%E6%89%BF.html/" rel="prev" title="C++语法之继承">
+                C++语法之继承 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -622,7 +630,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -706,7 +714,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">1.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆空间"><span class="nav-number">2.</span> <span class="nav-text">堆空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆空间的初始化"><span class="nav-number">3.</span> <span class="nav-text">堆空间的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#memset"><span class="nav-number">3.1.</span> <span class="nav-text">memset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.2.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数（Constructor）"><span class="nav-number">4.</span> <span class="nav-text">构造函数（Constructor）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#析构函数"><span class="nav-number">5.</span> <span class="nav-text">析构函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-1"><span class="nav-number">5.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-1"><span class="nav-number">5.2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例如下面的代码"><span class="nav-number">5.3.</span> <span class="nav-text">例如下面的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原因"><span class="nav-number">5.4.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">1.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆空间"><span class="nav-number">2.</span> <span class="nav-text">堆空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆空间的初始化"><span class="nav-number">3.</span> <span class="nav-text">堆空间的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#memset"><span class="nav-number">3.1.</span> <span class="nav-text">memset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.2.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数（Constructor）"><span class="nav-number">4.</span> <span class="nav-text">构造函数（Constructor）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">4.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数的互相调用"><span class="nav-number">5.</span> <span class="nav-text">构造函数的互相调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#父类的构造函数"><span class="nav-number">6.</span> <span class="nav-text">父类的构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#析构函数"><span class="nav-number">7.</span> <span class="nav-text">析构函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-1"><span class="nav-number">7.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-1"><span class="nav-number">7.2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例如下面的代码"><span class="nav-number">7.3.</span> <span class="nav-text">例如下面的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原因"><span class="nav-number">7.4.</span> <span class="nav-text">原因</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -740,7 +748,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">129.4k</span>
+    <span title="Site words total count">133k</span>
   
 </div>
 
