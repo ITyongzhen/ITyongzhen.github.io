@@ -357,6 +357,52 @@
       </categories>
   </entry>
   <entry>
+    <title>C++语法之内部类和局部类</title>
+    <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%86%85%E9%83%A8%E7%B1%BB%E5%92%8C%E5%B1%80%E9%83%A8%E7%B1%BB.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之内部类和局部类.html/">个人博客</a></p>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><ul>
+<li>如果将类A定义在类C的内部，那么类A就是一个内部类（嵌套类）</li>
+<li>内部类的特点<ul>
+<li>支持public、protected、private权限</li>
+<li>成员函数可以直接访问其外部类对象的所有成员（反过来则不行）</li>
+<li>成员函数可以直接不带类名、对象名访问其外部类的static成员</li>
+<li>不会影响外部类的内存布局</li>
+<li>可以在外部类内部声明，在外部类外面进行定义</li>
+</ul>
+</li>
+</ul>
+<p>如下的<code>Car</code>类就是<code>Person</code>类的内部类</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">Person</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">int</span> m_age;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">class</span> <span class="symbol">Car</span> &#123;</span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="built_in">int</span> m_price;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="局部类"><a href="#局部类" class="headerlink" title="局部类"></a>局部类</h2><ul>
+<li>在一个函数内部定义的类，称为局部类</li>
+<li>局部类的特点<ul>
+<li>作用域仅限于所在的函数内部</li>
+<li>其所有的成员必须定义在类内部，不允许定义static成员变量</li>
+<li>成员函数不能直接访问函数的局部变量（static变量除外）</li>
+</ul>
+</li>
+</ul>
+<p>如下<code>Car</code>类就属于局部类</p>
+<pre><code>void test() {
+    static int age = 10;
+
+    // 局部类
+    class Car {
+    public:
+        void run() {
+            age = 20;
+        }
+    };
+
+    Car car;
+    car.run();
+}</code></pre>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C++语法之友元函数、友元类</title>
     <url>/C++%E8%AF%AD%E6%B3%95%E4%B9%8B%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%E3%80%81%E5%8F%8B%E5%85%83%E7%B1%BB.html/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/C++语法之友元函数、友元类.html/">个人博客</a></p>
