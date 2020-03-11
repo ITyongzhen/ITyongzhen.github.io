@@ -96,7 +96,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;11&#x2F;16bde918b73b14ee?w&#x3D;851&amp;h&#x3D;408&amp;f&#x3D;png&amp;s&#x3D;78237">
 <meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;11&#x2F;16bde918b73b14ee?w&#x3D;851&amp;h&#x3D;408&amp;f&#x3D;png&amp;s&#x3D;78237">
 <meta property="article:published_time" content="2017-07-05T22:32:24.000Z">
-<meta property="article:modified_time" content="2019-12-12T03:49:35.662Z">
+<meta property="article:modified_time" content="2020-03-10T04:34:11.882Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;7&#x2F;11&#x2F;16bde91859761ab0?w&#x3D;1068&amp;h&#x3D;284&amp;f&#x3D;png&amp;s&#x3D;157470">
@@ -389,7 +389,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4k 字
+                  3.9k 字
                 </span>
               
 
@@ -452,7 +452,7 @@
 
 <h3 id="那在分类中添加属性怎么就不行？"><a href="#那在分类中添加属性怎么就不行？" class="headerlink" title="那在分类中添加属性怎么就不行？"></a>那在分类中添加属性怎么就不行？</h3><h4 id="先说结论"><a href="#先说结论" class="headerlink" title="先说结论"></a>先说结论</h4><ul>
 <li>生成成员变量<code>_age</code></li>
-<li>不会生成<code>set</code>方法和<code>get</code>方法的声明</li>
+<li>会生成<code>set</code>方法和<code>get</code>方法的声明</li>
 <li>不会生成<code>set</code>方法和<code>get</code>方法的实现</li>
 </ul>
 <h4 id="不会生成set方法和get方法的实现"><a href="#不会生成set方法和get方法的实现" class="headerlink" title="不会生成set方法和get方法的实现"></a>不会生成<code>set</code>方法和<code>get</code>方法的实现</h4><p>定义一个分类 <code>YZPerson+Ext.h</code>，然后添加属性<code>weight</code></p>
@@ -631,7 +631,8 @@
 <h4 id="value为空"><a href="#value为空" class="headerlink" title="value为空"></a>value为空</h4><p>如果传入的value为空，那么就删除这个关联对象</p>
 <figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 来到这里说明，value为空</span></span><br><span class="line">        <span class="comment">// setting the association to nil breaks the association.</span></span><br><span class="line">        AssociationsHashMap::iterator i = associations.find(disguised_object);</span><br><span class="line">        <span class="keyword">if</span> (i !=  associations.end()) &#123;</span><br><span class="line">            O<span class="function"><span class="title">bjectAssociationMap</span> *refs = i-&gt;</span>second;</span><br><span class="line">            O<span class="function"><span class="title">bjectAssociationMap</span>::iterator j = refs-&gt;</span>find(key);</span><br><span class="line">            <span class="function"><span class="title">if</span> (j != refs-&gt;</span>end()) &#123;</span><br><span class="line">                <span class="function"><span class="title">old_association</span> = j-&gt;</span>second;</span><br><span class="line">                <span class="comment">//移除关联对象</span></span><br><span class="line">                <span class="function"><span class="title">refs</span>-&gt;</span>erase(j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
-<p>本文参考资料:</p>
+
+
 <h4 id="表格总结"><a href="#表格总结" class="headerlink" title="表格总结"></a>表格总结</h4><p>用表格总结来展示这几个核心类的关系如下</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/7/11/16bde918b73b14ee?w=851&h=408&f=png&s=78237" alt=""></p>
 <h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><ul>
