@@ -62,6 +62,99 @@
       </categories>
   </entry>
   <entry>
+    <title>Dart中的Future使用</title>
+    <url>/Dart%E4%B8%AD%E7%9A%84Future%E4%BD%BF%E7%94%A8.html/</url>
+    <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Dart中的异步使用.html/">个人博客</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于异步，相信很多开发者都是经常用到的。不过，不同的语言有不同的处理方式</p>
+<h3 id="一般耗时操作的处理"><a href="#一般耗时操作的处理" class="headerlink" title="一般耗时操作的处理"></a>一般耗时操作的处理</h3><p>针对如何处理耗时的操作，不同的语言有不同的处理方式。</p>
+<ul>
+<li><p>处理方式一： 多线程，比如<code>Java</code>、<code>C++</code>，<code>Objective C</code>我们普遍的做法是开启一个新的线程（<code>Thread</code>），在新的线程中完成这些异步的操作，再通过线程间通信的方式，将拿到的数据传递给主线程。</p>
+</li>
+<li><p>处理方式二： 单线程+事件循环，比如<code>JavaScript</code>、<code>Dart</code>都是基于单线程加事件循环来完成耗时操作的处理。</p>
+</li>
+</ul>
+<h3 id="阻塞式调用和非阻塞式调用"><a href="#阻塞式调用和非阻塞式调用" class="headerlink" title="阻塞式调用和非阻塞式调用"></a>阻塞式调用和非阻塞式调用</h3><ul>
+<li><p>阻塞和非阻塞关注的是程序在等待调用结果（消息，返回值）时的状态。</p>
+</li>
+<li><p>阻塞式调用： 调用结果返回之前，当前线程会被挂起，调用线程只有在得到调用结果之后才会继续执行。</p>
+</li>
+<li><p>非阻塞式调用： 调用执行之后，当前线程不会停止执行，只需要过一段时间来检查一下有没有结果返回即可。</p>
+</li>
+</ul>
+<p>例如你平时做饭的时候，把米放在电饭煲里面煮，这时候你可以在旁边坐着等着米饭做好，然后去做菜，这就是阻塞式调用。当然了。你也可以煮饭时候，准备菜，啤酒鸭，麻辣小龙虾。。这就是非阻塞式调用。</p>
+<h2 id="Dart事件循环"><a href="#Dart事件循环" class="headerlink" title="Dart事件循环"></a>Dart事件循环</h2><h3 id="什么是事件循环"><a href="#什么是事件循环" class="headerlink" title="什么是事件循环"></a>什么是事件循环</h3><p>单线程模型中主要就是在维护着一个事件循环（Event Loop）。</p>
+<p>事件循环是什么呢？</p>
+<ul>
+<li><p>事实上事件循环并不复杂，它就是将需要处理的一系列事件（包括点击事件、IO事件、网络事件）放在一个事件队列（Event Queue）中。</p>
+</li>
+<li><p>不断的从事件队列（Event Queue）中取出事件，并执行其对应需要执行的代码块，直到事件队列清空位置。</p>
+</li>
+<li><p>当我们有一些事件时，比如点击事件、IO事件、网络事件时，它们就会被加入到eventLoop中，当发现事件队列不为空时发现，就会取出事件，并且执行。</p>
+</li>
+</ul>
+<h2 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h2><h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>我们先看一个例子：如下代码中，用sleep代替网络请求的耗时操作</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line">main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; args) &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"start"</span>);</span><br><span class="line">  <span class="built_in">String</span> res = getData();</span><br><span class="line">  <span class="built_in">print</span>(res);</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">String</span> getData()&#123;</span><br><span class="line">  sleep(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>));</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"hello world"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<blockquote>
+<p>start</p>
+</blockquote>
+<p>2秒钟之后输出</p>
+<blockquote>
+<p>hello world</p>
+<p>end</p>
+</blockquote>
+<p>很显然阻塞了后面的代码执行</p>
+<h2 id="使用Future"><a href="#使用Future" class="headerlink" title="使用Future"></a>使用Future</h2><p><code>Future</code> 表示一件“将来”会发生的事情，将来可以从Future中取到一个值。<br>有了Future之后，通过.then的回调去获取请求到的结果</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line">main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; args) &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"start"</span>);</span><br><span class="line">  <span class="keyword">var</span> res = getData();</span><br><span class="line">  res.then((value) &#123;</span><br><span class="line">    <span class="built_in">print</span>(value);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Future&lt;<span class="built_in">String</span>&gt; getData()&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Future&lt;<span class="built_in">String</span>&gt;(() &#123;</span><br><span class="line">     sleep(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>));</span><br><span class="line">     <span class="keyword">return</span> <span class="string">"hello world"</span>;</span><br><span class="line">  &#125;);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="catchError"><a href="#catchError" class="headerlink" title="catchError"></a><code>catchError</code></h3><p>如果有异常的话，我们可以用catchError来捕获</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line">main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; args) &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"start"</span>);</span><br><span class="line">  <span class="keyword">var</span> res = getData();</span><br><span class="line">  res.then((value) &#123;</span><br><span class="line">    <span class="built_in">print</span>(value);</span><br><span class="line">  &#125;).catchError((error)&#123;<span class="comment">// 捕获出现异常时的情况</span></span><br><span class="line">    <span class="built_in">print</span>(error);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Future&lt;<span class="built_in">String</span>&gt; getData()&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Future&lt;<span class="built_in">String</span>&gt;(() &#123;</span><br><span class="line">     sleep(<span class="built_in">Duration</span>(seconds: <span class="number">2</span>));</span><br><span class="line">    <span class="comment">//  return "hello world";</span></span><br><span class="line">    <span class="keyword">throw</span> Exception(<span class="string">"请求异常"</span>);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出为</p>
+<blockquote>
+<p>start</p>
+</blockquote>
+<blockquote>
+<p>end</p>
+</blockquote>
+<blockquote>
+<p>Exception: 请求异常</p>
+</blockquote>
+<h3 id="Future的链式调用"><a href="#Future的链式调用" class="headerlink" title="Future的链式调用"></a>Future的链式调用</h3><figure class="highlight sas"><table><tr><td class="code"><pre><span class="line">import <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line">ma<span class="meta">in(</span><span class="meta">List</span>&lt;String&gt; args) &#123;</span><br><span class="line">  </span><br><span class="line">  p<span class="meta">rint(</span><span class="string">"start"</span>);</span><br><span class="line">  var res = getData();</span><br><span class="line">  res.th<span class="meta">en(</span>(value) &#123;</span><br><span class="line">    p<span class="meta">rint(</span>value);</span><br><span class="line">    <span class="meta">return</span> <span class="string">"第一次调用完成"</span>;</span><br><span class="line">  &#125;).th<span class="meta">en(</span>(value2)&#123;</span><br><span class="line"></span><br><span class="line">     p<span class="meta">rint(</span>value2);</span><br><span class="line">    <span class="meta">return</span> <span class="string">"第二次调用完成"</span>;</span><br><span class="line">  &#125;).th<span class="meta">en(</span>(value3)&#123;</span><br><span class="line"></span><br><span class="line">     p<span class="meta">rint(</span>value3);</span><br><span class="line">  &#125;).catchError((<span class="meta">error</span>)&#123;</span><br><span class="line">    p<span class="meta">rint(</span><span class="meta">error</span>);</span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">  p<span class="meta">rint(</span><span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Future&lt;String&gt; getData()&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">return</span> Future&lt;String&gt;(() &#123;</span><br><span class="line">     sleep(Durati<span class="meta">on(</span>seconds: 2));</span><br><span class="line">     <span class="meta">return</span> <span class="string">"hello world"</span>;</span><br><span class="line">    // throw Excepti<span class="meta">on(</span><span class="string">"请求异常"</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<blockquote>
+<p>start</p>
+<p>end</p>
+<p>hello world</p>
+<p>第一次调用完成</p>
+<p>第二次调用完成</p>
+</blockquote>
+<h3 id="直接获取一个完成的Future，该Future会直接调用then的回调函数"><a href="#直接获取一个完成的Future，该Future会直接调用then的回调函数" class="headerlink" title="直接获取一个完成的Future，该Future会直接调用then的回调函数"></a>直接获取一个完成的Future，该Future会直接调用then的回调函数</h3><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'dart:io'</span>;</span><br><span class="line"></span><br><span class="line">main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; args) &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"start"</span>);</span><br><span class="line">  </span><br><span class="line">  Future.value(<span class="string">"测试"</span>).then((value)&#123;</span><br><span class="line">    <span class="built_in">print</span>(value);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">"end"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<blockquote>
+<p>start</p>
+<p>end</p>
+<p>测试</p>
+</blockquote>
+<p>我们可以看到，<code>测试</code>是最后才打印，这是因为Future中的then会作为新的任务会加入到事件队列中（Event Queue），加入之后你需要排队执行。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>创建一个Future（可能是我们创建的，也可能是调用内部API或者第三方API获取到的一个Future，总之你需要获取到一个Future实例，Future通常会对一些异步的操作进行封装）；</li>
+<li>通过.then(成功回调函数)的方式来监听Future内部执行完成时获取到的结果；</li>
+<li>通过.catchError(失败或异常回调函数)的方式来监听Future内部执行失败或者出现异常时的错误信息；</li>
+<li>可以链式调用</li>
+<li>直接获取一个完成的Future，该Future会直接调用then的回调函数</li>
+</ul>
+<p>QQ交流群：592831498</p>
+<p><a href="https://ityongzhen.github.io/Dart中的异步使用.html/">个人博客</a>：<a href="https://ityongzhen.github.io">https://ityongzhen.github.io</a></p>
+]]></content>
+      <categories>
+        <category>Flutter</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Dart语法之泛型</title>
     <url>/Dart%E8%AF%AD%E6%B3%95%E4%B9%8B%E6%B3%9B%E5%9E%8B.html/</url>
     <content><![CDATA[<p>本文首发于<a href="https://ityongzhen.github.io/Dart语法之泛型.html/">个人博客</a></p>
