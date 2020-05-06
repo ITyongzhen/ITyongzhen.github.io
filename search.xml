@@ -5371,14 +5371,14 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 <li><p>dynamic loader，动态加载器</p>
 </li>
 <li><p>dyld 的源码 <a href="https://opensource.apple.com/tarballs/dyld/" target="_blank" rel="noopener">https://opensource.apple.com/tarballs/dyld/</a></p>
-<ul>
-<li><pre><code>initializeMainExecutable 方法开始的.dyld会优先初始化动态库，然后初始化App的可执行文件。</code></pre></li>
-</ul>
 </li>
+</ul>
+<ul>
+<li>initializeMainExecutable 方法开始的.dyld会优先初始化动态库，然后初始化App的可执行文件。</li>
 </ul>
 <p>  <img src="https://user-gold-cdn.xitu.io/2019/7/1/16bad920213f9cce?w=1177&h=600&f=png&s=135868" alt="image.png"></p>
 <p>  用MachOView (<a href="https://github.com/gdbinit/MachOView" target="_blank" rel="noopener">https://github.com/gdbinit/MachOView</a>)查看加载过程如上图</p>
-<p>  （    备注1: 如果设置了 DYLD_PRINT_LIBRARIES，或者选中run/diagnostics 下面的 dynamic library loads 那么 dyld将会打印出什么库被加载了</p>
+<p>   备注1: 如果设置了 DYLD_PRINT_LIBRARIES，或者选中run/diagnostics 下面的 dynamic library loads 那么 dyld将会打印出什么库被加载了</p>
 <p>​    备注2：DYLD_PRINT_STATISTICS_DETAILS  打印启动时间</p>
 <p>​    备注3：dyly还可以抽取苹果原生库   方法： 1： launch-cache/dsc_extractor.cpp文件中 把#if(0) 以及之前的都删除，#endif也删除  2：编译clang++ -o dsc_extractor dsc_extractor.cpp 生成可执行文件 3：./dsc_extractor dyld_shared_cache_armv7s armv7s 进行抽取 ）</p>
 <h5 id="2-2-runtime"><a href="#2-2-runtime" class="headerlink" title="2.2 runtime"></a>2.2 runtime</h5><p>​    源码： <a href="https://opensource.apple.com/source/objc4/" target="_blank" rel="noopener">https://opensource.apple.com/source/objc4/</a>   源码分析可参考：<a href="https://www.jianshu.com/p/3019605a4fc9" target="_blank" rel="noopener">https://www.jianshu.com/p/3019605a4fc9</a></p>
@@ -5412,8 +5412,8 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 <li>ReactiveCocoa创建一个信号6毫秒，+load()执行一次，4毫秒</li>
 <li>检测App耗时</li>
 <li>抓取主线程的方法调用堆栈，计算一段时间各个方法的耗时，Xcode自带的Time Profiler</li>
-<li>对objc_msgSend方法进行hook来掌握所有方法的执行耗时 objc_msgSend源码 <a href="https://opensource.apple.com/source/objc4/objc4-723/runtime/Messengers.subproj/" target="_blank" rel="noopener">https://opensource.apple.com/source/objc4/objc4-723/runtime/Messengers.subproj/</a></li>
-<li>fackbook开源了fishhook的代码<a href="https://github.com/facebook/fishhook" target="_blank" rel="noopener">https://github.com/facebook/fishhook</a> 其大致思路为：通过重新绑定符号，实现对c方法的hook。dyld是通过更新Mach-O二进制的_DATA segment特定的部分中的指针来绑定lazy和non-lazy符号，通过确认传递给rebind_symbol里每个符号更新的位置，就可以找出替换来重新绑定这些符号。</li>
+<li>对objc_msgSend方法进行hook来掌握所有方法的执行耗时 objc_msgSend源码 <code>https://opensource.apple.com/source/objc4/objc4-723/runtime/Messengers.subproj/</code></li>
+<li><code>fackbook</code>开源了fishhook的代码<code>https://github.com/facebook/fishhook</code> 其大致思路为：通过重新绑定符号，实现对c方法的<code>hook</code>。<code>dyld</code>是通过更新Mach-O二进制的<code>_DATA segment</code>特定的部分中的指针来绑定lazy和<code>non-lazy</code>符号，通过确认传递给<code>rebind_symbol</code>里每个符号更新的位置，就可以找出替换来重新绑定这些符号。</li>
 <li>在不影响用户体验的前提下，尽可能将一些操作延迟，不要全部都放在finishLaunching方法中  按需加载</li>
 <li>不使用xib，直接视用代码加载首页视图</li>
 <li>NSUserDefaults实际上是在Library文件夹下会生产一个plist文件，如果文件太大的话一次能读取到内存中可能很耗时，这个影响需要评估，如果耗时很大的话需要拆分(需考虑老版本覆盖安装兼容问题)</li>
