@@ -89,14 +89,14 @@
 <meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;%E5%85%B3%E4%BA%8EiOS%E4%B8%AD%E7%9A%8413%E7%A7%8D%E5%8A%A0%E9%94%81%E6%96%B9%E6%A1%88.html&#x2F;index.html">
 <meta property="og:site_name" content="殷永振">
 <meta property="og:description" content="本文首发于个人博客 前言iOS中有很多锁，那么平时使用过程中到底怎么使用呢？本文分享13种加锁方案。本文较长总共一万字。文中代码在github上。  OSSpinLock自旋锁 os_unfair_lock互斥锁 pthread_mutex递归锁 pthread_mutex条件锁 dispatch_semaphore信号量 dispatch_queue(DISPATCH_QUEUE_SERIAL)">
-<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;8&#x2F;15&#x2F;16c9511ccc9cfbb0?w&#x3D;568&amp;h&#x3D;359&amp;f&#x3D;png&amp;s&#x3D;34948">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;yinyongzhen&#x2F;myBlogsPictures&#x2F;raw&#x2F;master&#x2F;img&#x2F;20200530102412.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;8&#x2F;15&#x2F;16c9511ccd641e81?w&#x3D;889&amp;h&#x3D;245&amp;f&#x3D;png&amp;s&#x3D;68205">
 <meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;8&#x2F;15&#x2F;16c9511ccd6f9cc3?w&#x3D;1034&amp;h&#x3D;690&amp;f&#x3D;png&amp;s&#x3D;348934">
 <meta property="article:published_time" content="2017-11-14T22:32:24.000Z">
-<meta property="article:modified_time" content="2019-12-12T02:47:11.143Z">
+<meta property="article:modified_time" content="2020-05-30T02:24:19.783Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;8&#x2F;15&#x2F;16c9511ccc9cfbb0?w&#x3D;568&amp;h&#x3D;359&amp;f&#x3D;png&amp;s&#x3D;34948">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;yinyongzhen&#x2F;myBlogsPictures&#x2F;raw&#x2F;master&#x2F;img&#x2F;20200530102412.png">
 
 
 
@@ -441,7 +441,7 @@
 <li><code>dispatch_group</code>调度组</li>
 </ul>
 <p>性能对比：借用ibireme大神的一张图片 </p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/8/15/16c9511ccc9cfbb0?w=568&h=359&f=png&s=34948" alt=""></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200530102412.png" alt=""></p>
 <p>可以看到除了 <code>OSSpinLock</code> 外，<code>dispatch_semaphore</code> 和 <code>pthread_mutex</code> 性能是最高的。现在苹果在新系统中已经优化了 <code>pthread_mutex</code>的性能，所以它看上去和 <code>OSSpinLock</code> 差距并没有那么大了</p>
 <p>GNUstep是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍</p>
 <p><a href="http://www.gnustep.org/resources/downloads.php" target="_blank" rel="noopener">GNUstep源码地址</a></p>

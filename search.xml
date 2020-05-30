@@ -5362,7 +5362,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 <li>首屏渲染完成后</li>
 </ul>
 <h5 id="2-1关于dyld"><a href="#2-1关于dyld" class="headerlink" title="2.1关于dyld"></a>2.1关于dyld</h5><ul>
-<li><p><img src="https://user-gold-cdn.xitu.io/2019/7/1/16bad920214bad91?w=635&h=304&f=png&s=97261" alt="image.png"></p>
+<li><p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200530101839.png" alt=""></p>
 </li>
 <li><p>在Mac 、iOS中，是使用了/usr/lib/dyld程序来加载动态库 </p>
 </li>
@@ -5376,7 +5376,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 <ul>
 <li>initializeMainExecutable 方法开始的.dyld会优先初始化动态库，然后初始化App的可执行文件。</li>
 </ul>
-<p>  <img src="https://user-gold-cdn.xitu.io/2019/7/1/16bad920213f9cce?w=1177&h=600&f=png&s=135868" alt="image.png"></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200530101923.png" alt=""></p>
 <p>  用MachOView (<a href="https://github.com/gdbinit/MachOView" target="_blank" rel="noopener">https://github.com/gdbinit/MachOView</a>)查看加载过程如上图</p>
 <p>   备注1: 如果设置了 DYLD_PRINT_LIBRARIES，或者选中run/diagnostics 下面的 dynamic library loads 那么 dyld将会打印出什么库被加载了</p>
 <p>​    备注2：DYLD_PRINT_STATISTICS_DETAILS  打印启动时间</p>
@@ -5434,7 +5434,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 </li>
 </ul>
 <h5 id="2-2利用AppCode"><a href="#2-2利用AppCode" class="headerlink" title="2.2利用AppCode"></a>2.2利用AppCode</h5><p>(<a href="https://www.jetbrains.com/objc/)检测未使用的代码:菜单栏" target="_blank" rel="noopener">https://www.jetbrains.com/objc/)检测未使用的代码:菜单栏</a> -&gt; Code -&gt; Inspect Code </p>
-<h5 id="2-3编写LLVM插件检测出重复代码、未被调用的代码"><a href="#2-3编写LLVM插件检测出重复代码、未被调用的代码" class="headerlink" title="2. 3编写LLVM插件检测出重复代码、未被调用的代码"></a>2. 3编写LLVM插件检测出重复代码、未被调用的代码</h5><h5 id="2-4-生成LinkMap文件，可以查看可执行文件的具体组成"><a href="#2-4-生成LinkMap文件，可以查看可执行文件的具体组成" class="headerlink" title="2.4 生成LinkMap文件，可以查看可执行文件的具体组成"></a>2.4 生成LinkMap文件，可以查看可执行文件的具体组成</h5><p><img src="https://user-gold-cdn.xitu.io/2019/7/1/16bad920214ee40a?w=968&h=196&f=png&s=27708" alt="image.png"></p>
+<h5 id="2-3编写LLVM插件检测出重复代码、未被调用的代码"><a href="#2-3编写LLVM插件检测出重复代码、未被调用的代码" class="headerlink" title="2. 3编写LLVM插件检测出重复代码、未被调用的代码"></a>2. 3编写LLVM插件检测出重复代码、未被调用的代码</h5><h5 id="2-4-生成LinkMap文件，可以查看可执行文件的具体组成"><a href="#2-4-生成LinkMap文件，可以查看可执行文件的具体组成" class="headerlink" title="2.4 生成LinkMap文件，可以查看可执行文件的具体组成"></a>2.4 生成LinkMap文件，可以查看可执行文件的具体组成</h5><p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200530101953.png" alt=""></p>
 <h5 id="2-5-可借助第三方工具解析LinkMap文件-https-github-com-huanxsd-LinkMap"><a href="#2-5-可借助第三方工具解析LinkMap文件-https-github-com-huanxsd-LinkMap" class="headerlink" title="2.5 可借助第三方工具解析LinkMap文件: https://github.com/huanxsd/LinkMap"></a>2.5 可借助第三方工具解析LinkMap文件: <a href="https://github.com/huanxsd/LinkMap" target="_blank" rel="noopener">https://github.com/huanxsd/LinkMap</a></h5><h3 id="三、卡顿问题"><a href="#三、卡顿问题" class="headerlink" title="三、卡顿问题"></a>三、卡顿问题</h3><h4 id="3-1、CPU-和GPU"><a href="#3-1、CPU-和GPU" class="headerlink" title="3.1、CPU 和GPU"></a>3.1、CPU 和GPU</h4><ul>
 <li><p>CPU (Central Processing Unit，中央处理器)</p>
 <p>对象的创建和销毁、对象属性的调整、布局计算、文本的计算和排版、图片的格式转换和解码、图像的绘制(Core Graphics)</p>
@@ -6005,7 +6005,7 @@ dispatch_walltime(const struct timespec *_Nullable when, int64_t delta)</code></
 <li><code>dispatch_group</code>调度组</li>
 </ul>
 <p>性能对比：借用ibireme大神的一张图片 </p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/8/15/16c9511ccc9cfbb0?w=568&h=359&f=png&s=34948" alt=""></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200530102412.png" alt=""></p>
 <p>可以看到除了 <code>OSSpinLock</code> 外，<code>dispatch_semaphore</code> 和 <code>pthread_mutex</code> 性能是最高的。现在苹果在新系统中已经优化了 <code>pthread_mutex</code>的性能，所以它看上去和 <code>OSSpinLock</code> 差距并没有那么大了</p>
 <p>GNUstep是GNU计划的项目之一，它将Cocoa的OC库重新开源实现了一遍</p>
 <p><a href="http://www.gnustep.org/resources/downloads.php" target="_blank" rel="noopener">GNUstep源码地址</a></p>
