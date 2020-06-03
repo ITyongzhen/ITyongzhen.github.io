@@ -89,12 +89,12 @@
 <meta property="og:url" content="https:&#x2F;&#x2F;ityongzhen.github.io&#x2F;%E8%AF%A6%E8%A7%A3autoreleasepool.html&#x2F;index.html">
 <meta property="og:site_name" content="殷永振">
 <meta property="og:description" content="本文首发于个人博客 前言文章开始之前，先想想下面三种场景，分别输出什么呢？ 注意str的长度不能太短 注意str的长度不能太短 注意str的长度不能太短 123456789101112131415161718192021222324252627282930313233343536373839@interface ViewController ()&amp;#123;    __weak NSString">
-<meta property="og:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;9&#x2F;4&#x2F;16cfb77743f3dd0e?w&#x3D;1548&amp;h&#x3D;592&amp;f&#x3D;png&amp;s&#x3D;95929">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;yinyongzhen&#x2F;myBlogsPictures&#x2F;raw&#x2F;master&#x2F;img&#x2F;20200602144008.png">
 <meta property="article:published_time" content="2018-02-17T22:32:24.000Z">
-<meta property="article:modified_time" content="2019-12-12T03:37:37.079Z">
+<meta property="article:modified_time" content="2020-06-02T06:51:27.714Z">
 <meta property="article:author" content="ityongzhen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;user-gold-cdn.xitu.io&#x2F;2019&#x2F;9&#x2F;4&#x2F;16cfb77743f3dd0e?w&#x3D;1548&amp;h&#x3D;592&amp;f&#x3D;png&amp;s&#x3D;95929">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;yinyongzhen&#x2F;myBlogsPictures&#x2F;raw&#x2F;master&#x2F;img&#x2F;20200602144008.png">
 
 
 
@@ -476,7 +476,7 @@
 <li><code>end指向结尾的位置</code></li>
 </ul>
 <h2 id="AutoreleasePoolPage存不下了怎么办？"><a href="#AutoreleasePoolPage存不下了怎么办？" class="headerlink" title="AutoreleasePoolPage存不下了怎么办？"></a>AutoreleasePoolPage存不下了怎么办？</h2><p>如果一个<code>AutoreleasePoolPage</code>存不下了，就会再创建一个<code>AutoreleasePoolPage对象</code>，第一个<code>AutoreleasePoolPage对象</code>的<code>child</code>指向第二个<code>AutoreleasePoolPage对象</code>，第二个<code>AutoreleasePoolPage对象</code>的<code>parent</code>指向第一个<code>AutoreleasePoolPage对象</code>。图形表示就是如下</p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfb77743f3dd0e?w=1548&h=592&f=png&s=95929" alt=""></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200602144008.png" alt=""></p>
 <h2 id="push、pop、autorelease"><a href="#push、pop、autorelease" class="headerlink" title="push、pop、autorelease"></a><code>push</code>、<code>pop</code>、<code>autorelease</code></h2><p><code>AutoreleasePoolPage</code>里面有<code>push</code>和<code>pop</code>函数</p>
 <ul>
 <li><p>调用<code>push</code>方法会将一个<code>POOL_BOUNDARY</code>入栈，并且返回其存放的内存地址</p>

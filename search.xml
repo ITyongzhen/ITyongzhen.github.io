@@ -5609,7 +5609,7 @@ logify.pl UserCenterViewController.h &gt; UserCenterViewController.xm
 <li><code>end指向结尾的位置</code></li>
 </ul>
 <h2 id="AutoreleasePoolPage存不下了怎么办？"><a href="#AutoreleasePoolPage存不下了怎么办？" class="headerlink" title="AutoreleasePoolPage存不下了怎么办？"></a>AutoreleasePoolPage存不下了怎么办？</h2><p>如果一个<code>AutoreleasePoolPage</code>存不下了，就会再创建一个<code>AutoreleasePoolPage对象</code>，第一个<code>AutoreleasePoolPage对象</code>的<code>child</code>指向第二个<code>AutoreleasePoolPage对象</code>，第二个<code>AutoreleasePoolPage对象</code>的<code>parent</code>指向第一个<code>AutoreleasePoolPage对象</code>。图形表示就是如下</p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfb77743f3dd0e?w=1548&h=592&f=png&s=95929" alt=""></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200602144008.png" alt=""></p>
 <h2 id="push、pop、autorelease"><a href="#push、pop、autorelease" class="headerlink" title="push、pop、autorelease"></a><code>push</code>、<code>pop</code>、<code>autorelease</code></h2><p><code>AutoreleasePoolPage</code>里面有<code>push</code>和<code>pop</code>函数</p>
 <ul>
 <li><p>调用<code>push</code>方法会将一个<code>POOL_BOUNDARY</code>入栈，并且返回其存放的内存地址</p>
@@ -6095,7 +6095,7 @@ dispatch_walltime(const struct timespec *_Nullable when, int64_t delta)</code></
 <p>Debug-&gt;Debug Worlflow-&gt;Always Show Disassembly</p>
 </blockquote>
 <p>断点跟踪进去，会发现最终到<code>syscall</code>的时候，断点失效了。这是因为syscall调用了系统内核的函数，使得线程进入休眠状态，不再占用CPU资源。所以可以看出<code>os_unfair_lock</code>是互斥锁。</p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/8/15/16c9511ccd641e81?w=889&h=245&f=png&s=68205" alt=""></p>
+<p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200603101247.png" alt=""></p>
 <h2 id="pthread-mutex互斥锁"><a href="#pthread-mutex互斥锁" class="headerlink" title="pthread_mutex互斥锁"></a><code>pthread_mutex</code>互斥锁</h2><ul>
 <li>mutex叫做”互斥锁”，等待锁的线程会处于休眠状态</li>
 <li>需要导入头文件#import &lt;pthread.h&gt;</li>
@@ -6136,12 +6136,12 @@ dispatch_walltime(const struct timespec *_Nullable when, int64_t delta)</code></
 <figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 加锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br><span class="line">iOS-LockDemo[<span class="number">7358</span>:<span class="number">129676</span>] 解锁 -[YZMutexRecursiveLock otherTest]</span><br></pre></td></tr></table></figure>
 
 <p>由结果可知，连续加锁五次，是因为每次都递归加锁。然后解锁时候，层层解锁。</p>
-<h2 id="pthread-mutex条件锁"><a href="#pthread-mutex条件锁" class="headerlink" title="pthread_mutex条件锁"></a><code>pthread_mutex</code>条件锁</h2><p><img src="https://user-gold-cdn.xitu.io/2019/8/15/16c9511ccd6f9cc3?w=1034&h=690&f=png&s=348934" alt=""></p>
+<h2 id="pthread-mutex条件锁"><a href="#pthread-mutex条件锁" class="headerlink" title="pthread_mutex条件锁"></a><code>pthread_mutex</code>条件锁</h2><p><img src="https://gitee.com/yinyongzhen/myBlogsPictures/raw/master/img/20200603101518.png" alt=""></p>
 <ul>
 <li>mutex除了有”互斥锁”，”递归锁”，还有递归锁</li>
 <li>需要导入头文件#import &lt;pthread.h&gt;</li>
 </ul>
-<h3 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h3><h4 id="生产者消费者"><a href="#生产者消费者" class="headerlink" title="生产者消费者"></a>生产者消费者</h4><p>为了演示条件锁的作用，就用生产者消费者来展示效果，关于生产者消费者的设计模式，可以看我之前的文章<a href="https://juejin.im/post/5d27dce4e51d4510774a88f0" target="_blank" rel="noopener">iOS设计模式之(二)生产者-消费者</a>，那篇文章中用的是信号量实现的。这篇文章用<code>pthread_mutex</code>条件锁来实现。</p>
+<h3 id="使用-4"><a href="#使用-4" class="headerlink" title="使用"></a>使用</h3><h4 id="生产者消费者"><a href="#生产者消费者" class="headerlink" title="生产者消费者"></a>生产者消费者</h4><p>为了演示条件锁的作用，就用生产者消费者来展示效果，关于生产者消费者的设计模式，可以看我之前的文章<a href="https://ityongzhen.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B(%E4%BA%8C)%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85.html/">iOS设计模式之(二)生产者-消费者</a>，那篇文章中用的是信号量实现的。这篇文章用<code>pthread_mutex</code>条件锁来实现。</p>
 <h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>有三个属性</p>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) pthread_mutex_t mutex; <span class="comment">// 锁</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) pthread_cond_t cond; <span class="comment">//条件</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>) <span class="built_in">NSMutableArray</span> *data; <span class="comment">//数据源</span></span><br></pre></td></tr></table></figure>
 
